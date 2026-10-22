@@ -65,12 +65,12 @@ export function Modal({
       <div
         data-lenis-prevent
         className={cn(
-          "relative w-full z-10 p-5 sm:p-6 rounded-lg bg-[#111317] border border-[#1e2229] shadow-2xl animate-in zoom-in-98 duration-150",
+          "relative w-full z-10 p-5 sm:p-6 rounded-xl bg-[#0f0d18] border border-[rgba(139,92,246,0.18)] shadow-[0_20px_60px_rgba(0,0,0,0.85),0_0_25px_rgba(139,92,246,0.10)] animate-in zoom-in-98 duration-150",
           maxWidthClasses[maxWidth],
           className
         )}
       >
-        <div className="flex items-start justify-between pb-3 border-b border-[#1e2229]">
+        <div className="flex items-start justify-between pb-3 border-b border-[rgba(139,92,246,0.12)]">
           <div>
             <h2
               id="modal-title"

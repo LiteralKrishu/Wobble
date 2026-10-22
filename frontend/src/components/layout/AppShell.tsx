@@ -3,7 +3,8 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { BackgroundAtmosphere } from "@/components/layout/BackgroundAtmosphere";
-import { FloatingNavbar } from "@/components/layout/FloatingNavbar";
+import { Sidebar } from "@/components/layout/Sidebar";
+import { TopBar } from "@/components/layout/TopBar";
 import { NewInvestigationModal } from "@/components/investigation/NewInvestigationModal";
 import { SmoothScroll } from "@/components/layout/SmoothScroll";
 import { PageTransition } from "@/components/layout/PageTransition";
@@ -14,51 +15,69 @@ interface AppShellProps {
 
 export function AppShell({ children }: AppShellProps) {
   const [isNewInvOpen, setIsNewInvOpen] = useState(false);
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
 
   return (
     <SmoothScroll>
       <PageTransition>
-        <div className="relative min-h-screen flex flex-col justify-between selection:bg-amber-500/25 selection:text-white bg-[#090a0c]">
-          {/* Subtle Background Surface */}
+        <div className="relative min-h-screen flex bg-[#08070d] text-white selection:bg-violet-600/30 selection:text-white">
+          {/* Atmospheric Midnight-Purple Background */}
           <BackgroundAtmosphere />
 
-          {/* Fixed Engineering Navigation */}
-          <React.Suspense fallback={<div className="h-13" />}>
-            <FloatingNavbar onNewInvestigation={() => setIsNewInvOpen(true)} />
-          </React.Suspense>
+          {/* Compact Beautifully Proportioned Sidebar */}
+          <Sidebar
+            isOpen={isMobileSidebarOpen}
+            onClose={() => setIsMobileSidebarOpen(false)}
+            onNewInvestigation={() => setIsNewInvOpen(true)}
+          />
 
-          {/* Main Content Workspace */}
-          <main className="relative z-10 flex-1 pt-18 pb-14 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
-            {children}
-          </main>
+          {/* Right Content Stream (Indented on Desktop for Sidebar) */}
+          <div className="flex-1 flex flex-col min-w-0 lg:pl-64">
+            {/* Restrained Top Navigation Bar */}
+            <TopBar
+              onToggleMobileSidebar={() =>
+                setIsMobileSidebarOpen(!isMobileSidebarOpen)
+              }
+              onNewInvestigation={() => setIsNewInvOpen(true)}
+            />
 
-          {/* Clean Functional Engineering Footer */}
-          <footer className="relative z-10 border-t border-[#1e2229] bg-[#0c0d10] py-4 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-zinc-400">
-              <div className="flex items-center space-x-3">
-                <span className="font-semibold text-zinc-300">WOBBLE</span>
-                <span className="text-zinc-600">—</span>
-                <span>Flaky Test Investigation &amp; Empirical Verification</span>
+            {/* Main Application Content */}
+            <main className="relative z-10 flex-1 px-4 sm:px-6 lg:px-8 py-6 max-w-7xl w-full mx-auto">
+              {children}
+            </main>
+
+            {/* Refined Engineering Footer */}
+            <footer className="relative z-10 border-t border-[rgba(139,92,246,0.10)] bg-[#0a0812]/80 backdrop-blur-sm py-4 px-4 sm:px-6 lg:px-8">
+              <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-zinc-400">
+                <div className="flex items-center space-x-3">
+                  <span className="font-semibold text-zinc-300 tracking-wide">
+                    WOBBLE
+                  </span>
+                  <span className="text-zinc-600">—</span>
+                  <span>Flaky Test Empirical Verification Platform</span>
+                </div>
+
+                <div className="flex items-center space-x-4 text-xs">
+                  <span className="text-zinc-400 font-mono">
+                    Adapter: Mock (Local)
+                  </span>
+                  <span className="text-zinc-800">|</span>
+                  <Link
+                    href="/settings"
+                    className="text-zinc-400 hover:text-violet-300 transition-colors"
+                  >
+                    Backend Settings
+                  </Link>
+                  <Link
+                    href="/tests"
+                    className="text-zinc-400 hover:text-violet-300 transition-colors"
+                  >
+                    Test Directory
+                  </Link>
+                </div>
               </div>
-
-              <div className="flex items-center space-x-4 text-xs">
-                <span className="text-zinc-400 font-mono">Adapter: Mock (Local)</span>
-                <span className="text-zinc-700">|</span>
-                <Link
-                  href="/settings"
-                  className="text-zinc-400 hover:text-zinc-200 transition-colors"
-                >
-                  Backend Settings
-                </Link>
-                <Link
-                  href="/tests"
-                  className="text-zinc-400 hover:text-zinc-200 transition-colors"
-                >
-                  Test Directory
-                </Link>
-              </div>
-            </div>
-          </footer>
+            </footer>
+          </div>
 
           {/* New Investigation Modal */}
           <NewInvestigationModal

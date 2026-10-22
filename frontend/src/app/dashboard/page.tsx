@@ -76,9 +76,9 @@ export default function DashboardPage() {
     <AppShell>
       <div ref={dashboardRoot} className="space-y-6">
         {/* Top Control Bar & Repository Filter */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-[#1e2229] gap-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-[rgba(139,92,246,0.12)] gap-4">
           <div>
-            <h1 className="text-xl font-semibold text-zinc-100 tracking-tight">
+            <h1 className="text-xl font-semibold text-white tracking-tight">
               Flaky Test Triage &amp; Empirical Intelligence
             </h1>
             <p className="text-xs text-zinc-400 mt-0.5">
@@ -88,28 +88,28 @@ export default function DashboardPage() {
 
           {/* Repository Selector Dropdown & System Health */}
           <div className="flex flex-wrap items-center gap-2.5">
-            <div className="flex items-center space-x-2 bg-[#111317] px-2.5 py-1.5 rounded border border-[#1e2229] text-xs font-mono">
-              <GitBranch className="w-3.5 h-3.5 text-zinc-400" />
+            <div className="flex items-center space-x-2 bg-[#0f0d18] px-2.5 py-1.5 rounded-md border border-[rgba(139,92,246,0.14)] text-xs font-mono">
+              <GitBranch className="w-3.5 h-3.5 text-violet-400" />
               <span className="text-zinc-400">Target:</span>
               <select
                 value={selectedRepo}
                 onChange={(e) => setSelectedRepo(e.target.value)}
                 className="bg-transparent text-zinc-200 font-medium focus:outline-none cursor-pointer"
               >
-                <option value="ALL" className="bg-[#111317]">
+                <option value="ALL" className="bg-[#0f0d18]">
                   All Repositories (5 Active)
                 </option>
                 {repositories.map((repo) => (
-                  <option key={repo.id} value={repo.name} className="bg-[#111317]">
+                  <option key={repo.id} value={repo.name} className="bg-[#0f0d18]">
                     {repo.name} ({repo.healthScore}%)
                   </option>
                 ))}
               </select>
             </div>
 
-            <div className="flex items-center space-x-1.5 px-2.5 py-1.5 rounded bg-zinc-900 border border-zinc-800 text-xs font-mono">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-              <span className="text-zinc-300">CI Health: 98.4%</span>
+            <div className="flex items-center space-x-1.5 px-2.5 py-1.5 rounded-md bg-[#0f0d18] border border-emerald-900/40 text-xs font-mono">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              <span className="text-emerald-300">CI Health: 98.4%</span>
             </div>
           </div>
         </div>

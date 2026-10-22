@@ -39,23 +39,26 @@ export function TriageWorklist({ investigations }: TriageWorklistProps) {
   });
 
   return (
-    <div className="rounded-lg bg-[#111317] border border-[#1e2229] overflow-hidden">
+    <div className="rounded-xl bg-[#0f0d18] border border-[rgba(139,92,246,0.14)] overflow-hidden shadow-[0_4px_24px_rgba(0,0,0,0.4)]">
       {/* Header and Filter Bar */}
-      <div className="p-4 border-b border-[#1e2229] space-y-3">
+      <div className="p-4 sm:p-5 border-b border-[rgba(139,92,246,0.10)] space-y-3.5">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
-            <h2 className="text-sm font-semibold text-zinc-100 tracking-tight">
-              Flaky Test Triage Queue
+            <h2 className="text-sm font-semibold text-white tracking-tight flex items-center gap-2">
+              <span>Flaky Test Triage Queue</span>
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-violet-950/60 text-violet-300 border border-violet-800/40">
+                {filtered.length} prioritized
+              </span>
             </h2>
             <p className="text-xs text-zinc-400 mt-0.5">
-              Prioritized worklist of non-deterministic tests requiring reproduction, isolation, or verification
+              Prioritized worklist of non-deterministic tests requiring reproduction, isolation, or empirical verification
             </p>
           </div>
 
           <div className="flex items-center space-x-2">
             <Link
               href="/investigations"
-              className="text-xs text-zinc-400 hover:text-zinc-200 transition-colors flex items-center space-x-1"
+              className="text-xs text-violet-400 hover:text-violet-300 transition-colors flex items-center space-x-1"
             >
               <span>Full Investigation Explorer</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -65,44 +68,44 @@ export function TriageWorklist({ investigations }: TriageWorklistProps) {
 
         {/* Tab Filters & Search Input */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 pt-1">
-          <div className="flex items-center space-x-1 overflow-x-auto pb-1 sm:pb-0 font-mono text-xs">
+          <div className="flex items-center space-x-1.5 overflow-x-auto pb-1 sm:pb-0 font-mono text-xs">
             <button
               onClick={() => setActiveTab("ALL")}
-              className={`px-2.5 py-1 rounded text-xs transition-colors cursor-pointer ${
+              className={`px-3 py-1.5 rounded-md text-xs transition-colors cursor-pointer ${
                 activeTab === "ALL"
-                  ? "bg-[#181c23] text-zinc-100 border border-[#2a303c] font-medium"
-                  : "text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/40 border border-transparent"
+                  ? "bg-[#181328] text-white border border-violet-500/40 font-medium shadow-[0_0_10px_rgba(139,92,246,0.15)]"
+                  : "text-zinc-400 hover:text-zinc-200 hover:bg-violet-950/20 border border-transparent"
               }`}
             >
               All Tests ({investigations.length})
             </button>
             <button
               onClick={() => setActiveTab("CRITICAL")}
-              className={`px-2.5 py-1 rounded text-xs transition-colors cursor-pointer flex items-center space-x-1.5 ${
+              className={`px-3 py-1.5 rounded-md text-xs transition-colors cursor-pointer flex items-center space-x-1.5 ${
                 activeTab === "CRITICAL"
-                  ? "bg-red-950/40 text-red-300 border border-red-800/60 font-medium"
-                  : "text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/40 border border-transparent"
+                  ? "bg-rose-950/40 text-rose-300 border border-rose-800/60 font-medium"
+                  : "text-zinc-400 hover:text-zinc-200 hover:bg-violet-950/20 border border-transparent"
               }`}
             >
-              <span className="w-1.5 h-1.5 rounded-full bg-red-400" />
+              <span className="w-1.5 h-1.5 rounded-full bg-rose-400" />
               <span>High Severity Flakes</span>
             </button>
             <button
               onClick={() => setActiveTab("ACTIVE")}
-              className={`px-2.5 py-1 rounded text-xs transition-colors cursor-pointer ${
+              className={`px-3 py-1.5 rounded-md text-xs transition-colors cursor-pointer ${
                 activeTab === "ACTIVE"
-                  ? "bg-[#181c23] text-zinc-100 border border-[#2a303c] font-medium"
-                  : "text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/40 border border-transparent"
+                  ? "bg-[#181328] text-white border border-violet-500/40 font-medium"
+                  : "text-zinc-400 hover:text-zinc-200 hover:bg-violet-950/20 border border-transparent"
               }`}
             >
               In Progress ({investigations.filter((i) => i.status !== "VERIFIED").length})
             </button>
             <button
               onClick={() => setActiveTab("VERIFIED")}
-              className={`px-2.5 py-1 rounded text-xs transition-colors cursor-pointer flex items-center space-x-1.5 ${
+              className={`px-3 py-1.5 rounded-md text-xs transition-colors cursor-pointer flex items-center space-x-1.5 ${
                 activeTab === "VERIFIED"
                   ? "bg-emerald-950/40 text-emerald-300 border border-emerald-800/60 font-medium"
-                  : "text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/40 border border-transparent"
+                  : "text-zinc-400 hover:text-zinc-200 hover:bg-violet-950/20 border border-transparent"
               }`}
             >
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
@@ -118,7 +121,7 @@ export function TriageWorklist({ investigations }: TriageWorklistProps) {
               placeholder="Filter by test, file, or ID..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-[#0c0d10] border border-[#1e2229] rounded pl-8 pr-3 py-1 text-xs text-zinc-200 placeholder-zinc-400 focus:outline-none focus:border-zinc-700 font-mono"
+              className="w-full bg-[#0c0a14] border border-[rgba(139,92,246,0.14)] rounded-md pl-8 pr-3 py-1.5 text-xs text-zinc-200 placeholder-zinc-400 focus:outline-none focus:border-violet-500/60 font-mono transition-colors"
             />
           </div>
         </div>
@@ -128,7 +131,7 @@ export function TriageWorklist({ investigations }: TriageWorklistProps) {
       <div className="overflow-x-auto">
         <table className="w-full text-left font-mono text-xs">
           <thead>
-            <tr className="border-b border-[#1e2229] bg-[#0c0d10] text-zinc-400 text-[11px] tracking-wide">
+            <tr className="border-b border-[rgba(139,92,246,0.10)] bg-[#0c0a14]/80 text-zinc-400 text-[11px] tracking-wide">
               <th className="py-2.5 px-4 font-medium">Test &amp; Repository Context</th>
               <th className="py-2.5 px-3 font-medium text-center">Failure Rate</th>
               <th className="py-2.5 px-3 font-medium">Root Category</th>
@@ -136,7 +139,7 @@ export function TriageWorklist({ investigations }: TriageWorklistProps) {
               <th className="py-2.5 px-4 font-medium text-right">Action</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-[#1e2229]">
+          <tbody className="divide-y divide-[rgba(139,92,246,0.08)]">
             {filtered.length === 0 ? (
               <tr>
                 <td colSpan={5} className="py-8 text-center text-zinc-500 font-mono text-xs">
@@ -147,16 +150,16 @@ export function TriageWorklist({ investigations }: TriageWorklistProps) {
               filtered.map((inv) => (
                 <tr
                   key={inv.id}
-                  className="hover:bg-[#151921] transition-colors group cursor-pointer"
+                  className="hover:bg-[#151126] transition-colors group cursor-pointer"
                 >
                   {/* Test & ID & Path */}
                   <td className="py-3 px-4">
                     <div className="flex flex-col">
                       <div className="flex items-center space-x-2">
-                        <span className="text-zinc-400 font-semibold">{inv.id}</span>
+                        <span className="text-violet-400 font-semibold">{inv.id}</span>
                         <Link
                           href={`/investigations/${inv.id}`}
-                          className="font-sans font-medium text-zinc-200 group-hover:text-amber-400 transition-colors truncate max-w-md"
+                          className="font-sans font-medium text-zinc-200 group-hover:text-violet-300 transition-colors truncate max-w-md"
                         >
                           {inv.testName}
                         </Link>
@@ -176,12 +179,12 @@ export function TriageWorklist({ investigations }: TriageWorklistProps) {
                   <td className="py-3 px-3 text-center">
                     <div className="inline-flex flex-col items-center">
                       <span
-                        className={`px-1.5 py-0.5 rounded text-xs font-semibold ${
+                        className={`px-2 py-0.5 rounded text-xs font-semibold ${
                           inv.failureRate >= 15
-                            ? "bg-red-950/60 text-red-400 border border-red-800/70"
+                            ? "bg-rose-950/50 text-rose-300 border border-rose-800/60"
                             : inv.failureRate >= 8
-                            ? "bg-amber-950/60 text-amber-400 border border-amber-800/70"
-                            : "bg-emerald-950/60 text-emerald-400 border border-emerald-800/70"
+                            ? "bg-amber-950/50 text-amber-300 border border-amber-800/60"
+                            : "bg-emerald-950/50 text-emerald-300 border border-emerald-800/60"
                         }`}
                       >
                         {inv.failureRate.toFixed(1)}% Flaky
@@ -198,7 +201,7 @@ export function TriageWorklist({ investigations }: TriageWorklistProps) {
                       {inv.hypothesis ? inv.hypothesis.category : "Under Diagnosis"}
                     </span>
                     {inv.hypothesis && (
-                      <div className="text-[10px] text-zinc-400 font-mono mt-0.5">
+                      <div className="text-[10px] text-violet-400 font-mono mt-0.5">
                         {inv.hypothesis.confidence}% confidence
                       </div>
                     )}
@@ -220,7 +223,7 @@ export function TriageWorklist({ investigations }: TriageWorklistProps) {
                   <td className="py-3 px-4 text-right">
                     <Link
                       href={`/investigations/${inv.id}`}
-                      className="inline-flex items-center space-x-1.5 px-2.5 py-1 rounded bg-[#181c23] hover:bg-[#20252f] text-zinc-200 border border-[#2a303c] text-xs font-medium transition-colors"
+                      className="inline-flex items-center space-x-1.5 px-2.5 py-1 rounded-md bg-[#161226] hover:bg-violet-900/30 text-zinc-200 hover:text-white border border-[rgba(139,92,246,0.18)] hover:border-violet-500/40 text-xs font-medium transition-all"
                     >
                       <span>Workspace</span>
                       <ArrowRight className="w-3 h-3 text-zinc-400 group-hover:translate-x-0.5 transition-transform" />

@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import { Activity, ShieldCheck, AlertTriangle, Eye, RefreshCw } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface ExecutionVariance3DProps {
@@ -17,12 +16,6 @@ export function ExecutionVariance3D({
 }: ExecutionVariance3DProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [viewMode, setViewMode] = useState<"PHASE_SPACE" | "CONVERGED">("PHASE_SPACE");
-  const [hoveredRun, setHoveredRun] = useState<{
-    id: number;
-    status: "PASS" | "FAIL";
-    delay: number;
-    duration: number;
-  } | null>(null);
   const [webglSupported, setWebglSupported] = useState(true);
 
   useEffect(() => {
@@ -33,7 +26,6 @@ export function ExecutionVariance3D({
     let camera: any = null;
     let pointsPass: any = null;
     let pointsFail: any = null;
-    let gridLines: any = null;
     let attractorTorus: any = null;
 
     const container = containerRef.current;
@@ -67,7 +59,7 @@ export function ExecutionVariance3D({
         camera.position.set(2.8, 2.2, 3.2);
         camera.lookAt(0, 0, 0);
 
-        // Renderer with DPR capping
+        // Renderer with DPR capping (max 1.5)
         renderer = new THREE.WebGLRenderer({
           alpha: true,
           antialias: true,
@@ -80,16 +72,15 @@ export function ExecutionVariance3D({
 
         container.appendChild(renderer.domElement);
 
-        // 1. Coordinate Grid Floor
-        const gridHelper = new THREE.GridHelper(2.4, 6, 0x2a303c, 0x1e2229);
+        // 1. Midnight-Purple Coordinate Grid Floor
+        const gridHelper = new THREE.GridHelper(2.4, 6, 0x4c1d95, 0x1f1738);
         gridHelper.position.y = -0.8;
         scene.add(gridHelper);
-        gridLines = gridHelper;
 
-        // 2. Stable Attractor Basin (Harmonic Torus loop representing deterministic cycle)
+        // 2. Stable Attractor Basin (Electric Violet Torus loop representing deterministic cycle)
         const torusGeom = new THREE.TorusGeometry(0.85, 0.02, 12, 48);
         const torusMat = new THREE.MeshBasicMaterial({
-          color: 0x10b981,
+          color: 0x8b5cf6,
           wireframe: true,
           transparent: true,
           opacity: 0.35,
@@ -99,7 +90,7 @@ export function ExecutionVariance3D({
         scene.add(attractorTorus);
 
         // 3. Execution Data Points in Phase Space (50 runs)
-        // Pass Points: Clustered around center attractor
+        // Pass Points: Clustered around center attractor (Emerald)
         const passPositions: number[] = [];
         const passCount = 41;
         for (let i = 0; i < passCount; i++) {
@@ -124,7 +115,7 @@ export function ExecutionVariance3D({
         pointsPass = new THREE.Points(passGeom, passMat);
         scene.add(pointsPass);
 
-        // Fail Points: Bifurcated into the critical delay/contention basin
+        // Fail Points: Bifurcated into the critical delay/contention basin (Rose)
         const failPositions: number[] = [];
         const failCount = 9;
         for (let i = 0; i < failCount; i++) {
@@ -142,7 +133,7 @@ export function ExecutionVariance3D({
           new THREE.Float32BufferAttribute(failPositions, 3)
         );
         const failMat = new THREE.PointsMaterial({
-          color: 0xef4444,
+          color: 0xf43f5e,
           size: 0.11,
           transparent: true,
           opacity: 0.95,
@@ -150,7 +141,7 @@ export function ExecutionVariance3D({
         pointsFail = new THREE.Points(failGeom, failMat);
         scene.add(pointsFail);
 
-        // Divergence trajectory spline
+        // Divergence trajectory spline in soft electric violet
         const curvePoints = [
           new THREE.Vector3(0.6, 0.0, 0.6),
           new THREE.Vector3(0.9, 0.15, 0.85),
@@ -160,9 +151,9 @@ export function ExecutionVariance3D({
         const spline = new THREE.CatmullRomCurve3(curvePoints);
         const splineGeom = new THREE.TubeGeometry(spline, 24, 0.012, 6, false);
         const splineMat = new THREE.MeshBasicMaterial({
-          color: 0xf59e0b,
+          color: 0xa78bfa,
           transparent: true,
-          opacity: 0.6,
+          opacity: 0.5,
         });
         const splineMesh = new THREE.Mesh(splineGeom, splineMat);
         scene.add(splineMesh);
@@ -249,16 +240,16 @@ export function ExecutionVariance3D({
   return (
     <div
       className={cn(
-        "rounded-lg bg-[#111317] border border-[#1e2229] p-4 flex flex-col justify-between overflow-hidden",
+        "rounded-xl bg-[#0f0d18] border border-[rgba(139,92,246,0.14)] p-4 flex flex-col justify-between overflow-hidden shadow-[0_4px_24px_rgba(0,0,0,0.4)]",
         className
       )}
     >
       {/* Header & Mode Switcher */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-[#1e2229] gap-2">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-[rgba(139,92,246,0.10)] gap-2">
         <div>
           <div className="flex items-center space-x-2">
-            <span className="w-2 h-2 rounded-full bg-amber-400" />
-            <h3 className="text-xs font-semibold text-zinc-300 uppercase tracking-wider">
+            <span className="w-2 h-2 rounded-full bg-violet-400 shadow-[0_0_8px_rgba(139,92,246,0.5)]" />
+            <h3 className="text-xs font-semibold text-zinc-200 uppercase tracking-wider">
               Phase-Space Execution Variance Topology
             </h3>
           </div>
@@ -268,14 +259,14 @@ export function ExecutionVariance3D({
         </div>
 
         {/* State Toggle */}
-        <div className="flex items-center space-x-1 bg-[#0c0d10] p-0.5 rounded border border-[#1e2229] text-[11px] font-mono">
+        <div className="flex items-center space-x-1 bg-[#0c0a14] p-0.5 rounded-md border border-[rgba(139,92,246,0.12)] text-[11px] font-mono">
           <button
             type="button"
             onClick={() => setViewMode("PHASE_SPACE")}
             className={cn(
-              "px-2 py-0.5 rounded transition-colors cursor-pointer",
+              "px-2.5 py-1 rounded transition-colors cursor-pointer",
               viewMode === "PHASE_SPACE"
-                ? "bg-[#181c23] text-zinc-100 border border-[#2a303c] font-medium"
+                ? "bg-[#181328] text-white border border-violet-500/40 font-medium"
                 : "text-zinc-400 hover:text-zinc-200"
             )}
           >
@@ -285,9 +276,9 @@ export function ExecutionVariance3D({
             type="button"
             onClick={() => setViewMode("CONVERGED")}
             className={cn(
-              "px-2 py-0.5 rounded transition-colors cursor-pointer",
+              "px-2.5 py-1 rounded transition-colors cursor-pointer",
               viewMode === "CONVERGED"
-                ? "bg-emerald-950/40 text-emerald-400 border border-emerald-800/60 font-medium"
+                ? "bg-emerald-950/40 text-emerald-300 border border-emerald-800/60 font-medium"
                 : "text-zinc-400 hover:text-zinc-200"
             )}
           >
@@ -297,7 +288,7 @@ export function ExecutionVariance3D({
       </div>
 
       {/* 3D Canvas / Fallback Container */}
-      <div className="relative h-[220px] w-full my-2 bg-[#090a0c] rounded border border-[#1e2229] overflow-hidden flex items-center justify-center">
+      <div className="relative h-[220px] w-full my-2 bg-[#0a0812] rounded-lg border border-[rgba(139,92,246,0.10)] overflow-hidden flex items-center justify-center">
         {webglSupported ? (
           <div ref={containerRef} className="w-full h-full cursor-grab active:cursor-grabbing" />
         ) : (
@@ -305,9 +296,9 @@ export function ExecutionVariance3D({
           <div className="w-full h-full p-4 flex flex-col justify-between font-mono text-xs text-zinc-400">
             <div className="flex items-center justify-between text-[11px]">
               <span>2D Scatter Fallback (Thread Jitter vs Execution Time)</span>
-              <span className="text-amber-400">9 Bifurcations Detected</span>
+              <span className="text-violet-400">9 Bifurcations Detected</span>
             </div>
-            <div className="relative flex-1 my-2 border-l border-b border-zinc-700 flex items-center justify-center">
+            <div className="relative flex-1 my-2 border-l border-b border-violet-900/40 flex items-center justify-center">
               <svg className="w-full h-full" viewBox="0 0 300 120">
                 {/* 41 green pass nodes clustered */}
                 <circle cx="120" cy="65" r="4" fill="#10b981" opacity="0.8" />
@@ -321,34 +312,34 @@ export function ExecutionVariance3D({
                     <path
                       d="M 135 62 Q 180 40 240 25"
                       fill="none"
-                      stroke="#f59e0b"
+                      stroke="#8b5cf6"
                       strokeWidth="1.5"
                       strokeDasharray="3 3"
                     />
-                    <circle cx="210" cy="35" r="5" fill="#ef4444" />
-                    <circle cx="230" cy="28" r="5" fill="#ef4444" />
-                    <circle cx="250" cy="22" r="5" fill="#ef4444" />
+                    <circle cx="210" cy="35" r="5" fill="#f43f5e" />
+                    <circle cx="230" cy="28" r="5" fill="#f43f5e" />
+                    <circle cx="250" cy="22" r="5" fill="#f43f5e" />
                   </>
                 )}
               </svg>
             </div>
             <div className="flex items-center justify-between text-[10px] text-zinc-500">
               <span>0ms Delay</span>
-              <span>Critical Boundary: 18ms Delay</span>
+              <span className="text-violet-400">Critical Boundary: 18ms Delay</span>
               <span>50ms Delay &rarr;</span>
             </div>
           </div>
         )}
 
         {/* Phase Space Legend Overlays */}
-        <div className="absolute bottom-2 left-2 flex items-center space-x-3 text-[10px] font-mono bg-[#0c0d10]/90 px-2 py-1 rounded border border-[#1e2229]">
+        <div className="absolute bottom-2 left-2 flex items-center space-x-3 text-[10px] font-mono bg-[#0c0a14]/90 px-2 py-1 rounded-md border border-[rgba(139,92,246,0.14)]">
           <span className="flex items-center space-x-1 text-emerald-400">
             <span className="w-2 h-2 rounded-full bg-emerald-400" />
             <span>Pass Basin (41)</span>
           </span>
           {viewMode === "PHASE_SPACE" && (
-            <span className="flex items-center space-x-1 text-red-400">
-              <span className="w-2 h-2 rounded-full bg-red-400" />
+            <span className="flex items-center space-x-1 text-rose-400">
+              <span className="w-2 h-2 rounded-full bg-rose-400" />
               <span>Divergent Races (9)</span>
             </span>
           )}
@@ -356,9 +347,9 @@ export function ExecutionVariance3D({
       </div>
 
       {/* Engineering Diagnostic Takeaway */}
-      <div className="pt-2 border-t border-[#1e2229] text-[11px] font-mono text-zinc-400 flex items-center justify-between">
+      <div className="pt-2 border-t border-[rgba(139,92,246,0.10)] text-[11px] font-mono text-zinc-400 flex items-center justify-between">
         <span>Bifurcation Trigger: Scheduler Delay &gt; 18.5ms</span>
-        <span className="text-zinc-500">Parallax: Interactive</span>
+        <span className="text-violet-400">Interactive Orbit</span>
       </div>
     </div>
   );

@@ -2,8 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { Radio, Zap, ShieldCheck, Minimize2, Cpu, RefreshCw } from "lucide-react";
-import { GlassPanel } from "@/components/ui/GlassPanel";
+import { Zap, ShieldCheck, Minimize2, Cpu, RefreshCw } from "lucide-react";
 import { TelemetryEvent } from "@/types";
 import { formatRelativeTime } from "@/lib/utils";
 import { cn } from "@/lib/utils";
@@ -15,73 +14,67 @@ interface ActivityFeedProps {
 
 export function ActivityFeed({ events, className }: ActivityFeedProps) {
   return (
-    <GlassPanel hasCorners className={cn("p-5 sm:p-6", className)}>
-      <div className="flex items-center justify-between pb-4 border-b border-white/10 mb-4">
-        <div className="flex items-center space-x-2.5">
-          <div className="relative">
-            <span className="w-2.5 h-2.5 rounded-full bg-cyan-400 block animate-ping" />
-            <span className="w-2.5 h-2.5 rounded-full bg-cyan-400 block absolute inset-0" />
-          </div>
-          <div>
-            <h3 className="text-sm font-mono tracking-wider text-slate-300 uppercase">
-              Live Investigation Telemetry Feed
-            </h3>
-            <p className="text-xs text-slate-400 font-mono mt-0.5">
-              Real-time diagnostic event bus events
-            </p>
-          </div>
+    <div className={cn("rounded-lg bg-[#111317] border border-[#1e2229] p-4", className)}>
+      <div className="flex items-center justify-between pb-3 border-b border-[#1e2229] mb-3">
+        <div>
+          <h3 className="text-xs font-semibold text-zinc-300 uppercase tracking-wider">
+            Recent Diagnostic Activity
+          </h3>
+          <p className="text-xs text-zinc-400 mt-0.5">
+            Log of automated reproductions, delta-debug reductions, and verification passes
+          </p>
         </div>
-        <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
-          STREAM ACTIVE
+        <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-400 border border-zinc-700">
+          Telemetry Active
         </span>
       </div>
 
-      <div className="space-y-3 font-mono text-xs">
-        {events.map((ev) => {
-          let icon = <Zap className="w-3.5 h-3.5 text-cyan-400" />;
-          let tagColor = "bg-cyan-500/20 text-cyan-300 border-cyan-500/30";
+      <div className="space-y-2 font-mono text-xs">
+        {events.slice(0, 4).map((ev) => {
+          let icon = <Zap className="w-3.5 h-3.5 text-zinc-400" />;
+          let tagColor = "bg-zinc-800 text-zinc-300 border-zinc-700";
 
           if (ev.type === "VERIFICATION") {
             icon = <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />;
-            tagColor = "bg-emerald-500/20 text-emerald-300 border-emerald-500/40";
+            tagColor = "bg-emerald-950/40 text-emerald-300 border-emerald-800/60";
           } else if (ev.type === "MINIMIZATION") {
-            icon = <Minimize2 className="w-3.5 h-3.5 text-teal-400" />;
-            tagColor = "bg-teal-500/20 text-teal-300 border-teal-500/30";
+            icon = <Minimize2 className="w-3.5 h-3.5 text-sky-400" />;
+            tagColor = "bg-sky-950/40 text-sky-300 border-sky-800/60";
           } else if (ev.type === "DIAGNOSIS") {
-            icon = <Cpu className="w-3.5 h-3.5 text-violet-400" />;
-            tagColor = "bg-violet-500/20 text-violet-300 border-violet-500/30";
+            icon = <Cpu className="w-3.5 h-3.5 text-amber-400" />;
+            tagColor = "bg-amber-950/40 text-amber-300 border-amber-800/60";
           } else if (ev.type === "REPRODUCTION") {
             icon = <RefreshCw className="w-3.5 h-3.5 text-amber-400" />;
-            tagColor = "bg-amber-500/20 text-amber-300 border-amber-500/30";
+            tagColor = "bg-amber-950/40 text-amber-300 border-amber-800/60";
           }
 
           return (
             <div
               key={ev.id}
-              className="p-3 rounded-xl bg-slate-900/60 border border-white/5 flex items-start space-x-3 hover:bg-slate-900/90 transition-colors"
+              className="p-2.5 rounded bg-[#0c0d10] border border-[#1e2229] flex items-start space-x-3 hover:border-zinc-700 transition-colors"
             >
-              <div className="p-1.5 rounded-lg bg-black/40 border border-white/10 shrink-0 mt-0.5">
+              <div className="p-1 rounded bg-zinc-900 border border-zinc-800 shrink-0 mt-0.5">
                 {icon}
               </div>
 
-              <div className="flex-1 space-y-1">
+              <div className="flex-1 space-y-0.5">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-2">
                     {ev.investigationId ? (
                       <Link
                         href={`/investigations/${ev.investigationId}`}
-                        className="text-cyan-400 hover:text-cyan-300 font-bold hover:underline"
+                        className="text-amber-400 hover:underline font-semibold"
                       >
                         {ev.investigationId}
                       </Link>
                     ) : (
-                      <span className="text-slate-400 font-bold">{ev.type}</span>
+                      <span className="text-zinc-400 font-semibold">{ev.type}</span>
                     )}
 
                     {ev.tag && (
                       <span
                         className={cn(
-                          "px-1.5 py-0.2 rounded text-[10px] font-bold border",
+                          "px-1.5 py-0.2 rounded text-[10px] font-medium border",
                           tagColor
                         )}
                       >
@@ -90,12 +83,12 @@ export function ActivityFeed({ events, className }: ActivityFeedProps) {
                     )}
                   </div>
 
-                  <span className="text-[10px] text-slate-500">
+                  <span className="text-[10px] text-zinc-400">
                     {formatRelativeTime(ev.timestamp)}
                   </span>
                 </div>
 
-                <p className="text-slate-300 text-xs font-sans leading-normal">
+                <p className="text-zinc-300 text-xs font-sans leading-normal">
                   {ev.message}
                 </p>
               </div>
@@ -103,6 +96,6 @@ export function ActivityFeed({ events, className }: ActivityFeedProps) {
           );
         })}
       </div>
-    </GlassPanel>
+    </div>
   );
 }

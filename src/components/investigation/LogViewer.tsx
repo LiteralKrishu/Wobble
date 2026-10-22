@@ -134,7 +134,7 @@ export function LogViewer({ logs, stackTrace, className }: LogViewerProps) {
       )}
 
       {/* Terminal Log Console */}
-      <div className="p-3 font-mono text-xs overflow-x-auto max-h-96 min-h-64 space-y-1">
+      <div data-lenis-prevent className="p-3 font-mono text-xs overflow-x-auto max-h-96 min-h-64 space-y-1">
         {filteredLogs.length === 0 ? (
           <div className="text-center py-10 text-slate-500 font-mono text-xs">
             No matching log entries found for current query.

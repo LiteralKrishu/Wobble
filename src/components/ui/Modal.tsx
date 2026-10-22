@@ -66,6 +66,7 @@ export function Modal({
       <GlassPanel
         hasCorners
         glow="cyan"
+        data-lenis-prevent
         className={cn(
           "relative w-full z-10 p-6 sm:p-8 animate-in zoom-in-95 fade-in duration-200 border-white/15 bg-slate-950/90 shadow-2xl",
           maxWidthClasses[maxWidth],

@@ -1,17 +1,17 @@
 @import "tailwindcss";
 
 :root {
-  --background: #08070d;
+  --background: #06050b;
   --foreground: #f8fafc;
-  --surface-1: #0f0d18;
-  --surface-2: #141122;
-  --surface-hover: #1c172e;
-  --border-subtle: rgba(139, 92, 246, 0.12);
-  --border-strong: rgba(139, 92, 246, 0.28);
+  --surface-1: #0d0a16;
+  --surface-2: #120e20;
+  --surface-hover: #19142c;
+  --border-subtle: rgba(139, 92, 246, 0.14);
+  --border-strong: rgba(139, 92, 246, 0.32);
   --border-active: #8b5cf6;
   --accent-violet: #8b5cf6;
-  --accent-violet-hover: #9d75f7;
-  --accent-violet-glow: rgba(139, 92, 246, 0.22);
+  --accent-violet-hover: #a78bfa;
+  --accent-violet-glow: rgba(139, 92, 246, 0.28);
   --accent-violet-subtle: rgba(139, 92, 246, 0.08);
   --success-green: #10b981;
   --warning-amber: #f59e0b;
@@ -67,14 +67,14 @@ body {
   height: 5px;
 }
 ::-webkit-scrollbar-track {
-  background: #08070d;
+  background: #06050b;
 }
 ::-webkit-scrollbar-thumb {
-  background: #231d38;
+  background: #211936;
   border-radius: 2px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #3b2d5a;
+  background: #3b2c5c;
 }
 
 /* Monospace font utility for technical artifacts */
@@ -89,15 +89,52 @@ body {
 }
 
 .surface-card-hover {
-  transition: border-color 0.15s ease, background-color 0.15s ease;
+  transition: border-color 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease;
 }
 
 .surface-card-hover:hover {
   border-color: var(--border-strong);
   background-color: var(--surface-hover);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), 0 0 15px rgba(139, 92, 246, 0.08);
 }
 
 .surface-nested {
   background-color: var(--surface-2);
   border: 1px solid var(--border-subtle);
+}
+
+/* Techfest-inspired Chamfered Navigation Frame */
+.chamfer-nav-pill {
+  clip-path: polygon(
+    14px 0%,
+    calc(100% - 14px) 0%,
+    100% 14px,
+    100% calc(100% - 14px),
+    calc(100% - 14px) 100%,
+    14px 100%,
+    0% calc(100% - 14px),
+    0% 14px
+  );
+}
+
+.chamfer-stepped-pill {
+  clip-path: polygon(
+    16px 0%,
+    calc(100% - 16px) 0%,
+    100% 16px,
+    100% calc(100% - 10px),
+    calc(100% - 20px) 100%,
+    20px 100%,
+    0% calc(100% - 10px),
+    0% 16px
+  );
+}
+
+/* Atmospheric Glow Utilities */
+.glow-subtle-violet {
+  box-shadow: 0 0 25px rgba(139, 92, 246, 0.15);
+}
+
+.glow-active-gold {
+  box-shadow: 0 0 12px rgba(245, 158, 11, 0.35);
 }

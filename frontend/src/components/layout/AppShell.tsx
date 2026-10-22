@@ -3,25 +3,31 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { BackgroundAtmosphere } from "@/components/layout/BackgroundAtmosphere";
-import { Sidebar } from "@/components/layout/Sidebar";
-import { TopBar } from "@/components/layout/TopBar";
+import { FloatingNavbar } from "@/components/layout/FloatingNavbar";
+import { NavigationRail } from "@/components/layout/NavigationRail";
+import { TelemetryRail } from "@/components/layout/TelemetryRail";
 import { NewInvestigationModal } from "@/components/investigation/NewInvestigationModal";
 import { SmoothScroll } from "@/components/layout/SmoothScroll";
 import { PageTransition } from "@/components/layout/PageTransition";
 
 interface AppShellProps {
   children: React.ReactNode;
+  selectedRepo?: string;
+  onRepoChange?: (repo: string) => void;
 }
 
-export function AppShell({ children }: AppShellProps) {
+export function AppShell({
+  children,
+  selectedRepo = "ALL",
+  onRepoChange,
+}: AppShellProps) {
   const [isNewInvOpen, setIsNewInvOpen] = useState(false);
-  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
 
   return (
     <SmoothScroll>
       <PageTransition>
-        <div className="relative min-h-screen flex bg-[#08070d] text-white selection:bg-violet-600/30 selection:text-white">
-          {/* Skip to Main Content Link for Keyboard & Screen Reader Users */}
+        <div className="relative min-h-screen flex flex-col bg-[#06050b] text-white selection:bg-violet-600/35 selection:text-white">
+          {/* Skip to Main Content Link for Keyboard & Screen Reader Users (WCAG 2.4.1) */}
           <a
             href="#main-content"
             className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] focus:px-4 focus:py-2 focus:bg-violet-600 focus:text-white focus:rounded-md focus:outline-none focus:ring-2 focus:ring-white font-mono text-xs shadow-lg"
@@ -29,56 +35,57 @@ export function AppShell({ children }: AppShellProps) {
             Skip to main content
           </a>
 
-          {/* Atmospheric Midnight-Purple Background */}
+          {/* 1. Cinematic Atmospheric Background with Instability Waveforms */}
           <BackgroundAtmosphere />
 
-          {/* Compact Beautifully Proportioned Sidebar */}
-          <Sidebar
-            isOpen={isMobileSidebarOpen}
-            onClose={() => setIsMobileSidebarOpen(false)}
+          {/* 2. Top Chamfered Floating Navbar (Techfest-Inspired) */}
+          <FloatingNavbar
+            onNewInvestigation={() => setIsNewInvOpen(true)}
+            selectedRepo={selectedRepo}
+            onRepoChange={onRepoChange}
+          />
+
+          {/* 3. Left Slim Vertical Navigation Rail (Techfest-Inspired Left Dock) */}
+          <NavigationRail
             onNewInvestigation={() => setIsNewInvOpen(true)}
           />
 
-          {/* Right Content Stream (Indented on Desktop for Sidebar) */}
-          <div className="flex-1 flex flex-col min-w-0 lg:pl-64">
-            {/* Restrained Top Navigation Bar */}
-            <TopBar
-              onToggleMobileSidebar={() =>
-                setIsMobileSidebarOpen(!isMobileSidebarOpen)
-              }
-              onNewInvestigation={() => setIsNewInvOpen(true)}
-            />
+          {/* 4. Right Telemetry & CI Status Rail (Techfest-Inspired Right Dock) */}
+          <TelemetryRail />
 
-            {/* Main Application Content */}
+          {/* 5. Main Application Content Area */}
+          <div className="relative z-10 flex-1 flex flex-col min-w-0 w-full pt-24 sm:pt-28 pb-16">
             <main
               id="main-content"
               tabIndex={-1}
-              className="relative z-10 flex-1 px-4 sm:px-6 lg:px-8 py-6 max-w-7xl w-full mx-auto focus:outline-none"
+              className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 md:pl-24 md:pr-16 lg:pr-20 focus:outline-none"
             >
               {children}
             </main>
 
-            {/* Refined Engineering Footer */}
-            <footer className="relative z-10 border-t border-[rgba(139,92,246,0.10)] bg-[#0a0812]/80 backdrop-blur-sm py-4 px-4 sm:px-6 lg:px-8">
-              <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-zinc-400">
+            {/* 6. Refined Atmospheric Engineering Footer */}
+            <footer className="mt-16 border-t border-[rgba(139,92,246,0.12)] bg-[#07050f]/80 backdrop-blur-md py-6 px-4 sm:px-6 md:pl-24 md:pr-16 lg:pr-20">
+              <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-zinc-400 font-mono">
                 <div className="flex items-center space-x-3">
-                  <span className="font-semibold text-zinc-300 tracking-wide">
+                  <span className="font-bold text-zinc-200 tracking-wider">
                     WOBBLE
                   </span>
                   <span className="text-zinc-600">—</span>
-                  <span>Flaky Test Empirical Verification Platform</span>
+                  <span className="text-zinc-400 font-sans">
+                    Flaky Test Empirical Verification &amp; Delta-Debugging Platform
+                  </span>
                 </div>
 
                 <div className="flex items-center space-x-4 text-xs">
-                  <span className="text-zinc-400 font-mono">
-                    Adapter: Mock (Local)
+                  <span className="text-zinc-400">
+                    Engine: <span className="text-violet-300">DRF / Mock Adapter</span>
                   </span>
                   <span className="text-zinc-800">|</span>
                   <Link
                     href="/settings"
                     className="text-zinc-400 hover:text-violet-300 transition-colors"
                   >
-                    Backend Settings
+                    Backend Config
                   </Link>
                   <Link
                     href="/tests"
@@ -91,7 +98,7 @@ export function AppShell({ children }: AppShellProps) {
             </footer>
           </div>
 
-          {/* New Investigation Modal */}
+          {/* 7. New Investigation Modal */}
           <NewInvestigationModal
             isOpen={isNewInvOpen}
             onClose={() => setIsNewInvOpen(false)}

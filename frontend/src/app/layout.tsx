@@ -40,7 +40,7 @@ export default function RootLayout({
       lang="en"
       className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} dark antialiased`}
     >
-      <body className="min-h-screen bg-[#050811] text-[#f1f5f9] font-sans selection:bg-[#10f596]/30 selection:text-white">
+      <body className="min-h-screen bg-[#08070d] text-[#f4f4f6] font-sans selection:bg-violet-600/40 selection:text-white">
         {children}
       </body>
     </html>

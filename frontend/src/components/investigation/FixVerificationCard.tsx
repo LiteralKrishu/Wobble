@@ -87,7 +87,14 @@ export function FixVerificationCard({
           </span>
         </div>
 
-        <div className="h-2 w-full rounded bg-[#141122] overflow-hidden border border-[rgba(139,92,246,0.14)]">
+        <div
+          role="progressbar"
+          aria-valuenow={verification.passedRuns}
+          aria-valuemin={0}
+          aria-valuemax={verification.targetThreshold}
+          aria-label="Target verification iterations progress"
+          className="h-2 w-full rounded bg-[#141122] overflow-hidden border border-[rgba(139,92,246,0.14)]"
+        >
           <div
             className={cn(
               "h-full rounded transition-all duration-300",
@@ -97,9 +104,9 @@ export function FixVerificationCard({
           />
         </div>
 
-        <div className="flex items-center justify-between text-[10px] text-zinc-500">
+        <div className="flex items-center justify-between text-[10px] text-zinc-400">
           <span>0 Runs</span>
-          <span className="text-zinc-400">{progressPercent}% confidence threshold (p &lt; 0.001)</span>
+          <span className="text-zinc-300">{progressPercent}% confidence threshold (p &lt; 0.001)</span>
           <span>{verification.targetThreshold} Runs</span>
         </div>
       </div>
@@ -112,25 +119,25 @@ export function FixVerificationCard({
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 font-mono text-xs">
           <div className="p-2.5 rounded bg-[#090812] border border-[rgba(139,92,246,0.10)]">
-            <span className="text-zinc-500 text-[10px] block">Thread Jitter</span>
-            <span className={verification.perturbationParams.threadJitter ? "text-emerald-400 font-medium" : "text-zinc-500"}>
+            <span className="text-zinc-400 text-[10px] block">Thread Jitter</span>
+            <span className={verification.perturbationParams.threadJitter ? "text-emerald-400 font-medium" : "text-zinc-400"}>
               {verification.perturbationParams.threadJitter ? "ACTIVE (±25ms)" : "OFF"}
             </span>
           </div>
           <div className="p-2.5 rounded bg-[#090812] border border-[rgba(139,92,246,0.10)]">
-            <span className="text-zinc-500 text-[10px] block">Clock Drift</span>
+            <span className="text-zinc-400 text-[10px] block">Clock Drift</span>
             <span className="text-zinc-200 font-medium">
               &plusmn;{verification.perturbationParams.clockSkewMs}ms
             </span>
           </div>
           <div className="p-2.5 rounded bg-[#090812] border border-[rgba(139,92,246,0.10)]">
-            <span className="text-zinc-500 text-[10px] block">CPU Quota</span>
+            <span className="text-zinc-400 text-[10px] block">CPU Quota</span>
             <span className="text-zinc-200 font-medium">
               {verification.perturbationParams.cpuThrottlePercent}% quota
             </span>
           </div>
           <div className="p-2.5 rounded bg-[#090812] border border-[rgba(139,92,246,0.10)]">
-            <span className="text-zinc-500 text-[10px] block">Memory Spikes</span>
+            <span className="text-zinc-400 text-[10px] block">Memory Spikes</span>
             <span className="text-zinc-200 font-medium">
               {verification.perturbationParams.memoryPressureMb}MB spike
             </span>
@@ -140,15 +147,16 @@ export function FixVerificationCard({
 
       {/* Interactive Trigger Button Strip */}
       <div className="pt-3 border-t border-[rgba(139,92,246,0.12)] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-        <div className="flex items-center space-x-2 text-xs font-mono text-zinc-400">
+        <div role="group" aria-label="Batch size" className="flex items-center space-x-2 text-xs font-mono text-zinc-400">
           <span>Batch:</span>
           {[10, 20, 50].map((count) => (
             <button
               key={count}
               type="button"
+              aria-pressed={selectedBatchSize === count}
               onClick={() => setSelectedBatchSize(count)}
               className={cn(
-                "px-2.5 py-1 rounded border text-xs cursor-pointer transition-colors",
+                "px-2.5 py-1 rounded border text-xs cursor-pointer transition-colors focus:outline-none focus-visible:ring-1 focus-visible:ring-violet-400",
                 selectedBatchSize === count
                   ? "bg-violet-950/40 border-violet-500/40 text-violet-200 font-semibold"
                   : "bg-[#090812] border-[rgba(139,92,246,0.12)] text-zinc-400 hover:text-zinc-200"

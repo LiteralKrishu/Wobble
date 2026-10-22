@@ -162,9 +162,11 @@ export function ExecutionTimeline({ runs, className }: ExecutionTimelineProps) {
                 key={r.id}
                 type="button"
                 onClick={() => setSelectedRun(r)}
+                aria-label={`Run #${r.runIndex}: ${r.status}, Seed ${r.seed}, Duration ${r.durationMs} milliseconds`}
+                aria-pressed={isSelected}
                 title={`Run #${r.runIndex} (${r.status}) - Seed: ${r.seed} - ${r.durationMs}ms`}
                 className={cn(
-                  "relative aspect-square rounded flex items-center justify-center font-mono text-[10px] font-medium transition-all cursor-pointer focus:outline-none",
+                  "relative aspect-square rounded flex items-center justify-center font-mono text-[10px] font-medium transition-all cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-400",
                   isPass &&
                     "bg-emerald-950/40 text-emerald-300 hover:bg-emerald-900/60 border border-emerald-800/40",
                   !isPass &&

@@ -32,14 +32,14 @@ export function TopBar({
       <div className="h-full px-4 sm:px-6 flex items-center justify-between gap-4">
         {/* Left: Mobile Toggle & Project Context */}
         <div className="flex items-center space-x-3">
-          {/* Mobile Menu Button */}
+          {/* Mobile Menu Button - 44x44px minimum touch target for WCAG 2.5.5 */}
           <button
             type="button"
             onClick={onToggleMobileSidebar}
-            className="lg:hidden p-1.5 rounded-md text-zinc-400 hover:text-white hover:bg-violet-950/30 border border-[rgba(139,92,246,0.15)]"
-            aria-label="Toggle navigation drawer"
+            className="lg:hidden min-w-[44px] min-h-[44px] flex items-center justify-center rounded-md text-zinc-400 hover:text-white hover:bg-violet-950/30 border border-[rgba(139,92,246,0.15)] focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-400"
+            aria-label="Open navigation menu"
           >
-            <Menu className="w-4 h-4" />
+            <Menu className="w-5 h-5" />
           </button>
 
           {/* Project & Scope Selector */}
@@ -47,9 +47,10 @@ export function TopBar({
             <GitBranch className="w-3.5 h-3.5 text-violet-400" />
             <span className="text-zinc-400 font-mono text-[11px]">Scope:</span>
             <select
+              aria-label="Target repository scope"
               value={selectedRepo}
               onChange={(e) => onRepoChange?.(e.target.value)}
-              className="bg-transparent text-zinc-200 font-medium focus:outline-none cursor-pointer text-xs"
+              className="bg-transparent text-zinc-200 font-medium focus:outline-none focus-visible:ring-1 focus-visible:ring-violet-400 cursor-pointer text-xs"
             >
               <option value="ALL" className="bg-[#0e0b1a]">
                 All Repositories (5 Active)
@@ -76,9 +77,10 @@ export function TopBar({
           <div className="hidden md:flex items-center space-x-1.5 bg-[#100d1c] px-2.5 py-1.5 rounded-md border border-[rgba(139,92,246,0.14)] text-xs text-zinc-300">
             <Calendar className="w-3.5 h-3.5 text-zinc-400" />
             <select
+              aria-label="Time range filter"
               value={timeRange}
               onChange={(e) => setTimeRange(e.target.value)}
-              className="bg-transparent font-medium focus:outline-none cursor-pointer text-xs"
+              className="bg-transparent font-medium focus:outline-none focus-visible:ring-1 focus-visible:ring-violet-400 cursor-pointer text-xs"
             >
               <option value="24h" className="bg-[#0e0b1a]">
                 Last 24 Hours
@@ -99,12 +101,13 @@ export function TopBar({
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-zinc-400" />
             <input
               type="text"
+              aria-label="Search tests, seeds, and error hashes"
               placeholder="Search tests, seeds, error hashes..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-[#100d1c] border border-[rgba(139,92,246,0.14)] focus:border-violet-500/60 pl-8 pr-12 py-1.5 rounded-md text-xs text-zinc-200 placeholder-zinc-400 focus:outline-none transition-colors"
+              className="w-full bg-[#100d1c] border border-[rgba(139,92,246,0.14)] focus:border-violet-500/60 pl-8 pr-12 py-1.5 rounded-md text-xs text-zinc-200 placeholder-zinc-400 focus:outline-none focus-visible:ring-1 focus-visible:ring-violet-400 transition-colors"
             />
-            <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-0.5 pointer-events-none">
+            <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-0.5 pointer-events-none" aria-hidden="true">
               <kbd className="px-1.5 py-0.5 text-[10px] font-mono text-zinc-400 bg-zinc-800/80 rounded border border-zinc-700/60">
                 ⌘K
               </kbd>

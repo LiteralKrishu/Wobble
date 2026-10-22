@@ -143,19 +143,21 @@ export default function InvestigationsPage() {
               <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500" />
               <input
                 type="text"
+                aria-label="Search investigations by test name, file path, repository, or ID"
                 value={searchQuery}
                 onChange={(e) => {
                   setSearchQuery(e.target.value);
                   setCurrentPage(1);
                 }}
                 placeholder="Search by test, file, repository, or ID..."
-                className="w-full pl-8 pr-3 py-1.5 rounded bg-[#090812] border border-[rgba(139,92,246,0.12)] text-xs font-mono text-zinc-200 placeholder-zinc-500 focus:outline-none focus:border-violet-500/50"
+                className="w-full pl-8 pr-3 py-1.5 rounded bg-[#090812] border border-[rgba(139,92,246,0.12)] text-xs font-mono text-zinc-200 placeholder-zinc-500 focus:outline-none focus:border-violet-500/50 focus-visible:ring-1 focus-visible:ring-violet-400"
               />
             </div>
 
             {/* Repository Filter */}
             <div>
               <select
+                aria-label="Filter investigations by repository"
                 value={selectedRepo}
                 onChange={(e) => {
                   setSelectedRepo(e.target.value);
@@ -175,6 +177,7 @@ export default function InvestigationsPage() {
             {/* Status Filter */}
             <div>
               <select
+                aria-label="Filter investigations by diagnostic status"
                 value={selectedStatus}
                 onChange={(e) => {
                   setSelectedStatus(e.target.value);
@@ -195,10 +198,11 @@ export default function InvestigationsPage() {
           </div>
 
           {/* Quick Filter Chips */}
-          <div className="flex flex-wrap items-center gap-1.5 pt-2.5 border-t border-[rgba(139,92,246,0.12)] text-xs font-mono">
-            <span className="text-zinc-500 text-[11px] mr-1">Filter:</span>
+          <div role="group" aria-label="Investigation status quick filters" className="flex flex-wrap items-center gap-1.5 pt-2.5 border-t border-[rgba(139,92,246,0.12)] text-xs font-mono">
+            <span className="text-zinc-400 text-[11px] mr-1">Filter:</span>
             <button
               type="button"
+              aria-pressed={selectedStatus === "ALL" && selectedRepo === "ALL" && !searchQuery}
               onClick={() => {
                 setSelectedStatus("ALL");
                 setSelectedRepo("ALL");
@@ -206,7 +210,7 @@ export default function InvestigationsPage() {
                 setCurrentPage(1);
               }}
               className={cn(
-                "px-2.5 py-1 rounded border text-xs transition-colors cursor-pointer",
+                "px-2.5 py-1 rounded border text-xs transition-colors cursor-pointer focus:outline-none focus-visible:ring-1 focus-visible:ring-violet-400",
                 selectedStatus === "ALL" && selectedRepo === "ALL" && !searchQuery
                   ? "bg-violet-950/40 border-violet-500/40 text-violet-200 font-semibold"
                   : "bg-[#090812] border-[rgba(139,92,246,0.12)] text-zinc-400 hover:text-zinc-200"
@@ -216,12 +220,13 @@ export default function InvestigationsPage() {
             </button>
             <button
               type="button"
+              aria-pressed={selectedStatus === "VERIFIED"}
               onClick={() => {
                 setSelectedStatus("VERIFIED");
                 setCurrentPage(1);
               }}
               className={cn(
-                "px-2.5 py-1 rounded border text-xs transition-colors cursor-pointer",
+                "px-2.5 py-1 rounded border text-xs transition-colors cursor-pointer focus:outline-none focus-visible:ring-1 focus-visible:ring-violet-400",
                 selectedStatus === "VERIFIED"
                   ? "bg-emerald-950/40 border-emerald-500/40 text-emerald-300 font-semibold"
                   : "bg-[#090812] border-[rgba(139,92,246,0.12)] text-zinc-400 hover:text-zinc-200"
@@ -231,12 +236,13 @@ export default function InvestigationsPage() {
             </button>
             <button
               type="button"
+              aria-pressed={selectedStatus === "REPRODUCED"}
               onClick={() => {
                 setSelectedStatus("REPRODUCED");
                 setCurrentPage(1);
               }}
               className={cn(
-                "px-2.5 py-1 rounded border text-xs transition-colors cursor-pointer",
+                "px-2.5 py-1 rounded border text-xs transition-colors cursor-pointer focus:outline-none focus-visible:ring-1 focus-visible:ring-violet-400",
                 selectedStatus === "REPRODUCED"
                   ? "bg-amber-950/40 border-amber-500/40 text-amber-300 font-semibold"
                   : "bg-[#090812] border-[rgba(139,92,246,0.12)] text-zinc-400 hover:text-zinc-200"
@@ -246,12 +252,13 @@ export default function InvestigationsPage() {
             </button>
             <button
               type="button"
+              aria-pressed={selectedStatus === "DIAGNOSED"}
               onClick={() => {
                 setSelectedStatus("DIAGNOSED");
                 setCurrentPage(1);
               }}
               className={cn(
-                "px-2.5 py-1 rounded border text-xs transition-colors cursor-pointer",
+                "px-2.5 py-1 rounded border text-xs transition-colors cursor-pointer focus:outline-none focus-visible:ring-1 focus-visible:ring-violet-400",
                 selectedStatus === "DIAGNOSED"
                   ? "bg-violet-950/50 border-violet-500/40 text-violet-300 font-semibold"
                   : "bg-[#090812] border-[rgba(139,92,246,0.12)] text-zinc-400 hover:text-zinc-200"
@@ -265,38 +272,48 @@ export default function InvestigationsPage() {
         {/* Data Table */}
         <div className="rounded-lg bg-[#0f0d18] border border-[rgba(139,92,246,0.14)] overflow-hidden">
           <div className="overflow-x-auto">
-            <table className="w-full text-left font-mono text-xs">
+            <table aria-label="Investigations directory table" className="w-full text-left font-mono text-xs">
               <thead>
                 <tr className="border-b border-[rgba(139,92,246,0.12)] bg-[#090812] text-zinc-400 text-[11px] tracking-wide">
-                  <th className="py-2.5 px-4 font-medium">Investigation / Test</th>
-                  <th className="py-2.5 px-3 font-medium">Repository</th>
+                  <th scope="col" className="py-2.5 px-4 font-medium">Investigation / Test</th>
+                  <th scope="col" className="py-2.5 px-3 font-medium">Repository</th>
                   <th
+                    scope="col"
                     className="py-2.5 px-3 font-medium text-center cursor-pointer hover:text-zinc-200"
                     onClick={() => toggleSort("failureRate")}
                   >
-                    <div className="flex items-center justify-center space-x-1">
+                    <button
+                      type="button"
+                      aria-label="Sort by failure rate"
+                      className="flex items-center justify-center space-x-1 w-full focus:outline-none focus-visible:ring-1 focus-visible:ring-violet-400 rounded cursor-pointer"
+                    >
                       <span>Failure Rate</span>
                       <ArrowUpDown className="w-3 h-3 text-violet-400" />
-                    </div>
+                    </button>
                   </th>
                   <th
+                    scope="col"
                     className="py-2.5 px-3 font-medium text-center cursor-pointer hover:text-zinc-200"
                     onClick={() => toggleSort("totalExecutions")}
                   >
-                    <div className="flex items-center justify-center space-x-1">
+                    <button
+                      type="button"
+                      aria-label="Sort by total executions"
+                      className="flex items-center justify-center space-x-1 w-full focus:outline-none focus-visible:ring-1 focus-visible:ring-violet-400 rounded cursor-pointer"
+                    >
                       <span>Executions</span>
                       <ArrowUpDown className="w-3 h-3 text-violet-400" />
-                    </div>
+                    </button>
                   </th>
-                  <th className="py-2.5 px-3 font-medium text-center">Stage</th>
-                  <th className="py-2.5 px-3 font-medium text-center">Status</th>
-                  <th className="py-2.5 px-4 font-medium text-right">Workspace</th>
+                  <th scope="col" className="py-2.5 px-3 font-medium text-center">Stage</th>
+                  <th scope="col" className="py-2.5 px-3 font-medium text-center">Status</th>
+                  <th scope="col" className="py-2.5 px-4 font-medium text-right">Workspace</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-[rgba(139,92,246,0.10)]">
                 {paginatedList.length === 0 ? (
                   <tr>
-                    <td colSpan={7} className="py-10 text-center text-zinc-500 font-mono">
+                    <td colSpan={7} className="py-10 text-center text-zinc-400 font-mono">
                       No investigations matching selected filter criteria.
                     </td>
                   </tr>
@@ -317,7 +334,7 @@ export default function InvestigationsPage() {
                               {inv.testName}
                             </span>
                           </div>
-                          <span className="text-zinc-500 text-[11px] truncate max-w-md mt-0.5">
+                          <span className="text-zinc-400 text-[11px] truncate max-w-md mt-0.5">
                             {inv.testFile}
                           </span>
                         </div>
@@ -329,7 +346,7 @@ export default function InvestigationsPage() {
                           <GitBranch className="w-3 h-3 text-violet-400 shrink-0" />
                           <span>{inv.repository}</span>
                         </div>
-                        <span className="text-[10px] text-zinc-500">
+                        <span className="text-[10px] text-zinc-400">
                           {inv.branch}
                         </span>
                       </td>
@@ -352,7 +369,7 @@ export default function InvestigationsPage() {
                       {/* Total Executions */}
                       <td className="py-3 px-3 text-center">
                         <span className="text-zinc-200">{inv.totalExecutions} runs</span>
-                        <div className="text-[10px] text-zinc-500">
+                        <div className="text-[10px] text-zinc-400">
                           ({inv.failedExecutions} failed)
                         </div>
                       </td>
@@ -371,7 +388,8 @@ export default function InvestigationsPage() {
                       <td className="py-3 px-4 text-right">
                         <Link
                           href={`/investigations/${inv.id}`}
-                          className="inline-flex items-center space-x-1 px-2.5 py-1 rounded bg-[#141122] text-zinc-200 hover:text-white hover:bg-violet-950/40 transition-colors border border-[rgba(139,92,246,0.16)] group-hover:border-violet-500/40"
+                          aria-label={`Open investigation ${inv.id} for ${inv.testName}`}
+                          className="inline-flex items-center space-x-1 px-2.5 py-1 rounded bg-[#141122] text-zinc-200 hover:text-white hover:bg-violet-950/40 transition-colors border border-[rgba(139,92,246,0.16)] group-hover:border-violet-500/40 focus:outline-none focus-visible:ring-1 focus-visible:ring-violet-400"
                         >
                           <span>Open</span>
                           <ArrowRight className="w-3 h-3 text-violet-400 group-hover:translate-x-0.5 transition-transform" />
@@ -393,17 +411,19 @@ export default function InvestigationsPage() {
               <div className="flex items-center space-x-1">
                 <button
                   type="button"
+                  aria-label="Previous page"
                   disabled={currentPage === 1}
                   onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-                  className="p-1 rounded border border-[rgba(139,92,246,0.14)] hover:bg-[#141122] disabled:opacity-30 transition-colors cursor-pointer"
+                  className="p-1 rounded border border-[rgba(139,92,246,0.14)] hover:bg-[#141122] disabled:opacity-30 transition-colors cursor-pointer focus:outline-none focus-visible:ring-1 focus-visible:ring-violet-400"
                 >
                   <ChevronLeft className="w-3.5 h-3.5" />
                 </button>
                 <button
                   type="button"
+                  aria-label="Next page"
                   disabled={currentPage === totalPages}
                   onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
-                  className="p-1 rounded border border-[rgba(139,92,246,0.14)] hover:bg-[#141122] disabled:opacity-30 transition-colors cursor-pointer"
+                  className="p-1 rounded border border-[rgba(139,92,246,0.14)] hover:bg-[#141122] disabled:opacity-30 transition-colors cursor-pointer focus:outline-none focus-visible:ring-1 focus-visible:ring-violet-400"
                 >
                   <ChevronRight className="w-3.5 h-3.5" />
                 </button>

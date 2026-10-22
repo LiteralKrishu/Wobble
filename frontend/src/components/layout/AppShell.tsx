@@ -21,6 +21,14 @@ export function AppShell({ children }: AppShellProps) {
     <SmoothScroll>
       <PageTransition>
         <div className="relative min-h-screen flex bg-[#08070d] text-white selection:bg-violet-600/30 selection:text-white">
+          {/* Skip to Main Content Link for Keyboard & Screen Reader Users */}
+          <a
+            href="#main-content"
+            className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] focus:px-4 focus:py-2 focus:bg-violet-600 focus:text-white focus:rounded-md focus:outline-none focus:ring-2 focus:ring-white font-mono text-xs shadow-lg"
+          >
+            Skip to main content
+          </a>
+
           {/* Atmospheric Midnight-Purple Background */}
           <BackgroundAtmosphere />
 
@@ -42,7 +50,11 @@ export function AppShell({ children }: AppShellProps) {
             />
 
             {/* Main Application Content */}
-            <main className="relative z-10 flex-1 px-4 sm:px-6 lg:px-8 py-6 max-w-7xl w-full mx-auto">
+            <main
+              id="main-content"
+              tabIndex={-1}
+              className="relative z-10 flex-1 px-4 sm:px-6 lg:px-8 py-6 max-w-7xl w-full mx-auto focus:outline-none"
+            >
               {children}
             </main>
 

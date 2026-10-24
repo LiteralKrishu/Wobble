@@ -6,24 +6,37 @@ The first version is a CLI. It can run a trusted repository in fresh Python proc
 
 ## Install
 
-Use Python 3.11 or newer. Install from this directory:
+Use Python 3.11 or newer. Run these commands from the Wobble project directory. If `.venv` already exists and Wobble is installed, skip the first two commands.
 
 ```sh
 python3 -m venv .venv
 .venv/bin/python -m pip install -e .
+.venv/bin/wobble --help
 ```
 
-The install needs access to pytest. If the repository under test has other dependencies, install them in the same environment before the hunt.
+The install needs access to pytest. If the target repository has other dependencies, install them in the same environment before a local hunt. For Docker runs, put those dependencies in the runner image instead. The commands below use paths relative to this project directory.
 
-## Run the demo
+## Quick start with the included tests
+
+First, find a flaky test and save a minimized reproducer:
 
 ```sh
-.venv/bin/wobble hunt examples/order_dependent --runs 20 --seed 0 --minimize --output reports/demo.json
+.venv/bin/wobble hunt examples/order_dependent \
+  --runs 20 --seed 0 --minimize --output reports/demo.json
 ```
 
-To try another repository, pass its directory in place of `examples/order_dependent`. Use `--select` to narrow collection to a test path or pytest node ID relative to that repository.
+The command should report `test_b_victim` as observed flaky. It should identify `test_a_polluter` as the earlier test needed to make it fail. The output file records every order and outcome. To try another project, replace `examples/order_dependent` with the path to its test repository. Use `--select` to narrow the test set.
 
-The sample has a polluter that writes to module state, a victim that expects clean state, and a cleanup test. Some orders pass. Other orders fail. Wobble should identify the victim as observed flaky and reduce a failing prefix to the polluter.
+To let the installed local Qwen3 model propose a fix, confirm that Ollama is running and lists `qwen3:4b-instruct`:
+
+```sh
+ollama list
+.venv/bin/wobble repair examples/order_dependent \
+  --evidence reports/demo.json --model qwen3:4b-instruct \
+  --output reports/repair.json --patch-output reports/model-fix.diff
+```
+
+`repair` tests each candidate in a disposable copy. It writes `reports/model-fix.diff` only when the model patch passes final verification. It does not apply that patch to the target folder. The local runner executes target tests in place, so use it only with code you trust.
 
 ## Run in Docker
 
@@ -53,15 +66,17 @@ The clock shift uses `libfaketime`. Some programs bypass its time hooks, so conf
 
 ## Let a local model investigate
 
-Install [Ollama](https://ollama.com/) and download an open-weight model. The default model is Qwen3 4B Instruct:
+Start [Ollama](https://ollama.com/) and use an installed open-weight model. The default model is Qwen3 4B Instruct. Check that it is available locally before this step:
 
 ```sh
-ollama pull qwen3:4b-instruct
+ollama list
 .venv/bin/wobble hunt examples/order_dependent --runner docker --runs 20 \
   --seed 0 --agent --model qwen3:4b-instruct --output reports/agent.json
 ```
 
 The model sees a short failure log, the ends of a passing and failing order, and a few test functions. It must choose from `run_isolated`, `run_before_victim`, `minimize_order`, `shift_clock`, and `finish`. The clock action adds one hour to the current profile. Every experiment is run by Wobble and written to the JSON evidence. Invalid actions are rejected and retried up to three times. Wobble checks whether the experiments support the model's proposed cause. An unsupported cause is reported as unknown. A supported diagnosis is still a **hypothesis**, not a verified fix. Small models may use the step budget without a useful diagnosis.
+
+Use either `--agent` or `--minimize` in one hunt. To repair from an agent report, the agent must have run `minimize_order`. The quick-start `--minimize` report always provides the required reproducer when minimization succeeds.
 
 ## Verify a patch
 
@@ -109,3 +124,84 @@ The failure rate is the fraction of observed runs that failed. The confidence in
 ```sh
 .venv/bin/python -m pytest -q tests
 ```
+
+## Command reference
+
+Run `.venv/bin/wobble --help` for the command list. Run `.venv/bin/wobble hunt --help`, `.venv/bin/wobble verify --help`, or `.venv/bin/wobble repair --help` for the CLI's current syntax. You can also start the CLI with `.venv/bin/python -m wobble`.
+
+### `wobble hunt`
+
+`hunt REPO [OPTIONS]` collects tests in `REPO`, runs shuffled orders, and prints a pass and failure summary for every collected test. `REPO` is a required local directory. The CLI investigates the first observed flaky test when you add `--minimize` or `--agent`.
+
+| Flag | Default | What it does |
+| --- | --- | --- |
+| `--select PATH_OR_NODE_ID` | `.` | Collect only this pytest path or exact test ID, relative to `REPO`. |
+| `--runs N` | `20` | Run N shuffled orders. N must be at least 2. |
+| `--seed N` | `0` | Set the shuffle seed so the sequence of test orders can be repeated. |
+| `--timeout SECONDS` | `120` | Limit each pytest invocation. |
+| `--runner local\|docker` | `local` | Use fresh local Python processes or fresh Docker containers. |
+| `--image NAME` | `wobble-pytest:py311` | Use this existing Docker image. It must contain pytest and the target dependencies. |
+| `--cpus NUMBER` | `1.0` | Set the Docker CPU limit. |
+| `--memory-mb N` | `512` | Set the Docker memory limit in MiB. |
+| `--pids-limit N` | `64` | Set the Docker process limit. |
+| `--clock-shift-seconds N` | `0` | Shift Docker wall-clock time by N seconds. A nonzero shift requires Docker. |
+| `--minimize` | off | Replay a failed order and reduce the earlier tests to a 1-minimal reproducer. |
+| `--agent` | off | Let the local model choose and run bounded follow-up experiments. Do not combine with `--minimize`. |
+| `--agent-steps N` | `5` | Limit the model's experiment and finish decisions. Used with `--agent`. |
+| `--model NAME` | `qwen3:4b-instruct` | Select an installed Ollama model for `--agent`. |
+| `--model-timeout SECONDS` | `90` | Limit each model request during `--agent`. |
+| `--replay-budget N` | `80` | Limit pytest replays during `--minimize`. |
+| `--output FILE` | none | Save the full hunt evidence as JSON. |
+
+Docker-only flags have no effect with `--runner local`, except a nonzero clock shift, which the CLI rejects. Docker runs use `--pull=never`; build or provide the named image before the hunt.
+
+### `wobble verify`
+
+`verify REPO --patch FILE --evidence FILE [OPTIONS]` checks a unified diff in a disposable copy of `REPO`. The evidence file must come from a hunt with a successfully minimized reproducer. Verification uses the runner conditions saved in that file. The original target file is not patched.
+
+| Flag | Default | What it does |
+| --- | --- | --- |
+| `--patch FILE` | required | Read this unified diff and apply it to a temporary copy. |
+| `--evidence FILE` | required | Read the victim, minimized earlier tests, seed, and run conditions from a hunt JSON file. |
+| `--runs N` | `100` | Require N passing shuffled full-suite runs after the reproducer passes. |
+| `--timeout SECONDS` | `120` | Limit each pytest invocation. |
+| `--image NAME` | `wobble-pytest:py311` | Use this image when the evidence came from a Docker hunt. |
+| `--output FILE` | none | Save the full verification result as JSON. |
+
+### `wobble repair`
+
+`repair REPO --evidence FILE [OPTIONS]` tries the narrow deterministic baseline and asks a local Ollama model for a cleanup insertion. It screens each candidate, then verifies passing candidates with the final run budget. It uses the runner conditions saved in the hunt evidence.
+
+| Flag | Default | What it does |
+| --- | --- | --- |
+| `--evidence FILE` | required | Read a hunt JSON file with a successfully minimized reproducer. |
+| `--model NAME` | `qwen3:4b-instruct` | Select an installed local Ollama model. |
+| `--model-timeout SECONDS` | `180` | Limit each model request. |
+| `--attempts N` | `2` | Limit model repair proposals. |
+| `--screen-runs N` | `5` | Run this many shuffled full-suite checks before final verification. |
+| `--verify-runs N` | `100` | Require this many shuffled full-suite runs for final verification. Set it to at least `--screen-runs`. |
+| `--no-baseline` | off | Skip the deterministic baseline comparison. |
+| `--baseline-only` | off | Run only the deterministic baseline, without Ollama. Do not combine with `--no-baseline`. |
+| `--timeout SECONDS` | `120` | Limit each pytest invocation. |
+| `--image NAME` | `wobble-pytest:py311` | Use this image when the evidence came from a Docker hunt. |
+| `--output FILE` | none | Save candidate patches, feedback, and verification results as JSON. |
+| `--patch-output FILE` | none | Save the model's diff only after that model patch passes final verification. |
+
+### Model comparison script
+
+The separate script `scripts/evaluate_models.py` runs three prepared cases in Docker and compares each named model with the deterministic baseline. It uses installed models and an existing runner image.
+
+```sh
+.venv/bin/python scripts/evaluate_models.py \
+  --model qwen3:4b-instruct --output reports/model-benchmark.json
+```
+
+| Flag | Default | What it does |
+| --- | --- | --- |
+| `--model NAME` | required; repeatable | Evaluate one or more installed Ollama models. |
+| `--hunt-runs N` | `20` | Use N shuffled hunt runs per case. |
+| `--screen-runs N` | `5` | Use N screening runs per candidate. |
+| `--verify-runs N` | `100` | Use N final verification runs per candidate. |
+| `--output FILE` | `reports/model-benchmark.json` | Save the detailed comparison report. |
+
+All commands accept `-h` or `--help`. Paths passed to `--output` are created as needed. The `reports/` directory is ignored by Git. A successful hunt exits with status 0 even when it finds no flaky test. Verification exits with status 0 only for a verified patch. Repair exits with status 0 for a verified model patch, or for a verified baseline when `--baseline-only` is set; other unverified outcomes exit with status 1. CLI or runner errors exit with status 2.

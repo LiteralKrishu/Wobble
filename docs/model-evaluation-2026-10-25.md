@@ -39,6 +39,12 @@ def test_c_clears_flags():
     flags.clear()
 ```
 
+## Repair follow-up
+
+The model initially failed the shared-set case. Wobble now includes simple cleanup statements from the relevant tests in the model evidence. The repair prompt tells the model to undo the polluter's state change. On a new run of the same case, Qwen3 added `flags.clear()` after the polluter's assertion. The patch passed 100 final reruns on the first attempt. This is one successful rerun of the case, not a measured success rate.
+
+After this change, the three standard benchmark cases ran again with the same hunt and repair settings. Qwen3 verified **3 of 3** repairs; the deterministic baseline verified **1 of 3**. Each model fix passed 100 final reruns. These results add a before-and-after check, but the cases remain small demos.
+
 The model-driven hunt also ran on the dictionary case twice. It tested the victim alone, replayed the polluter before the victim, and selected `shared_state`. The recorded experiments supported that diagnosis.
 
 ## Model flag and edge checks

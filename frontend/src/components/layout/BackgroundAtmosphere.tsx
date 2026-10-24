@@ -9,7 +9,6 @@ export function BackgroundAtmosphere() {
     const canvas = canvasRef.current;
     if (!canvas || typeof window === "undefined") return;
 
-    // Check prefers-reduced-motion
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       return;
     }
@@ -29,18 +28,18 @@ export function BackgroundAtmosphere() {
 
     window.addEventListener("resize", handleResize);
 
-    // Create 32 restrained floating atmospheric particles (dust motes / subtle stars)
-    const particleCount = 32;
+    // 24 restrained floating dust motes (subtle atmospheric depth)
+    const particleCount = 24;
     const particles = Array.from({ length: particleCount }, () => ({
       x: Math.random() * width,
       y: Math.random() * height,
-      radius: Math.random() * 1.2 + 0.6,
-      vx: (Math.random() - 0.5) * 0.15,
-      vy: -Math.random() * 0.2 - 0.05, // subtle upward drift
-      alpha: Math.random() * 0.25 + 0.08,
-      baseAlpha: Math.random() * 0.25 + 0.08,
-      pulseSpeed: Math.random() * 0.015 + 0.005,
-      hue: Math.random() > 0.4 ? 265 : 280, // soft violet to electric purple
+      radius: Math.random() * 1.0 + 0.5,
+      vx: (Math.random() - 0.5) * 0.12,
+      vy: -Math.random() * 0.18 - 0.04,
+      alpha: Math.random() * 0.22 + 0.06,
+      baseAlpha: Math.random() * 0.22 + 0.06,
+      pulseSpeed: Math.random() * 0.012 + 0.005,
+      hue: Math.random() > 0.4 ? 268 : 285,
     }));
 
     let isVisible = true;
@@ -50,7 +49,7 @@ export function BackgroundAtmosphere() {
     document.addEventListener("visibilitychange", handleVisibilityChange);
 
     let lastTime = 0;
-    const fpsInterval = 1000 / 30; // throttle to 30 FPS for minimal GPU overhead
+    const fpsInterval = 1000 / 30; // 30 FPS throttle
 
     const render = (time: number) => {
       animationFrameId = requestAnimationFrame(render);
@@ -67,18 +66,16 @@ export function BackgroundAtmosphere() {
         p.x += p.vx;
         p.y += p.vy;
 
-        // Wrap around screen edges
         if (p.x < 0) p.x = width;
         if (p.x > width) p.x = 0;
         if (p.y < 0) p.y = height;
         if (p.y > height) p.y = 0;
 
-        // Gentle sinusoidal twinkle
-        p.alpha = p.baseAlpha + Math.sin(time * p.pulseSpeed) * 0.08;
+        p.alpha = p.baseAlpha + Math.sin(time * p.pulseSpeed) * 0.06;
 
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-        ctx.fillStyle = `hsla(${p.hue}, 80%, 75%, ${Math.max(0.04, p.alpha)})`;
+        ctx.fillStyle = `hsla(${p.hue}, 85%, 75%, ${Math.max(0.03, p.alpha)})`;
         ctx.fill();
       }
     };
@@ -97,58 +94,109 @@ export function BackgroundAtmosphere() {
       className="fixed inset-0 pointer-events-none overflow-hidden z-0"
       aria-hidden="true"
     >
-      {/* Deep Near-Black Base (#08070d) */}
-      <div className="absolute inset-0 bg-[#08070d]" />
+      {/* 1. Deep Obsidian / Charcoal Base */}
+      <div className="absolute inset-0 bg-[#06050b]" />
 
-      {/* Atmospheric Midnight-Purple Spotlight (Top Center Beam) */}
+      {/* 2. Atmospheric Top Center Spotlight Bloom */}
       <div
-        className="absolute top-0 left-1/2 -translate-x-1/2 w-[1200px] h-[550px] opacity-75 blur-3xl"
+        className="absolute top-0 left-1/2 -translate-x-1/2 w-[1400px] h-[650px] opacity-80 blur-3xl pointer-events-none"
         style={{
           background:
-            "radial-gradient(ellipse 70% 50% at 50% 0%, rgba(139, 92, 246, 0.16) 0%, rgba(109, 40, 217, 0.06) 50%, transparent 80%)",
+            "radial-gradient(ellipse 70% 50% at 50% 0%, rgba(139, 92, 246, 0.18) 0%, rgba(109, 40, 217, 0.06) 50%, transparent 80%)",
         }}
       />
 
-      {/* Subtle Side Ambient Violet Reflection */}
+      {/* 3. Subtle Warm Twilight Horizon Haze (Inspired by the Techfest golden dusk horizon) */}
       <div
-        className="absolute top-1/4 -left-48 w-[600px] h-[600px] opacity-40 blur-3xl"
+        className="absolute top-1/3 left-0 right-0 h-[400px] opacity-25 blur-3xl pointer-events-none"
         style={{
           background:
-            "radial-gradient(circle, rgba(124, 58, 237, 0.08) 0%, transparent 70%)",
+            "radial-gradient(ellipse 90% 40% at 50% 50%, rgba(168, 85, 247, 0.12) 0%, rgba(245, 158, 11, 0.04) 45%, transparent 75%)",
         }}
       />
 
-      {/* Subtle Right Lower Glow */}
+      {/* 4. Deep Lower Flank Aubergine Pools */}
       <div
-        className="absolute bottom-10 -right-48 w-[700px] h-[600px] opacity-35 blur-3xl"
+        className="absolute -bottom-20 -left-40 w-[700px] h-[700px] opacity-35 blur-3xl pointer-events-none"
         style={{
           background:
-            "radial-gradient(circle, rgba(91, 33, 182, 0.07) 0%, transparent 70%)",
+            "radial-gradient(circle, rgba(109, 40, 217, 0.10) 0%, transparent 70%)",
+        }}
+      />
+      <div
+        className="absolute -bottom-20 -right-40 w-[700px] h-[700px] opacity-30 blur-3xl pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(circle, rgba(91, 33, 182, 0.08) 0%, transparent 70%)",
         }}
       />
 
-      {/* Soft Cinematic Light Beam (diagonal sweep) */}
-      <div
-        className="absolute -top-40 -left-20 w-[140%] h-[120%] opacity-[0.03] rotate-[-28deg] pointer-events-none"
-        style={{
-          background:
-            "linear-gradient(90deg, transparent 0%, rgba(167, 139, 250, 0.8) 45%, rgba(139, 92, 246, 0.4) 55%, transparent 100%)",
-        }}
-      />
+      {/* 5. Abstract Signal Instability Waveform (Representing Non-deterministic Jitter vs Deterministic Runs) */}
+      <svg
+        className="absolute inset-0 w-full h-full opacity-[0.045] pointer-events-none"
+        preserveAspectRatio="none"
+        viewBox="0 0 1440 900"
+      >
+        <defs>
+          <linearGradient id="waveGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="#8b5cf6" stopOpacity="0.2" />
+            <stop offset="50%" stopColor="#c084fc" stopOpacity="1" />
+            <stop offset="100%" stopColor="#38bdf8" stopOpacity="0.3" />
+          </linearGradient>
+        </defs>
+        {/* Stable Baseline */}
+        <line
+          x1="0"
+          y1="450"
+          x2="1440"
+          y2="450"
+          stroke="url(#waveGradient)"
+          strokeWidth="1"
+          strokeDasharray="4 8"
+        />
+        {/* Signal Jitter Wave */}
+        <path
+          d="M0,450 Q180,420 360,450 T720,440 T1080,470 T1440,450"
+          fill="none"
+          stroke="url(#waveGradient)"
+          strokeWidth="1.5"
+        />
+        {/* Secondary Harmonic Wave */}
+        <path
+          d="M0,450 Q240,480 480,450 T960,430 T1440,450"
+          fill="none"
+          stroke="#8b5cf6"
+          strokeWidth="1"
+          opacity="0.6"
+        />
+      </svg>
 
-      {/* Architectural Hairline Grid for Depth */}
+      {/* 6. Technical Architectural Crosshairs & Coordinates */}
+      <div className="absolute inset-0 opacity-[0.035] pointer-events-none" aria-hidden="true">
+        <div className="absolute top-24 left-16 text-[9px] font-mono text-violet-300">
+          + LAT_SYNC: 42.19ms / CI_ORCHESTRATOR
+        </div>
+        <div className="absolute top-24 right-16 text-[9px] font-mono text-violet-300">
+          + SEED_BURST: 0x9f8b4 / DELTA_REDUCTION
+        </div>
+        <div className="absolute bottom-16 left-16 text-[9px] font-mono text-zinc-400">
+          + RUNTIME_ISOLATION: EMPIRICAL_VERIFIER
+        </div>
+      </div>
+
+      {/* 7. Precision Micro-Grid */}
       <div
-        className="absolute inset-0 opacity-[0.035]"
+        className="absolute inset-0 opacity-[0.03] pointer-events-none"
         style={{
           backgroundImage: `
-            linear-gradient(to right, rgba(167, 139, 250, 0.8) 1px, transparent 1px),
-            linear-gradient(to bottom, rgba(167, 139, 250, 0.8) 1px, transparent 1px)
+            linear-gradient(to right, rgba(167, 139, 250, 0.7) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(167, 139, 250, 0.7) 1px, transparent 1px)
           `,
-          backgroundSize: "44px 44px",
+          backgroundSize: "48px 48px",
         }}
       />
 
-      {/* Atmospheric Micro-Particles Canvas */}
+      {/* 8. Micro-Particles Canvas */}
       <canvas
         ref={canvasRef}
         className="absolute inset-0 w-full h-full pointer-events-none"

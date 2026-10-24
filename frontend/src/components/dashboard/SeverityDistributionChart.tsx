@@ -8,7 +8,6 @@ interface SeverityDistributionChartProps {
   data?: typeof MOCK_SEVERITY_DISTRIBUTION;
 }
 
-// Sophisticated violet-centric palette for failure causes
 const RESTRAINED_COLORS = [
   "#8b5cf6", // Electric Violet (Race Conditions)
   "#6366f1", // Indigo (Shared Mutable State)
@@ -27,24 +26,32 @@ export function SeverityDistributionChart({
 
   if (!isMounted) {
     return (
-      <div className="rounded-xl bg-[#0f0d18] border border-[rgba(139,92,246,0.14)] p-4 h-[280px] flex items-center justify-center font-mono text-xs text-zinc-500">
+      <div className="rounded-2xl bg-[#090714]/85 backdrop-blur-xl border border-[rgba(139,92,246,0.18)] p-6 h-[290px] flex items-center justify-center font-mono text-xs text-zinc-400">
         Loading failure taxonomy...
       </div>
     );
   }
 
   return (
-    <div className="rounded-xl bg-[#0f0d18] border border-[rgba(139,92,246,0.14)] p-5 flex flex-col justify-between shadow-[0_4px_24px_rgba(0,0,0,0.4)]">
-      <div className="pb-3.5 border-b border-[rgba(139,92,246,0.10)]">
-        <h3 className="text-xs font-semibold text-zinc-300 uppercase tracking-wider">
+    <div className="relative rounded-2xl bg-[#090714]/85 backdrop-blur-xl border border-[rgba(139,92,246,0.18)] p-5 sm:p-6 flex flex-col justify-between shadow-[0_12px_40px_rgba(0,0,0,0.6)] overflow-hidden">
+      {/* Decorative Technical Crosshair */}
+      <div className="absolute top-2 right-2 text-[9px] font-mono text-violet-400/40 select-none pointer-events-none" aria-hidden="true">
+        +
+      </div>
+
+      <div className="pb-3.5 border-b border-[rgba(139,92,246,0.12)]">
+        <div className="text-[10px] font-mono text-violet-400 uppercase tracking-widest font-semibold">
+          [ ROOT CAUSE CLASSIFICATION ]
+        </div>
+        <h3 className="text-sm font-semibold text-white tracking-tight mt-0.5">
           Failure Mechanism Taxonomy
         </h3>
         <p className="text-xs text-zinc-400 mt-0.5">
-          Breakdown of non-deterministic failure causes
+          Breakdown of isolated root-cause failure vectors
         </p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 items-center gap-3 mt-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 items-center gap-3 mt-4">
         {/* Pie Canvas */}
         <div className="h-[150px] w-full flex items-center justify-center">
           <ResponsiveContainer width="100%" height="100%">
@@ -53,11 +60,11 @@ export function SeverityDistributionChart({
                 data={data}
                 cx="50%"
                 cy="50%"
-                innerRadius={38}
-                outerRadius={58}
-                paddingAngle={3}
+                innerRadius={36}
+                outerRadius={56}
+                paddingAngle={4}
                 dataKey="value"
-                stroke="#0f0d18"
+                stroke="#090714"
                 strokeWidth={2}
               >
                 {data.map((entry, index) => (
@@ -72,9 +79,9 @@ export function SeverityDistributionChart({
                   if (active && payload && payload.length) {
                     const item = payload[0].payload;
                     return (
-                      <div className="p-2.5 rounded-lg bg-[#140f24] border border-[rgba(139,92,246,0.25)] shadow-xl font-mono text-xs">
+                      <div className="p-3 rounded-xl bg-[#0d091a] border border-[rgba(139,92,246,0.3)] shadow-[0_8px_30px_rgba(0,0,0,0.8)] font-mono text-xs">
                         <div className="text-white font-semibold">{item.name}</div>
-                        <div className="text-violet-300 mt-0.5">
+                        <div className="text-violet-300 mt-0.5 font-bold">
                           {item.value}% ({item.count} tests)
                         </div>
                       </div>
@@ -88,26 +95,28 @@ export function SeverityDistributionChart({
         </div>
 
         {/* Legend */}
-        <div className="space-y-1.5 font-mono text-xs">
+        <div className="space-y-2 font-mono text-xs">
           {data.map((item, idx) => (
             <div
               key={idx}
-              className="flex items-center justify-between p-1.5 rounded-md hover:bg-violet-950/20 transition-colors"
+              className="flex items-center justify-between p-1.5 rounded-lg hover:bg-[#120e24] transition-colors"
             >
               <div className="flex items-center space-x-2">
                 <span
-                  className="w-2 h-2 rounded-sm shrink-0"
+                  className="w-2.5 h-2.5 rounded-sm shrink-0"
                   style={{
                     backgroundColor:
                       RESTRAINED_COLORS[idx % RESTRAINED_COLORS.length],
+                    boxShadow: `0 0 6px ${RESTRAINED_COLORS[idx % RESTRAINED_COLORS.length]}60`,
                   }}
                 />
-                <span className="text-zinc-300 text-xs">{item.name}</span>
+                <span className="text-zinc-300 truncate max-w-[110px] text-[11px]">
+                  {item.name}
+                </span>
               </div>
-              <div className="flex items-center space-x-1.5">
-                <span className="font-semibold text-white">{item.value}%</span>
-                <span className="text-[10px] text-zinc-400">({item.count})</span>
-              </div>
+              <span className="text-zinc-400 font-bold text-[11px]">
+                {item.value}%
+              </span>
             </div>
           ))}
         </div>

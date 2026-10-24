@@ -1,30 +1,47 @@
 @import "tailwindcss";
 
 :root {
-  --background: #06050b;
-  --foreground: #f8fafc;
-  --surface-1: #0d0a16;
-  --surface-2: #120e20;
-  --surface-hover: #19142c;
-  --border-subtle: rgba(139, 92, 246, 0.14);
-  --border-strong: rgba(139, 92, 246, 0.32);
-  --border-active: #8b5cf6;
-  --accent-violet: #8b5cf6;
-  --accent-violet-hover: #a78bfa;
-  --accent-violet-glow: rgba(139, 92, 246, 0.28);
-  --accent-violet-subtle: rgba(139, 92, 246, 0.08);
-  --success-green: #10b981;
-  --warning-amber: #f59e0b;
-  --danger-red: #ef4444;
-  --info-sky: #38bdf8;
-  --text-muted: #94a3b8;
-  --text-dim: #64748b;
+  /* ==========================================================================
+     MONOCHROMATIC GRAPHITE & IVORY DESIGN SYSTEM
+     ========================================================================== */
+  --background: #0B0C0D;
+  --surface-primary: #17191A;
+  --surface-elevated: #222424;
+  --surface-glass: rgba(24, 25, 25, 0.72);
+  --surface-glass-nav: rgba(20, 21, 22, 0.78);
+
+  /* Typography */
+  --text-primary: #F0EEE8;
+  --text-secondary: #A8AAA5;
+  --text-subtle: #777A76;
+  --silver-muted: #C5C7C1;
+
+  /* Borders */
+  --border-standard: rgba(226, 226, 218, 0.13);
+  --border-glass: rgba(235, 235, 228, 0.16);
+  --border-elevated: rgba(226, 226, 218, 0.22);
+
+  /* Semantic Test States Only */
+  --state-failure: #E47777;
+  --state-warning: #D8AD70;
+  --state-verified: #7EB49A;
+  --state-neutral: #A8AAA5;
+
+  /* Semantic State Alpha Tints */
+  --state-failure-bg: rgba(228, 119, 119, 0.12);
+  --state-failure-border: rgba(228, 119, 119, 0.28);
+  --state-warning-bg: rgba(216, 173, 112, 0.12);
+  --state-warning-border: rgba(216, 173, 112, 0.28);
+  --state-verified-bg: rgba(126, 180, 154, 0.12);
+  --state-verified-border: rgba(126, 180, 154, 0.28);
+  --state-neutral-bg: rgba(168, 170, 165, 0.10);
+  --state-neutral-border: rgba(168, 170, 165, 0.20);
 }
 
 @theme inline {
   --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-space-grotesk), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --color-foreground: var(--text-primary);
+  --font-sans: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-mono: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
 
@@ -40,9 +57,9 @@
   }
 }
 
-/* Global visible focus indicator for WCAG 2.4.7 */
+/* Accessible visible focus indicator (WCAG 2.4.7) */
 :focus-visible {
-  outline: 2px solid var(--accent-violet);
+  outline: 2px solid var(--text-primary);
   outline-offset: 2px;
 }
 
@@ -53,8 +70,8 @@ body {
   background-position: center top;
   background-attachment: fixed;
   background-repeat: no-repeat;
-  color: var(--foreground);
-  font-family: var(--font-space-grotesk), -apple-system, BlinkMacSystemFont, sans-serif;
+  color: var(--text-primary);
+  font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   overflow-x: hidden;
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
@@ -62,53 +79,86 @@ body {
 }
 
 ::selection {
-  background: rgba(139, 92, 246, 0.35);
-  color: #ffffff;
+  background: rgba(240, 238, 232, 0.2);
+  color: #FFFFFF;
 }
 
-/* Refined Midnight-Purple Engineering Scrollbar */
+/* Minimalist Graphite Scrollbar */
 ::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
+  width: 6px;
+  height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #06050b;
+  background: #0B0C0D;
 }
 ::-webkit-scrollbar-thumb {
-  background: #211936;
-  border-radius: 2px;
+  background: #222424;
+  border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #3b2c5c;
+  background: #2E3131;
 }
 
-/* Monospace font utility for technical artifacts */
+/* Monospace font utility for code, logs, and hashes */
 .font-mono-code {
   font-family: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
 
-/* Clean Surfaces with Subtle Midnight-Violet Separation */
-.surface-card {
-  background-color: var(--surface-1);
-  border: 1px solid var(--border-subtle);
+/* ==========================================================================
+   GLASSMORPHISM & SURFACE VARIANTS
+   ========================================================================== */
+
+/* 1. Floating Smoked-Glass Surfaces (Navigation, Docks, Popovers) */
+.glass-surface {
+  background-color: var(--surface-glass);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  border: 1px solid var(--border-glass);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
-.surface-card-hover {
-  transition: border-color 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease;
+@supports not (backdrop-filter: blur(20px)) {
+  .glass-surface {
+    background-color: #17191A;
+  }
 }
 
-.surface-card-hover:hover {
-  border-color: var(--border-strong);
-  background-color: var(--surface-hover);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), 0 0 15px rgba(139, 92, 246, 0.08);
+.glass-surface-nav {
+  background-color: var(--surface-glass-nav);
+  backdrop-filter: blur(26px);
+  -webkit-backdrop-filter: blur(26px);
+  border: 1px solid var(--border-glass);
+  box-shadow: 0 16px 42px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
-.surface-nested {
-  background-color: var(--surface-2);
-  border: 1px solid var(--border-subtle);
+@supports not (backdrop-filter: blur(24px)) {
+  .glass-surface-nav {
+    background-color: #17191A;
+  }
 }
 
-/* Techfest-inspired Chamfered Navigation Frame */
+/* 2. Opaque Solid Graphite Surfaces (High-Density Content, Tables, Logs) */
+.surface-solid {
+  background-color: var(--surface-primary);
+  border: 1px solid var(--border-standard);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+.surface-elevated {
+  background-color: var(--surface-elevated);
+  border: 1px solid var(--border-elevated);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+}
+
+.surface-row-hover {
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.surface-row-hover:hover {
+  background-color: #222424;
+}
+
+/* 3. Techfest-Inspired Chamfered Floating Nav Capsule */
 .chamfer-nav-pill {
   clip-path: polygon(
     14px 0%,
@@ -120,26 +170,4 @@ body {
     0% calc(100% - 14px),
     0% 14px
   );
-}
-
-.chamfer-stepped-pill {
-  clip-path: polygon(
-    16px 0%,
-    calc(100% - 16px) 0%,
-    100% 16px,
-    100% calc(100% - 10px),
-    calc(100% - 20px) 100%,
-    20px 100%,
-    0% calc(100% - 10px),
-    0% 16px
-  );
-}
-
-/* Atmospheric Glow Utilities */
-.glow-subtle-violet {
-  box-shadow: 0 0 25px rgba(139, 92, 246, 0.15);
-}
-
-.glow-active-gold {
-  box-shadow: 0 0 12px rgba(245, 158, 11, 0.35);
 }

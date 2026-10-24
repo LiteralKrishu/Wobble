@@ -56,7 +56,7 @@ export function Modal({
     >
       {/* Backdrop */}
       <div
-        className="fixed inset-0 bg-black/70 backdrop-blur-xs transition-opacity animate-in fade-in duration-150"
+        className="fixed inset-0 bg-black/75 backdrop-blur-md transition-opacity animate-in fade-in duration-150"
         onClick={onClose}
         aria-hidden="true"
       />
@@ -65,21 +65,21 @@ export function Modal({
       <div
         data-lenis-prevent
         className={cn(
-          "relative w-full z-10 p-5 sm:p-6 rounded-xl bg-[#0f0d18] border border-[rgba(139,92,246,0.18)] shadow-[0_20px_60px_rgba(0,0,0,0.85),0_0_25px_rgba(139,92,246,0.10)] animate-in zoom-in-98 duration-150",
+          "relative w-full z-10 p-6 sm:p-7 rounded-2xl bg-[#17191A] border border-[rgba(235,235,228,0.16)] shadow-[0_24px_70px_rgba(0,0,0,0.85)] animate-in zoom-in-98 duration-150",
           maxWidthClasses[maxWidth],
           className
         )}
       >
-        <div className="flex items-start justify-between pb-3 border-b border-[rgba(139,92,246,0.12)]">
+        <div className="flex items-start justify-between pb-3.5 border-b border-[rgba(226,226,218,0.13)]">
           <div>
             <h2
               id="modal-title"
-              className="text-base font-semibold text-zinc-100 tracking-tight"
+              className="text-lg font-semibold text-[#F0EEE8] tracking-tight"
             >
               {title}
             </h2>
             {description && (
-              <p className="mt-0.5 text-xs text-zinc-400 font-mono">
+              <p className="mt-1 text-xs text-[#A8AAA5]">
                 {description}
               </p>
             )}
@@ -87,7 +87,7 @@ export function Modal({
           <button
             type="button"
             onClick={onClose}
-            className="p-1 rounded text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors focus:outline-none"
+            className="p-1.5 rounded-lg text-[#A8AAA5] hover:text-[#F0EEE8] hover:bg-[#222424] transition-colors focus:outline-none focus-visible:ring-1 focus-visible:ring-[#C5C7C1]"
             aria-label="Close dialog"
           >
             <X className="w-4 h-4" />

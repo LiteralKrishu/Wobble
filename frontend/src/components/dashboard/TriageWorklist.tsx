@@ -7,7 +7,6 @@ import {
   GitBranch,
   Search,
   TrendingUp,
-  AlertTriangle,
   CheckCircle2,
   Cpu,
   RefreshCw,
@@ -37,7 +36,6 @@ export function TriageWorklist({ investigations }: TriageWorklistProps) {
   };
 
   const filtered = investigations.filter((inv) => {
-    // Search query filter
     const matchesSearch =
       inv.testName.toLowerCase().includes(searchQuery.toLowerCase()) ||
       inv.testFile.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -46,7 +44,6 @@ export function TriageWorklist({ investigations }: TriageWorklistProps) {
 
     if (!matchesSearch) return false;
 
-    // Tab filter
     if (activeTab === "WORSENING") return inv.failureRate >= 14;
     if (activeTab === "UNREPRODUCED") return inv.status === "INVESTIGATING" || inv.stage === "DETECT";
     if (activeTab === "ACTIVE") return inv.status !== "VERIFIED";
@@ -55,42 +52,34 @@ export function TriageWorklist({ investigations }: TriageWorklistProps) {
   });
 
   return (
-    <div className="relative rounded-2xl bg-[#090714]/85 backdrop-blur-xl border border-[rgba(139,92,246,0.18)] overflow-hidden shadow-[0_12px_40px_rgba(0,0,0,0.6)]">
-      {/* Decorative Technical Corner Accents */}
-      <div className="absolute top-2 left-2 text-[9px] font-mono text-violet-400/40 select-none pointer-events-none" aria-hidden="true">
-        +
-      </div>
-      <div className="absolute top-2 right-2 text-[9px] font-mono text-violet-400/40 select-none pointer-events-none" aria-hidden="true">
-        +
-      </div>
-
+    <div className="surface-solid rounded-2xl overflow-hidden shadow-2xl">
       {/* Header and Filter Bar */}
-      <div className="p-4 sm:p-6 border-b border-[rgba(139,92,246,0.12)] space-y-4">
+      <div className="p-5 sm:p-6 border-b border-[rgba(226,226,218,0.13)] space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
             <div className="flex items-center space-x-2">
-              <span className="text-xs font-mono font-bold text-violet-400 uppercase tracking-widest">
-                [ TRIAGE QUEUE ]
+              <span className="text-[11px] font-mono font-medium text-[#777A76] tracking-wider uppercase">
+                Triage queue
               </span>
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-violet-950/60 text-violet-300 border border-violet-800/40">
-                {filtered.length} Prioritized
+              <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-[#222424] text-[#A8AAA5] border border-[rgba(226,226,218,0.13)]">
+                {filtered.length} active
               </span>
             </div>
-            <h2 className="text-base font-semibold text-white tracking-tight mt-1">
-              Flaky Test Detection &amp; Empirical Worklist
+            <h2 className="text-lg font-semibold text-[#F0EEE8] tracking-tight mt-1">
+              Flaky test worklist
             </h2>
-            <p className="text-xs text-zinc-400 mt-0.5">
-              Prioritized non-deterministic failures needing automated seed isolation, delta reduction, or empirical verification
+            <p className="text-xs text-[#A8AAA5] mt-0.5 max-w-xl leading-relaxed">
+              Prioritized non-deterministic failures needing automated seed isolation, delta reduction, or empirical verification.
             </p>
           </div>
 
           <div className="flex items-center space-x-2">
             <Link
               href="/investigations"
-              className="px-3 py-1.5 rounded-xl bg-[#120e22] hover:bg-violet-900/30 text-violet-300 hover:text-white border border-violet-500/25 hover:border-violet-500/40 text-xs font-mono transition-all flex items-center space-x-1.5 focus:outline-none focus-visible:ring-1 focus-visible:ring-violet-400"
+              className="px-3.5 py-1.5 rounded-xl bg-[#222424] hover:bg-[#2c2f2f] text-[#F0EEE8] border border-[rgba(226,226,218,0.13)] hover:border-[rgba(235,235,228,0.25)] text-xs font-mono transition-all flex items-center space-x-1.5 focus:outline-none focus-visible:ring-1 focus-visible:ring-[#C5C7C1]"
             >
-              <span>Full Investigation Explorer</span>
-              <ArrowRight className="w-3.5 h-3.5" />
+              <span>Full investigation inventory</span>
+              <ArrowRight className="w-3.5 h-3.5 text-[#A8AAA5]" />
             </Link>
           </div>
         </div>
@@ -102,65 +91,65 @@ export function TriageWorklist({ investigations }: TriageWorklistProps) {
               type="button"
               onClick={() => setActiveTab("ALL")}
               className={cn(
-                "px-3 py-1.5 rounded-xl text-xs transition-all cursor-pointer font-medium select-none focus:outline-none focus-visible:ring-1 focus-visible:ring-violet-400",
+                "px-3 py-1.5 rounded-xl text-xs transition-all cursor-pointer font-medium select-none focus:outline-none focus-visible:ring-1 focus-visible:ring-[#C5C7C1]",
                 activeTab === "ALL"
-                  ? "bg-violet-950/60 text-white border border-violet-500/40 shadow-[0_0_12px_rgba(139,92,246,0.2)]"
-                  : "text-zinc-400 hover:text-zinc-200 hover:bg-[#120e22] border border-transparent"
+                  ? "bg-[#222424] text-[#F0EEE8] border border-[rgba(235,235,228,0.22)] shadow-sm"
+                  : "text-[#A8AAA5] hover:text-[#F0EEE8] hover:bg-[#222424]/40 border border-transparent"
               )}
             >
-              All Tests ({investigations.length})
+              All tests ({investigations.length})
             </button>
             <button
               type="button"
               onClick={() => setActiveTab("WORSENING")}
               className={cn(
-                "px-3 py-1.5 rounded-xl text-xs transition-all cursor-pointer flex items-center space-x-1.5 font-medium select-none focus:outline-none focus-visible:ring-1 focus-visible:ring-rose-400",
+                "px-3 py-1.5 rounded-xl text-xs transition-all cursor-pointer flex items-center space-x-1.5 font-medium select-none focus:outline-none focus-visible:ring-1 focus-visible:ring-[#E47777]",
                 activeTab === "WORSENING"
-                  ? "bg-rose-950/50 text-rose-300 border border-rose-800/60 shadow-[0_0_10px_rgba(244,63,94,0.2)]"
-                  : "text-zinc-400 hover:text-zinc-200 hover:bg-[#120e22] border border-transparent"
+                  ? "bg-[rgba(228,119,119,0.12)] text-[#E47777] border border-[rgba(228,119,119,0.3)] shadow-sm"
+                  : "text-[#A8AAA5] hover:text-[#F0EEE8] hover:bg-[#222424]/40 border border-transparent"
               )}
             >
-              <TrendingUp className="w-3.5 h-3.5 text-rose-400" />
-              <span>Getting Worse ({investigations.filter((i) => i.failureRate >= 14).length})</span>
+              <TrendingUp className="w-3.5 h-3.5 text-[#E47777]" />
+              <span>Getting worse ({investigations.filter((i) => i.failureRate >= 14).length})</span>
             </button>
             <button
               type="button"
               onClick={() => setActiveTab("ACTIVE")}
               className={cn(
-                "px-3 py-1.5 rounded-xl text-xs transition-all cursor-pointer flex items-center space-x-1.5 font-medium select-none focus:outline-none focus-visible:ring-1 focus-visible:ring-violet-400",
+                "px-3 py-1.5 rounded-xl text-xs transition-all cursor-pointer flex items-center space-x-1.5 font-medium select-none focus:outline-none focus-visible:ring-1 focus-visible:ring-[#C5C7C1]",
                 activeTab === "ACTIVE"
-                  ? "bg-violet-950/60 text-white border border-violet-500/40"
-                  : "text-zinc-400 hover:text-zinc-200 hover:bg-[#120e22] border border-transparent"
+                  ? "bg-[#222424] text-[#F0EEE8] border border-[rgba(235,235,228,0.22)] shadow-sm"
+                  : "text-[#A8AAA5] hover:text-[#F0EEE8] hover:bg-[#222424]/40 border border-transparent"
               )}
             >
-              <RefreshCw className="w-3.5 h-3.5 text-violet-400" />
+              <RefreshCw className="w-3.5 h-3.5 text-[#A8AAA5]" />
               <span>Diagnosing ({investigations.filter((i) => i.status !== "VERIFIED").length})</span>
             </button>
             <button
               type="button"
               onClick={() => setActiveTab("VERIFIED")}
               className={cn(
-                "px-3 py-1.5 rounded-xl text-xs transition-all cursor-pointer flex items-center space-x-1.5 font-medium select-none focus:outline-none focus-visible:ring-1 focus-visible:ring-emerald-400",
+                "px-3 py-1.5 rounded-xl text-xs transition-all cursor-pointer flex items-center space-x-1.5 font-medium select-none focus:outline-none focus-visible:ring-1 focus-visible:ring-[#7EB49A]",
                 activeTab === "VERIFIED"
-                  ? "bg-emerald-950/50 text-emerald-300 border border-emerald-800/60 shadow-[0_0_10px_rgba(16,185,129,0.2)]"
-                  : "text-zinc-400 hover:text-zinc-200 hover:bg-[#120e22] border border-transparent"
+                  ? "bg-[rgba(126,180,154,0.12)] text-[#7EB49A] border border-[rgba(126,180,154,0.3)] shadow-sm"
+                  : "text-[#A8AAA5] hover:text-[#F0EEE8] hover:bg-[#222424]/40 border border-transparent"
               )}
             >
-              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-              <span>Verified Clean ({investigations.filter((i) => i.status === "VERIFIED").length})</span>
+              <CheckCircle2 className="w-3.5 h-3.5 text-[#7EB49A]" />
+              <span>Verified clean ({investigations.filter((i) => i.status === "VERIFIED").length})</span>
             </button>
           </div>
 
           {/* Quick Search */}
           <div className="relative w-full md:w-64">
-            <Search className="w-3.5 h-3.5 text-zinc-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+            <Search className="w-3.5 h-3.5 text-[#777A76] absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
             <input
               type="text"
               aria-label="Filter tests by name, file, or ID"
               placeholder="Filter by test, file, ID..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-[#0a0715] border border-[rgba(139,92,246,0.18)] rounded-xl pl-9 pr-3 py-1.5 text-xs text-zinc-200 placeholder-zinc-400 focus:outline-none focus:border-violet-500/60 font-mono transition-colors"
+              className="w-full bg-[#0B0C0D] border border-[rgba(226,226,218,0.13)] rounded-xl pl-9 pr-3 py-1.5 text-xs text-[#F0EEE8] placeholder-[#777A76] focus:outline-none focus:border-[#C5C7C1] font-mono transition-colors"
             />
           </div>
         </div>
@@ -170,18 +159,18 @@ export function TriageWorklist({ investigations }: TriageWorklistProps) {
       <div className="overflow-x-auto">
         <table className="w-full text-left font-mono text-xs">
           <thead>
-            <tr className="border-b border-[rgba(139,92,246,0.12)] bg-[#070510]/80 text-zinc-400 text-[11px] uppercase tracking-wider">
-              <th className="py-3 px-5 font-medium">Test &amp; Repository Scope</th>
-              <th className="py-3 px-4 font-medium text-center">Instability Rate</th>
-              <th className="py-3 px-4 font-medium">Suspected Root Cause</th>
-              <th className="py-3 px-4 font-medium text-center">Repro State</th>
-              <th className="py-3 px-5 font-medium text-right">Workspace Action</th>
+            <tr className="border-b border-[rgba(226,226,218,0.13)] bg-[#0B0C0D]/50 text-[#777A76] text-[11px] font-medium tracking-wide">
+              <th className="py-3 px-5">Test &amp; repository scope</th>
+              <th className="py-3 px-4 text-center">Failure rate</th>
+              <th className="py-3 px-4">Suspected root cause</th>
+              <th className="py-3 px-4 text-center">Repro state</th>
+              <th className="py-3 px-5 text-right">Workspace action</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-[rgba(139,92,246,0.08)]">
+          <tbody className="divide-y divide-[rgba(226,226,218,0.08)]">
             {filtered.length === 0 ? (
               <tr>
-                <td colSpan={5} className="py-10 text-center text-zinc-400 font-mono text-xs">
+                <td colSpan={5} className="py-10 text-center text-[#777A76] font-mono text-xs">
                   No investigations match the selected filter criteria.
                 </td>
               </tr>
@@ -189,27 +178,27 @@ export function TriageWorklist({ investigations }: TriageWorklistProps) {
               filtered.map((inv) => (
                 <tr
                   key={inv.id}
-                  className="hover:bg-[#120e24] transition-colors group cursor-pointer"
+                  className="hover:bg-[#222424]/40 transition-colors group cursor-pointer"
                 >
                   {/* Test & ID & Path */}
                   <td className="py-3.5 px-5">
                     <div className="flex flex-col">
                       <div className="flex items-center space-x-2">
-                        <span className="text-violet-400 font-bold tracking-tight">
+                        <span className="text-[#F0EEE8] font-bold tracking-tight">
                           {inv.id}
                         </span>
                         <Link
                           href={`/investigations/${inv.id}`}
-                          className="font-sans font-medium text-zinc-200 group-hover:text-violet-300 transition-colors truncate max-w-sm sm:max-w-md"
+                          className="font-sans font-medium text-[#F0EEE8] group-hover:text-[#C5C7C1] transition-colors truncate max-w-sm sm:max-w-md"
                         >
                           {inv.testName}
                         </Link>
                       </div>
-                      <div className="flex items-center space-x-2 text-[11px] text-zinc-400 mt-1">
+                      <div className="flex items-center space-x-2 text-[11px] text-[#A8AAA5] mt-1 font-mono">
                         <span className="truncate max-w-xs">{inv.testFile}</span>
-                        <span className="text-zinc-600">•</span>
-                        <div className="flex items-center space-x-1 text-zinc-400">
-                          <GitBranch className="w-3 h-3 text-zinc-400" />
+                        <span className="text-[#777A76]">•</span>
+                        <div className="flex items-center space-x-1 text-[#A8AAA5]">
+                          <GitBranch className="w-3 h-3 text-[#777A76]" />
                           <span>{inv.repository}</span>
                         </div>
                       </div>
@@ -222,26 +211,26 @@ export function TriageWorklist({ investigations }: TriageWorklistProps) {
                       <div className="flex items-center space-x-1.5">
                         <span
                           className={cn(
-                            "px-2 py-0.5 rounded-md text-xs font-bold border",
+                            "px-2 py-0.5 rounded-md text-xs font-semibold border",
                             inv.failureRate >= 15
-                              ? "bg-rose-950/60 text-rose-300 border-rose-800/60 shadow-[0_0_8px_rgba(244,63,94,0.2)]"
+                              ? "bg-[rgba(228,119,119,0.12)] text-[#E47777] border-[rgba(228,119,119,0.25)]"
                               : inv.failureRate >= 8
-                              ? "bg-amber-950/60 text-amber-300 border-amber-800/60"
-                              : "bg-emerald-950/60 text-emerald-300 border-emerald-800/60"
+                              ? "bg-[rgba(216,173,112,0.12)] text-[#D8AD70] border-[rgba(216,173,112,0.25)]"
+                              : "bg-[rgba(126,180,154,0.12)] text-[#7EB49A] border-[rgba(126,180,154,0.25)]"
                           )}
                         >
-                          {inv.failureRate.toFixed(1)}% Flaky
+                          {inv.failureRate.toFixed(1)}% flaky
                         </span>
                         {inv.failureRate >= 15 && (
                           <span
                             title="Test failure frequency is worsening in CI"
-                            className="text-rose-400 font-bold"
+                            className="text-[#E47777] font-bold"
                           >
                             ↑
                           </span>
                         )}
                       </div>
-                      <span className="text-[10px] text-zinc-400 mt-1">
+                      <span className="text-[10px] text-[#777A76] mt-1">
                         {inv.failedExecutions}/{inv.totalExecutions} failed runs
                       </span>
                     </div>
@@ -250,12 +239,12 @@ export function TriageWorklist({ investigations }: TriageWorklistProps) {
                   {/* Root Category */}
                   <td className="py-3.5 px-4">
                     <div className="flex flex-col">
-                      <span className="text-xs text-zinc-200 font-sans font-medium">
-                        {inv.hypothesis ? inv.hypothesis.category : "Automated Diagnosis Pending"}
+                      <span className="text-xs text-[#F0EEE8] font-sans font-medium">
+                        {inv.hypothesis ? inv.hypothesis.category : "Automated diagnosis pending"}
                       </span>
                       {inv.hypothesis && (
-                        <div className="text-[10px] text-violet-300 font-mono mt-0.5 flex items-center space-x-1.5">
-                          <Cpu className="w-3 h-3 text-violet-400" />
+                        <div className="text-[10px] text-[#A8AAA5] font-mono mt-0.5 flex items-center space-x-1.5">
+                          <Cpu className="w-3 h-3 text-[#777A76]" />
                           <span>{inv.hypothesis.confidence}% confidence</span>
                         </div>
                       )}
@@ -273,11 +262,11 @@ export function TriageWorklist({ investigations }: TriageWorklistProps) {
                             handleCopySeed(e, inv.minimization?.reproductionSeed || "")
                           }
                           title="Click to copy reproduction seed"
-                          className="text-[10px] text-zinc-400 font-mono mt-1 hover:text-violet-300 flex items-center space-x-1 cursor-pointer"
+                          className="text-[10px] text-[#777A76] font-mono mt-1 hover:text-[#F0EEE8] flex items-center space-x-1 cursor-pointer transition-colors"
                         >
                           <span>Seed: {inv.minimization.reproductionSeed.slice(0, 8)}...</span>
                           {copiedSeed === inv.minimization.reproductionSeed ? (
-                            <Check className="w-2.5 h-2.5 text-emerald-400" />
+                            <Check className="w-2.5 h-2.5 text-[#7EB49A]" />
                           ) : (
                             <Copy className="w-2.5 h-2.5" />
                           )}
@@ -290,10 +279,10 @@ export function TriageWorklist({ investigations }: TriageWorklistProps) {
                   <td className="py-3.5 px-5 text-right">
                     <Link
                       href={`/investigations/${inv.id}`}
-                      className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-[#140f26] hover:bg-violet-900/40 text-zinc-200 hover:text-white border border-[rgba(139,92,246,0.22)] hover:border-violet-500/50 text-xs font-mono font-medium transition-all shadow-[0_0_10px_rgba(0,0,0,0.3)] focus:outline-none focus-visible:ring-1 focus-visible:ring-violet-400"
+                      className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-[#222424] hover:bg-[#2c2f2f] text-[#F0EEE8] border border-[rgba(226,226,218,0.13)] hover:border-[rgba(235,235,228,0.25)] text-xs font-mono font-medium transition-all shadow-sm focus:outline-none focus-visible:ring-1 focus-visible:ring-[#C5C7C1]"
                     >
                       <span>Investigate</span>
-                      <ArrowRight className="w-3 h-3 text-zinc-400 group-hover:translate-x-0.5 transition-transform" />
+                      <ArrowRight className="w-3 h-3 text-[#A8AAA5] group-hover:translate-x-0.5 transition-transform" />
                     </Link>
                   </td>
                 </tr>

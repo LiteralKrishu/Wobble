@@ -7,13 +7,13 @@ import { StatusBadge } from "@/components/ui/StatusBadge";
 import {
   Search,
   ArrowRight,
-  GitBranch,
   Play,
   FileCode,
 } from "lucide-react";
 import { api } from "@/services/api";
 import { FlakyTestSummary, Repository } from "@/types";
 import { formatRelativeTime } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 
 export default function FlakyTestsPage() {
   const [tests, setTests] = useState<FlakyTestSummary[]>([]);
@@ -72,37 +72,37 @@ export default function FlakyTestsPage() {
 
   return (
     <AppShell>
-      <div className="space-y-5">
+      <div className="space-y-6">
         {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-[rgba(139,92,246,0.12)] gap-3">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-[rgba(226,226,218,0.13)] gap-3">
           <div>
-            <h1 className="text-xl font-semibold text-zinc-100 tracking-tight">
-              Flaky Test Directory &amp; Confidence Registry
+            <h1 className="text-2xl sm:text-3xl font-semibold text-[#F0EEE8] tracking-tight">
+              Flaky test registry
             </h1>
-            <p className="text-xs text-zinc-400 mt-1">
+            <p className="text-xs sm:text-sm text-[#A8AAA5] mt-1">
               Empirical registry of non-deterministic tests with 95% binomial confidence intervals
             </p>
           </div>
 
           <div className="flex items-center space-x-2 text-xs font-mono">
-            <span className="px-3 py-1 rounded bg-[#0f0d18] border border-[rgba(139,92,246,0.14)] text-zinc-300">
-              Active Signatures: <strong className="text-violet-400 font-semibold">{filteredTests.length}</strong>
+            <span className="px-3.5 py-1.5 rounded-xl bg-[#17191A] border border-[rgba(226,226,218,0.13)] text-[#A8AAA5]">
+              Active signatures: <strong className="text-[#F0EEE8] font-medium">{filteredTests.length}</strong>
             </span>
           </div>
         </div>
 
         {/* Filter Toolbar */}
-        <div className="rounded-lg bg-[#0f0d18] border border-[rgba(139,92,246,0.14)] p-3.5 space-y-3">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-2.5">
+        <div className="surface-solid rounded-2xl p-4 sm:p-5 space-y-3 shadow-xl">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
             <div className="relative md:col-span-2">
-              <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500" />
+              <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-[#777A76]" />
               <input
                 type="text"
                 aria-label="Filter by test identifier, file path, or suspected cause"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Filter by test identifier, file path, or suspected cause..."
-                className="w-full pl-8 pr-3 py-1.5 rounded bg-[#090812] border border-[rgba(139,92,246,0.12)] text-xs font-mono text-zinc-200 placeholder-zinc-500 focus:outline-none focus:border-violet-500/50 focus-visible:ring-1 focus-visible:ring-violet-400"
+                className="w-full pl-9 pr-3 py-2 rounded-xl bg-[#0B0C0D] border border-[rgba(226,226,218,0.13)] text-xs font-mono text-[#F0EEE8] placeholder-[#777A76] focus:outline-none focus:border-[#C5C7C1]"
               />
             </div>
 
@@ -111,11 +111,11 @@ export default function FlakyTestsPage() {
                 aria-label="Filter by repository"
                 value={selectedRepo}
                 onChange={(e) => setSelectedRepo(e.target.value)}
-                className="w-full px-2.5 py-1.5 rounded bg-[#090812] border border-[rgba(139,92,246,0.12)] text-xs font-mono text-zinc-300 focus:outline-none focus:border-violet-500/50 cursor-pointer"
+                className="w-full px-3 py-2 rounded-xl bg-[#0B0C0D] border border-[rgba(226,226,218,0.13)] text-xs font-mono text-[#F0EEE8] focus:outline-none focus:border-[#C5C7C1] cursor-pointer"
               >
-                <option value="ALL">All Repositories</option>
+                <option value="ALL">All repositories</option>
                 {repositories.map((repo) => (
-                  <option key={repo.id} value={repo.name} className="bg-[#0f0d18]">
+                  <option key={repo.id} value={repo.name} className="bg-[#17191A]">
                     {repo.name}
                   </option>
                 ))}
@@ -127,79 +127,79 @@ export default function FlakyTestsPage() {
                 aria-label="Filter by minimum flakiness rate"
                 value={minRate}
                 onChange={(e) => setMinRate(Number(e.target.value))}
-                className="w-full px-2.5 py-1.5 rounded bg-[#090812] border border-[rgba(139,92,246,0.12)] text-xs font-mono text-zinc-300 focus:outline-none focus:border-violet-500/50 cursor-pointer"
+                className="w-full px-3 py-2 rounded-xl bg-[#0B0C0D] border border-[rgba(226,226,218,0.13)] text-xs font-mono text-[#F0EEE8] focus:outline-none focus:border-[#C5C7C1] cursor-pointer"
               >
-                <option value={0} className="bg-[#0f0d18]">Any Flakiness Rate</option>
-                <option value={10} className="bg-[#0f0d18]">Min 10% Flakiness</option>
-                <option value={15} className="bg-[#0f0d18]">Min 15% Flakiness (High)</option>
-                <option value={20} className="bg-[#0f0d18]">Min 20% Flakiness (Critical)</option>
+                <option value={0} className="bg-[#17191A]">Any flakiness rate</option>
+                <option value={10} className="bg-[#17191A]">Min 10% flakiness</option>
+                <option value={15} className="bg-[#17191A]">Min 15% flakiness (high)</option>
+                <option value={20} className="bg-[#17191A]">Min 20% flakiness (critical)</option>
               </select>
             </div>
           </div>
         </div>
 
         {/* Inventory Cards */}
-        <div className="space-y-3">
+        <div className="space-y-3.5">
           {filteredTests.map((t) => (
             <div
               key={t.id}
-              className="rounded-lg bg-[#0f0d18] border border-[rgba(139,92,246,0.14)] p-4 hover:border-[rgba(139,92,246,0.35)] transition-all duration-200"
+              className="surface-solid rounded-2xl p-5 hover:border-[rgba(235,235,228,0.25)] transition-all duration-200 shadow-xl"
             >
-              <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-                <div className="space-y-1.5 flex-1">
+              <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-5">
+                <div className="space-y-2 flex-1">
                   <div className="flex flex-wrap items-center gap-2">
-                    <span className="text-xs font-mono font-semibold text-zinc-300 px-2 py-0.5 rounded bg-[#090812] border border-[rgba(139,92,246,0.12)]">
+                    <span className="text-xs font-mono font-semibold text-[#F0EEE8] px-2.5 py-0.5 rounded-full bg-[#222424] border border-[rgba(226,226,218,0.13)]">
                       {t.id}
                     </span>
                     <StatusBadge status={t.investigationStatus} size="sm" />
-                    <span className="text-xs font-mono text-zinc-500">
+                    <span className="text-xs font-mono text-[#777A76]">
                       Last failure: {formatRelativeTime(t.lastObservedFailure)}
                     </span>
                   </div>
 
-                  <h3 className="text-sm sm:text-base font-semibold text-zinc-100 hover:text-violet-300 transition-colors font-mono">
+                  <h3 className="text-base font-semibold text-[#F0EEE8] hover:text-[#C5C7C1] transition-colors font-mono">
                     {t.name}
                   </h3>
 
-                  <div className="flex items-center space-x-2 text-xs font-mono text-zinc-400">
-                    <FileCode className="w-3.5 h-3.5 text-violet-400 shrink-0" />
-                    <span className="text-zinc-300">{t.file}</span>
-                    <span className="text-zinc-600">•</span>
+                  <div className="flex items-center space-x-2 text-xs font-mono text-[#A8AAA5]">
+                    <FileCode className="w-3.5 h-3.5 text-[#777A76] shrink-0" />
+                    <span className="text-[#F0EEE8]">{t.file}</span>
+                    <span className="text-[#777A76]">•</span>
                     <span>{t.repository}</span>
-                    <span className="text-zinc-600">•</span>
-                    <span className="text-zinc-500">{t.branch}</span>
+                    <span className="text-[#777A76]">•</span>
+                    <span>{t.branch}</span>
                   </div>
 
                   {/* Suspected Cause */}
-                  <div className="pt-1.5 text-xs text-zinc-300 flex items-start space-x-1.5 font-sans">
-                    <span className="font-semibold text-amber-400 text-xs">Identified Cause:</span>
-                    <span className="text-zinc-300">{t.suspectedCause}</span>
+                  <div className="pt-1 text-xs text-[#A8AAA5] flex items-start space-x-1.5 font-sans">
+                    <span className="font-semibold text-[#D8AD70] text-xs">Identified cause:</span>
+                    <span>{t.suspectedCause}</span>
                   </div>
                 </div>
 
                 {/* Quantitative Measurement & CI Interval */}
-                <div className="flex flex-wrap sm:flex-nowrap items-center gap-4 lg:gap-6 border-t lg:border-t-0 lg:border-l border-[rgba(139,92,246,0.12)] pt-3 lg:pt-0 lg:pl-5 shrink-0 font-mono text-xs">
+                <div className="flex flex-wrap sm:flex-nowrap items-center gap-4 lg:gap-6 border-t lg:border-t-0 lg:border-l border-[rgba(226,226,218,0.13)] pt-3.5 lg:pt-0 lg:pl-6 shrink-0 font-mono text-xs">
                   <div>
-                    <span className="text-[10px] text-zinc-500 uppercase block tracking-wider">
-                      Flakiness Rate
+                    <span className="text-[10px] text-[#777A76] uppercase block tracking-wider font-medium">
+                      Flakiness rate
                     </span>
-                    <div className="text-base font-semibold text-amber-400 mt-0.5">
+                    <div className="text-base font-semibold text-[#D8AD70] mt-0.5">
                       {t.flakinessRate.toFixed(1)}%
                     </div>
-                    <span className="text-[10px] text-zinc-500 block">
+                    <span className="text-[10px] text-[#777A76] block">
                       95% CI: [{t.confidenceInterval[0]}% - {t.confidenceInterval[1]}%]
                     </span>
                   </div>
 
                   <div>
-                    <span className="text-[10px] text-zinc-500 uppercase block tracking-wider">
-                      Observed Runs
+                    <span className="text-[10px] text-[#777A76] uppercase block tracking-wider font-medium">
+                      Observed runs
                     </span>
-                    <div className="text-sm font-semibold text-zinc-200 mt-0.5">
+                    <div className="text-sm font-semibold text-[#F0EEE8] mt-0.5">
                       {t.executionCount}
                     </div>
-                    <span className="text-[10px] text-rose-400 block">
-                      {t.failureCount} Failures
+                    <span className="text-[10px] text-[#E47777] block">
+                      {t.failureCount} failures
                     </span>
                   </div>
 
@@ -208,18 +208,18 @@ export default function FlakyTestsPage() {
                     {t.activeInvestigationId ? (
                       <Link
                         href={`/investigations/${t.activeInvestigationId}`}
-                        className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded bg-violet-950/40 hover:bg-violet-900/40 text-violet-200 border border-violet-500/30 transition-all font-mono text-xs font-medium"
+                        className="inline-flex items-center space-x-1.5 px-3.5 py-2 rounded-xl bg-[#222424] hover:bg-[#2c2f2f] text-[#F0EEE8] border border-[rgba(226,226,218,0.13)] hover:border-[rgba(235,235,228,0.25)] transition-all font-mono text-xs font-medium"
                       >
                         <span>Workspace</span>
-                        <ArrowRight className="w-3.5 h-3.5 text-violet-400" />
+                        <ArrowRight className="w-3.5 h-3.5 text-[#A8AAA5]" />
                       </Link>
                     ) : (
                       <Link
                         href="/investigations"
-                        className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded bg-[#141122] hover:bg-[#1c172e] text-zinc-300 border border-[rgba(139,92,246,0.16)] transition-all font-mono text-xs"
+                        className="inline-flex items-center space-x-1.5 px-3.5 py-2 rounded-xl bg-[#222424] hover:bg-[#2c2f2f] text-[#F0EEE8] border border-[rgba(226,226,218,0.13)] hover:border-[rgba(235,235,228,0.25)] transition-all font-mono text-xs"
                       >
                         <span>Investigate</span>
-                        <Play className="w-3 h-3 fill-current text-zinc-400" />
+                        <Play className="w-3 h-3 fill-current text-[#A8AAA5]" />
                       </Link>
                     )}
                   </div>

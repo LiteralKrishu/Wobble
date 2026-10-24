@@ -1,26 +1,27 @@
 import type { Metadata } from "next";
-import { Space_Grotesk, JetBrains_Mono } from "next/font/google";
+import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
-const spaceGrotesk = Space_Grotesk({
-  variable: "--font-space-grotesk",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
+  weight: ["400", "500", "600", "700"],
   display: "swap",
 });
 
 const jetbrainsMono = JetBrains_Mono({
   variable: "--font-jetbrains-mono",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "500", "600"],
   display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "WOBBLE — Flaky Test Investigation & Empirical Verification Platform",
+  title: "WOBBLE — Test Reliability & Empirical Verification",
   description:
-    "Futuristic developer observability platform that detects, investigates, minimizes, explains, and empirically verifies flaky tests across distributed codebases.",
+    "Developer observability platform for non-deterministic test triage, automated reproduction, and empirical verification.",
   keywords: [
+    "test reliability",
     "flaky tests",
     "test verification",
     "developer tools",
@@ -38,9 +39,9 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} dark antialiased`}
+      className={`${inter.variable} ${jetbrainsMono.variable} dark antialiased`}
     >
-      <body className="min-h-screen bg-[#08070d] text-[#f4f4f6] font-sans selection:bg-violet-600/40 selection:text-white">
+      <body className="min-h-screen bg-[#0B0C0D] text-[#F0EEE8] font-sans selection:bg-[#222424] selection:text-[#F0EEE8]">
         {children}
       </body>
     </html>

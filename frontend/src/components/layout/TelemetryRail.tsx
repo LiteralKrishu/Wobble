@@ -7,7 +7,6 @@ import {
   Terminal,
   HelpCircle,
   Radio,
-  SlidersHorizontal,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -20,50 +19,49 @@ export function TelemetryRail({ className }: TelemetryRailProps) {
     <aside
       aria-label="CI Telemetry & Diagnostics Dock"
       className={cn(
-        "fixed right-4 top-1/2 -translate-y-1/2 z-40 hidden xl:flex flex-col items-center py-4 px-2 rounded-2xl bg-[#090713]/85 backdrop-blur-xl border border-[rgba(139,92,246,0.18)] shadow-[0_12px_40px_rgba(0,0,0,0.7),0_0_20px_rgba(139,92,246,0.08)]",
+        "fixed right-4 top-1/2 -translate-y-1/2 z-40 hidden xl:flex flex-col items-center py-3.5 px-2 rounded-2xl glass-surface",
         className
       )}
     >
       {/* Live CI Stream Signal Indicator */}
       <div
-        className="group relative flex flex-col items-center p-1.5 rounded-xl bg-emerald-950/40 border border-emerald-500/30 text-emerald-400 mb-3 cursor-default"
+        className="group relative flex flex-col items-center p-1.5 rounded-xl bg-[#222424] border border-[rgba(126,180,154,0.35)] text-[#7EB49A] mb-2 cursor-default"
         title="CI Stream: 98.4% Health Score"
       >
-        <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping absolute top-1 right-1" />
-        <Radio className="w-4 h-4 text-emerald-400" />
-        <span className="text-[9px] font-mono mt-1 font-semibold text-emerald-300">
+        <Radio className="w-4 h-4 text-[#7EB49A]" />
+        <span className="text-[9px] font-mono mt-1 font-semibold text-[#7EB49A]">
           98%
         </span>
       </div>
 
-      <div className="w-6 h-[1px] bg-gradient-to-r from-transparent via-[rgba(139,92,246,0.3)] to-transparent mb-3" />
+      <div className="w-5 h-[1px] bg-[rgba(226,226,218,0.13)] my-2" />
 
       {/* Quick Diagnostics Utilities */}
-      <div className="flex flex-col items-center space-y-3 font-mono text-xs">
-        {/* Terminal / CLI Adapter */}
+      <div className="flex flex-col items-center space-y-2 text-xs">
+        {/* Terminal / CLI Settings */}
         <Link
           href="/settings"
           title="CLI Engine Configuration"
           aria-label="Engine Settings"
-          className="w-10 h-10 rounded-xl flex flex-col items-center justify-center text-zinc-400 hover:text-white hover:bg-[#151026] border border-transparent hover:border-violet-500/30 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-400"
+          className="w-9 h-9 rounded-xl flex items-center justify-center text-[#A8AAA5] hover:text-[#F0EEE8] hover:bg-[#222424] transition-all focus:outline-none focus-visible:ring-1 focus-visible:ring-[#F0EEE8]"
         >
-          <Terminal className="w-4 h-4 text-zinc-400 group-hover:text-violet-300" />
+          <Terminal className="w-4 h-4" />
         </Link>
 
         {/* Global Filter / Tuning */}
-        <button
-          type="button"
-          title="Telemetry Pulse Stream"
-          aria-label="Telemetry Pulse Stream"
-          className="w-10 h-10 rounded-xl flex flex-col items-center justify-center text-zinc-400 hover:text-white hover:bg-[#151026] border border-transparent hover:border-violet-500/30 transition-all cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-400"
+        <Link
+          href="/dashboard"
+          title="Triage Overview"
+          aria-label="Triage Overview"
+          className="w-9 h-9 rounded-xl flex items-center justify-center text-[#A8AAA5] hover:text-[#F0EEE8] hover:bg-[#222424] transition-all focus:outline-none focus-visible:ring-1 focus-visible:ring-[#F0EEE8]"
         >
-          <Activity className="w-4 h-4 text-violet-400" />
-        </button>
+          <Activity className="w-4 h-4" />
+        </Link>
 
-        {/* Quick Search trigger */}
+        {/* Quick Search Shortcut Badge */}
         <div
           title="Keyboard Shortcut: ⌘K to Search"
-          className="w-10 h-8 rounded-lg bg-[#0e0a1c] border border-[rgba(139,92,246,0.14)] flex items-center justify-center text-[10px] text-zinc-400 font-mono select-none"
+          className="w-8 h-7 rounded-lg bg-[#222424] border border-[rgba(226,226,218,0.13)] flex items-center justify-center text-[10px] text-[#A8AAA5] font-mono select-none"
         >
           ⌘K
         </div>
@@ -75,7 +73,7 @@ export function TelemetryRail({ className }: TelemetryRailProps) {
           rel="noopener noreferrer"
           title="Stackoverhack GitHub Repository"
           aria-label="View on GitHub"
-          className="w-10 h-10 rounded-xl flex flex-col items-center justify-center text-zinc-400 hover:text-white hover:bg-[#151026] border border-transparent hover:border-violet-500/30 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-400"
+          className="w-9 h-9 rounded-xl flex items-center justify-center text-[#A8AAA5] hover:text-[#F0EEE8] hover:bg-[#222424] transition-all focus:outline-none focus-visible:ring-1 focus-visible:ring-[#F0EEE8]"
         >
           <svg
             className="w-4 h-4 fill-current"
@@ -90,22 +88,22 @@ export function TelemetryRail({ className }: TelemetryRailProps) {
           </svg>
         </a>
 
-        {/* Docs / Help */}
+        {/* Documentation / Help */}
         <Link
           href="/settings"
-          title="Documentation & Verification Help"
+          title="Documentation & Settings"
           aria-label="Documentation"
-          className="w-10 h-10 rounded-xl flex flex-col items-center justify-center text-zinc-400 hover:text-white hover:bg-[#151026] border border-transparent hover:border-violet-500/30 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-400"
+          className="w-9 h-9 rounded-xl flex items-center justify-center text-[#A8AAA5] hover:text-[#F0EEE8] hover:bg-[#222424] transition-all focus:outline-none focus-visible:ring-1 focus-visible:ring-[#F0EEE8]"
         >
           <HelpCircle className="w-4 h-4" />
         </Link>
       </div>
 
-      <div className="w-6 h-[1px] bg-gradient-to-r from-transparent via-[rgba(139,92,246,0.3)] to-transparent mt-3 mb-2" />
+      <div className="w-5 h-[1px] bg-[rgba(226,226,218,0.13)] my-2" />
 
-      {/* Engine Status Pip */}
-      <div className="text-[8px] font-mono uppercase text-zinc-400 tracking-wider text-center">
-        LIVE
+      {/* Engine Status Text */}
+      <div className="text-[9px] font-mono uppercase text-[#777A76] tracking-wider text-center">
+        Live
       </div>
     </aside>
   );

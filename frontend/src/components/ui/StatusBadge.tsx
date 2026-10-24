@@ -8,7 +8,6 @@ import {
   RefreshCw,
   GitCommit,
   Cpu,
-  ShieldCheck,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { InvestigationStatus, InvestigationStage, TestRunStatus } from "@/types";
@@ -29,102 +28,176 @@ export function StatusBadge({
   const norm = String(status).toUpperCase();
 
   let label = norm;
-  let bgClass = "bg-zinc-900/60 text-zinc-300 border-zinc-800";
-  let icon = <Clock className="w-3 h-3 text-zinc-400" />;
+  let style = {
+    color: "#A8AAA5",
+    backgroundColor: "rgba(168, 170, 165, 0.10)",
+    borderColor: "rgba(168, 170, 165, 0.22)",
+  };
+  let icon = <Clock className="w-3 h-3 text-[#A8AAA5]" />;
 
   switch (norm) {
     case "VERIFIED":
-      label = "VERIFIED";
-      bgClass = "bg-emerald-950/40 text-emerald-400 border-emerald-800/60";
-      icon = <CheckCircle2 className="w-3 h-3 text-emerald-400" />;
+      label = "Verified";
+      style = {
+        color: "#7EB49A",
+        backgroundColor: "rgba(126, 180, 154, 0.12)",
+        borderColor: "rgba(126, 180, 154, 0.28)",
+      };
+      icon = <CheckCircle2 className="w-3 h-3 text-[#7EB49A]" />;
       break;
-    case "DIAGNOSED":
-      label = "DIAGNOSED";
-      bgClass = "bg-violet-950/50 text-violet-300 border-violet-800/60";
-      icon = <Cpu className="w-3 h-3 text-violet-300" />;
-      break;
-    case "MINIMIZED":
-      label = "MINIMIZED";
-      bgClass = "bg-indigo-950/40 text-indigo-300 border-indigo-800/50";
-      icon = <GitCommit className="w-3 h-3 text-indigo-300" />;
-      break;
-    case "REPRODUCED":
-      label = "REPRODUCED";
-      bgClass = "bg-amber-950/40 text-amber-400 border-amber-800/60";
-      icon = <RefreshCw className="w-3 h-3 text-amber-400" />;
-      break;
-    case "INVESTIGATING":
-      label = "INVESTIGATING";
-      bgClass = "bg-violet-950/40 text-violet-300 border-violet-800/60";
-      icon = <RefreshCw className="w-3 h-3 text-violet-400 animate-spin" />;
-      break;
-    case "FAILED":
-      label = "FAILED";
-      bgClass = "bg-rose-950/40 text-rose-400 border-rose-800/60";
-      icon = <XCircle className="w-3 h-3 text-rose-400" />;
-      break;
+
     case "PASSED":
-      label = "PASSED";
-      bgClass = "bg-emerald-950/40 text-emerald-400 border-emerald-800/60";
-      icon = <CheckCircle2 className="w-3 h-3 text-emerald-400" />;
+      label = "Passed";
+      style = {
+        color: "#7EB49A",
+        backgroundColor: "rgba(126, 180, 154, 0.12)",
+        borderColor: "rgba(126, 180, 154, 0.28)",
+      };
+      icon = <CheckCircle2 className="w-3 h-3 text-[#7EB49A]" />;
       break;
+
+    case "DIAGNOSED":
+      label = "Diagnosed";
+      style = {
+        color: "#C5C7C1",
+        backgroundColor: "rgba(197, 199, 193, 0.10)",
+        borderColor: "rgba(197, 199, 193, 0.22)",
+      };
+      icon = <Cpu className="w-3 h-3 text-[#C5C7C1]" />;
+      break;
+
+    case "MINIMIZED":
+      label = "Minimized";
+      style = {
+        color: "#A8AAA5",
+        backgroundColor: "rgba(168, 170, 165, 0.10)",
+        borderColor: "rgba(168, 170, 165, 0.22)",
+      };
+      icon = <GitCommit className="w-3 h-3 text-[#A8AAA5]" />;
+      break;
+
+    case "REPRODUCED":
+      label = "Reproduced";
+      style = {
+        color: "#D8AD70",
+        backgroundColor: "rgba(216, 173, 112, 0.12)",
+        borderColor: "rgba(216, 173, 112, 0.28)",
+      };
+      icon = <RefreshCw className="w-3 h-3 text-[#D8AD70]" />;
+      break;
+
+    case "INVESTIGATING":
+      label = "Investigating";
+      style = {
+        color: "#C5C7C1",
+        backgroundColor: "rgba(197, 199, 193, 0.10)",
+        borderColor: "rgba(197, 199, 193, 0.22)",
+      };
+      icon = <RefreshCw className="w-3 h-3 text-[#C5C7C1] animate-spin" />;
+      break;
+
+    case "FAILED":
+      label = "Failed";
+      style = {
+        color: "#E47777",
+        backgroundColor: "rgba(228, 119, 119, 0.12)",
+        borderColor: "rgba(228, 119, 119, 0.28)",
+      };
+      icon = <XCircle className="w-3 h-3 text-[#E47777]" />;
+      break;
+
     case "TIMEOUT":
-      label = "TIMEOUT";
-      bgClass = "bg-amber-950/40 text-amber-400 border-amber-800/60";
-      icon = <AlertTriangle className="w-3 h-3 text-amber-400" />;
+      label = "Timeout";
+      style = {
+        color: "#D8AD70",
+        backgroundColor: "rgba(216, 173, 112, 0.12)",
+        borderColor: "rgba(216, 173, 112, 0.28)",
+      };
+      icon = <AlertTriangle className="w-3 h-3 text-[#D8AD70]" />;
       break;
+
     case "INCONCLUSIVE":
-      label = "INCONCLUSIVE";
-      bgClass = "bg-zinc-900/60 text-zinc-400 border-zinc-800";
-      icon = <HelpCircle className="w-3 h-3 text-zinc-400" />;
+      label = "Inconclusive";
+      style = {
+        color: "#777A76",
+        backgroundColor: "rgba(119, 122, 118, 0.12)",
+        borderColor: "rgba(119, 122, 118, 0.22)",
+      };
+      icon = <HelpCircle className="w-3 h-3 text-[#777A76]" />;
       break;
-    // Stages
+
     case "DETECT":
-      label = "DETECT";
-      bgClass = "bg-zinc-900/60 text-zinc-300 border-zinc-800";
-      icon = <Clock className="w-3 h-3 text-zinc-400" />;
+      label = "Detected";
+      style = {
+        color: "#A8AAA5",
+        backgroundColor: "rgba(168, 170, 165, 0.10)",
+        borderColor: "rgba(168, 170, 165, 0.22)",
+      };
+      icon = <Clock className="w-3 h-3 text-[#A8AAA5]" />;
       break;
+
     case "REPRODUCE":
-      label = "REPRODUCE";
-      bgClass = "bg-amber-950/40 text-amber-400 border-amber-800/60";
-      icon = <RefreshCw className="w-3 h-3 text-amber-400" />;
+      label = "Reproducing";
+      style = {
+        color: "#D8AD70",
+        backgroundColor: "rgba(216, 173, 112, 0.12)",
+        borderColor: "rgba(216, 173, 112, 0.28)",
+      };
+      icon = <RefreshCw className="w-3 h-3 text-[#D8AD70]" />;
       break;
+
     case "MINIMIZE":
-      label = "MINIMIZE";
-      bgClass = "bg-indigo-950/40 text-indigo-300 border-indigo-800/50";
-      icon = <GitCommit className="w-3 h-3 text-indigo-300" />;
+      label = "Minimizing";
+      style = {
+        color: "#A8AAA5",
+        backgroundColor: "rgba(168, 170, 165, 0.10)",
+        borderColor: "rgba(168, 170, 165, 0.22)",
+      };
+      icon = <GitCommit className="w-3 h-3 text-[#A8AAA5]" />;
       break;
+
     case "DIAGNOSE":
-      label = "DIAGNOSE";
-      bgClass = "bg-violet-950/50 text-violet-300 border-violet-800/60";
-      icon = <Cpu className="w-3 h-3 text-violet-300" />;
+      label = "Diagnosing";
+      style = {
+        color: "#C5C7C1",
+        backgroundColor: "rgba(197, 199, 193, 0.10)",
+        borderColor: "rgba(197, 199, 193, 0.22)",
+      };
+      icon = <Cpu className="w-3 h-3 text-[#C5C7C1]" />;
       break;
+
     case "VERIFY":
-      label = "VERIFY";
-      bgClass = "bg-emerald-950/40 text-emerald-400 border-emerald-800/60";
-      icon = <ShieldCheck className="w-3 h-3 text-emerald-400" />;
+      label = "Verifying";
+      style = {
+        color: "#7EB49A",
+        backgroundColor: "rgba(126, 180, 154, 0.12)",
+        borderColor: "rgba(126, 180, 154, 0.28)",
+      };
+      icon = <CheckCircle2 className="w-3 h-3 text-[#7EB49A]" />;
       break;
+
     default:
-      label = norm;
+      label = norm.charAt(0) + norm.slice(1).toLowerCase();
+      break;
   }
 
   const sizeClasses = {
-    sm: "px-1.5 py-0.5 text-[10px] space-x-1",
-    md: "px-2 py-0.5 text-xs space-x-1.5",
-    lg: "px-2.5 py-1 text-xs space-x-1.5",
+    sm: "px-2 py-0.5 text-[11px] gap-1",
+    md: "px-2.5 py-1 text-xs gap-1.5",
+    lg: "px-3 py-1.5 text-xs gap-2 font-medium",
   };
 
   return (
     <span
+      style={style}
       className={cn(
-        "inline-flex items-center font-mono font-medium rounded border select-none",
-        bgClass,
+        "inline-flex items-center rounded-md font-mono border transition-colors select-none",
         sizeClasses[size],
         className
       )}
     >
       {showIcon && icon}
-      <span className="tracking-wide text-[11px]">{label}</span>
+      <span>{label}</span>
     </span>
   );
 }

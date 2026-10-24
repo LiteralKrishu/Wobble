@@ -116,31 +116,31 @@ export default function InvestigationsPage() {
 
   return (
     <AppShell>
-      <div className="space-y-5">
+      <div className="space-y-6">
         {/* Page Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-[rgba(139,92,246,0.12)] gap-3">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-[rgba(226,226,218,0.13)] gap-3">
           <div>
-            <h1 className="text-xl font-semibold text-zinc-100 tracking-tight">
-              Flaky Test Investigations Explorer
+            <h1 className="text-2xl sm:text-3xl font-semibold text-[#F0EEE8] tracking-tight">
+              Test investigations
             </h1>
-            <p className="text-xs text-zinc-400 mt-1">
+            <p className="text-xs sm:text-sm text-[#A8AAA5] mt-1">
               Diagnostic workspace sessions, delta-debugging reduction logs, and empirical stress passes
             </p>
           </div>
 
           <div className="flex items-center space-x-2 text-xs font-mono">
-            <span className="px-3 py-1 rounded bg-[#0f0d18] border border-[rgba(139,92,246,0.14)] text-zinc-300">
-              Total Records: <strong className="text-violet-400 font-semibold">{filteredInvestigations.length}</strong>
+            <span className="px-3.5 py-1.5 rounded-xl bg-[#17191A] border border-[rgba(226,226,218,0.13)] text-[#A8AAA5]">
+              Total records: <strong className="text-[#F0EEE8] font-medium">{filteredInvestigations.length}</strong>
             </span>
           </div>
         </div>
 
         {/* Search & Filter Controls */}
-        <div className="rounded-lg bg-[#0f0d18] border border-[rgba(139,92,246,0.14)] p-3.5 space-y-3">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-2.5">
+        <div className="surface-solid rounded-2xl p-4 sm:p-5 space-y-4 shadow-xl">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
             {/* Search Input */}
             <div className="relative md:col-span-2">
-              <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500" />
+              <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-[#777A76]" />
               <input
                 type="text"
                 aria-label="Search investigations by test name, file path, repository, or ID"
@@ -150,7 +150,7 @@ export default function InvestigationsPage() {
                   setCurrentPage(1);
                 }}
                 placeholder="Search by test, file, repository, or ID..."
-                className="w-full pl-8 pr-3 py-1.5 rounded bg-[#090812] border border-[rgba(139,92,246,0.12)] text-xs font-mono text-zinc-200 placeholder-zinc-500 focus:outline-none focus:border-violet-500/50 focus-visible:ring-1 focus-visible:ring-violet-400"
+                className="w-full pl-9 pr-3 py-2 rounded-xl bg-[#0B0C0D] border border-[rgba(226,226,218,0.13)] text-xs font-mono text-[#F0EEE8] placeholder-[#777A76] focus:outline-none focus:border-[#C5C7C1]"
               />
             </div>
 
@@ -163,11 +163,11 @@ export default function InvestigationsPage() {
                   setSelectedRepo(e.target.value);
                   setCurrentPage(1);
                 }}
-                className="w-full px-2.5 py-1.5 rounded bg-[#090812] border border-[rgba(139,92,246,0.12)] text-xs font-mono text-zinc-300 focus:outline-none focus:border-violet-500/50 cursor-pointer"
+                className="w-full px-3 py-2 rounded-xl bg-[#0B0C0D] border border-[rgba(226,226,218,0.13)] text-xs font-mono text-[#F0EEE8] focus:outline-none focus:border-[#C5C7C1] cursor-pointer"
               >
-                <option value="ALL">All Repositories</option>
+                <option value="ALL">All repositories</option>
                 {repositories.map((repo) => (
-                  <option key={repo.id} value={repo.name} className="bg-[#0f0d18]">
+                  <option key={repo.id} value={repo.name} className="bg-[#17191A]">
                     {repo.name}
                   </option>
                 ))}
@@ -183,23 +183,23 @@ export default function InvestigationsPage() {
                   setSelectedStatus(e.target.value);
                   setCurrentPage(1);
                 }}
-                className="w-full px-2.5 py-1.5 rounded bg-[#090812] border border-[rgba(139,92,246,0.12)] text-xs font-mono text-zinc-300 focus:outline-none focus:border-violet-500/50 cursor-pointer"
+                className="w-full px-3 py-2 rounded-xl bg-[#0B0C0D] border border-[rgba(226,226,218,0.13)] text-xs font-mono text-[#F0EEE8] focus:outline-none focus:border-[#C5C7C1] cursor-pointer"
               >
-                <option value="ALL" className="bg-[#0f0d18]">All Statuses</option>
-                <option value="INVESTIGATING" className="bg-[#0f0d18]">INVESTIGATING</option>
-                <option value="REPRODUCED" className="bg-[#0f0d18]">REPRODUCED</option>
-                <option value="MINIMIZED" className="bg-[#0f0d18]">MINIMIZED</option>
-                <option value="DIAGNOSED" className="bg-[#0f0d18]">DIAGNOSED</option>
-                <option value="VERIFIED" className="bg-[#0f0d18]">VERIFIED</option>
-                <option value="FAILED" className="bg-[#0f0d18]">FAILED</option>
-                <option value="INCONCLUSIVE" className="bg-[#0f0d18]">INCONCLUSIVE</option>
+                <option value="ALL" className="bg-[#17191A]">All statuses</option>
+                <option value="INVESTIGATING" className="bg-[#17191A]">Investigating</option>
+                <option value="REPRODUCED" className="bg-[#17191A]">Reproduced</option>
+                <option value="MINIMIZED" className="bg-[#17191A]">Minimized</option>
+                <option value="DIAGNOSED" className="bg-[#17191A]">Diagnosed</option>
+                <option value="VERIFIED" className="bg-[#17191A]">Verified</option>
+                <option value="FAILED" className="bg-[#17191A]">Failed</option>
+                <option value="INCONCLUSIVE" className="bg-[#17191A]">Inconclusive</option>
               </select>
             </div>
           </div>
 
           {/* Quick Filter Chips */}
-          <div role="group" aria-label="Investigation status quick filters" className="flex flex-wrap items-center gap-1.5 pt-2.5 border-t border-[rgba(139,92,246,0.12)] text-xs font-mono">
-            <span className="text-zinc-400 text-[11px] mr-1">Filter:</span>
+          <div role="group" aria-label="Investigation status quick filters" className="flex flex-wrap items-center gap-2 pt-3 border-t border-[rgba(226,226,218,0.13)] text-xs font-mono">
+            <span className="text-[#777A76] text-[11px] mr-1">Filter:</span>
             <button
               type="button"
               aria-pressed={selectedStatus === "ALL" && selectedRepo === "ALL" && !searchQuery}
@@ -210,10 +210,10 @@ export default function InvestigationsPage() {
                 setCurrentPage(1);
               }}
               className={cn(
-                "px-2.5 py-1 rounded border text-xs transition-colors cursor-pointer focus:outline-none focus-visible:ring-1 focus-visible:ring-violet-400",
+                "px-3 py-1 rounded-xl border text-xs transition-colors cursor-pointer focus:outline-none focus-visible:ring-1 focus-visible:ring-[#C5C7C1]",
                 selectedStatus === "ALL" && selectedRepo === "ALL" && !searchQuery
-                  ? "bg-violet-950/40 border-violet-500/40 text-violet-200 font-semibold"
-                  : "bg-[#090812] border-[rgba(139,92,246,0.12)] text-zinc-400 hover:text-zinc-200"
+                  ? "bg-[#222424] border-[rgba(235,235,228,0.22)] text-[#F0EEE8] font-medium"
+                  : "bg-[#0B0C0D] border-[rgba(226,226,218,0.13)] text-[#A8AAA5] hover:text-[#F0EEE8]"
               )}
             >
               All
@@ -226,13 +226,13 @@ export default function InvestigationsPage() {
                 setCurrentPage(1);
               }}
               className={cn(
-                "px-2.5 py-1 rounded border text-xs transition-colors cursor-pointer focus:outline-none focus-visible:ring-1 focus-visible:ring-violet-400",
+                "px-3 py-1 rounded-xl border text-xs transition-colors cursor-pointer focus:outline-none focus-visible:ring-1 focus-visible:ring-[#7EB49A]",
                 selectedStatus === "VERIFIED"
-                  ? "bg-emerald-950/40 border-emerald-500/40 text-emerald-300 font-semibold"
-                  : "bg-[#090812] border-[rgba(139,92,246,0.12)] text-zinc-400 hover:text-zinc-200"
+                  ? "bg-[rgba(126,180,154,0.12)] border-[rgba(126,180,154,0.3)] text-[#7EB49A] font-medium"
+                  : "bg-[#0B0C0D] border-[rgba(226,226,218,0.13)] text-[#A8AAA5] hover:text-[#F0EEE8]"
               )}
             >
-              Verified Fixes
+              Verified fixes
             </button>
             <button
               type="button"
@@ -242,13 +242,13 @@ export default function InvestigationsPage() {
                 setCurrentPage(1);
               }}
               className={cn(
-                "px-2.5 py-1 rounded border text-xs transition-colors cursor-pointer focus:outline-none focus-visible:ring-1 focus-visible:ring-violet-400",
+                "px-3 py-1 rounded-xl border text-xs transition-colors cursor-pointer focus:outline-none focus-visible:ring-1 focus-visible:ring-[#D8AD70]",
                 selectedStatus === "REPRODUCED"
-                  ? "bg-amber-950/40 border-amber-500/40 text-amber-300 font-semibold"
-                  : "bg-[#090812] border-[rgba(139,92,246,0.12)] text-zinc-400 hover:text-zinc-200"
+                  ? "bg-[rgba(216,173,112,0.12)] border-[rgba(216,173,112,0.3)] text-[#D8AD70] font-medium"
+                  : "bg-[#0B0C0D] border-[rgba(226,226,218,0.13)] text-[#A8AAA5] hover:text-[#F0EEE8]"
               )}
             >
-              In Reproduction
+              In reproduction
             </button>
             <button
               type="button"
@@ -258,10 +258,10 @@ export default function InvestigationsPage() {
                 setCurrentPage(1);
               }}
               className={cn(
-                "px-2.5 py-1 rounded border text-xs transition-colors cursor-pointer focus:outline-none focus-visible:ring-1 focus-visible:ring-violet-400",
+                "px-3 py-1 rounded-xl border text-xs transition-colors cursor-pointer focus:outline-none focus-visible:ring-1 focus-visible:ring-[#C5C7C1]",
                 selectedStatus === "DIAGNOSED"
-                  ? "bg-violet-950/50 border-violet-500/40 text-violet-300 font-semibold"
-                  : "bg-[#090812] border-[rgba(139,92,246,0.12)] text-zinc-400 hover:text-zinc-200"
+                  ? "bg-[#222424] border-[rgba(235,235,228,0.22)] text-[#F0EEE8] font-medium"
+                  : "bg-[#0B0C0D] border-[rgba(226,226,218,0.13)] text-[#A8AAA5] hover:text-[#F0EEE8]"
               )}
             >
               Diagnosed
@@ -270,50 +270,50 @@ export default function InvestigationsPage() {
         </div>
 
         {/* Data Table */}
-        <div className="rounded-lg bg-[#0f0d18] border border-[rgba(139,92,246,0.14)] overflow-hidden">
+        <div className="surface-solid rounded-2xl overflow-hidden shadow-2xl">
           <div className="overflow-x-auto">
             <table aria-label="Investigations directory table" className="w-full text-left font-mono text-xs">
               <thead>
-                <tr className="border-b border-[rgba(139,92,246,0.12)] bg-[#090812] text-zinc-400 text-[11px] tracking-wide">
-                  <th scope="col" className="py-2.5 px-4 font-medium">Investigation / Test</th>
-                  <th scope="col" className="py-2.5 px-3 font-medium">Repository</th>
+                <tr className="border-b border-[rgba(226,226,218,0.13)] bg-[#0B0C0D]/50 text-[#777A76] text-[11px] font-medium tracking-wide">
+                  <th scope="col" className="py-3 px-5">Investigation / test</th>
+                  <th scope="col" className="py-3 px-4">Repository</th>
                   <th
                     scope="col"
-                    className="py-2.5 px-3 font-medium text-center cursor-pointer hover:text-zinc-200"
+                    className="py-3 px-4 text-center cursor-pointer hover:text-[#F0EEE8]"
                     onClick={() => toggleSort("failureRate")}
                   >
                     <button
                       type="button"
                       aria-label="Sort by failure rate"
-                      className="flex items-center justify-center space-x-1 w-full focus:outline-none focus-visible:ring-1 focus-visible:ring-violet-400 rounded cursor-pointer"
+                      className="flex items-center justify-center space-x-1 w-full focus:outline-none focus-visible:ring-1 focus-visible:ring-[#C5C7C1] rounded cursor-pointer"
                     >
-                      <span>Failure Rate</span>
-                      <ArrowUpDown className="w-3 h-3 text-violet-400" />
+                      <span>Failure rate</span>
+                      <ArrowUpDown className="w-3 h-3 text-[#777A76]" />
                     </button>
                   </th>
                   <th
                     scope="col"
-                    className="py-2.5 px-3 font-medium text-center cursor-pointer hover:text-zinc-200"
+                    className="py-3 px-4 text-center cursor-pointer hover:text-[#F0EEE8]"
                     onClick={() => toggleSort("totalExecutions")}
                   >
                     <button
                       type="button"
                       aria-label="Sort by total executions"
-                      className="flex items-center justify-center space-x-1 w-full focus:outline-none focus-visible:ring-1 focus-visible:ring-violet-400 rounded cursor-pointer"
+                      className="flex items-center justify-center space-x-1 w-full focus:outline-none focus-visible:ring-1 focus-visible:ring-[#C5C7C1] rounded cursor-pointer"
                     >
                       <span>Executions</span>
-                      <ArrowUpDown className="w-3 h-3 text-violet-400" />
+                      <ArrowUpDown className="w-3 h-3 text-[#777A76]" />
                     </button>
                   </th>
-                  <th scope="col" className="py-2.5 px-3 font-medium text-center">Stage</th>
-                  <th scope="col" className="py-2.5 px-3 font-medium text-center">Status</th>
-                  <th scope="col" className="py-2.5 px-4 font-medium text-right">Workspace</th>
+                  <th scope="col" className="py-3 px-4 text-center">Stage</th>
+                  <th scope="col" className="py-3 px-4 text-center">Status</th>
+                  <th scope="col" className="py-3 px-5 text-right">Workspace</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[rgba(139,92,246,0.10)]">
+              <tbody className="divide-y divide-[rgba(226,226,218,0.08)]">
                 {paginatedList.length === 0 ? (
                   <tr>
-                    <td colSpan={7} className="py-10 text-center text-zinc-400 font-mono">
+                    <td colSpan={7} className="py-12 text-center text-[#777A76] font-mono">
                       No investigations matching selected filter criteria.
                     </td>
                   </tr>
@@ -321,78 +321,79 @@ export default function InvestigationsPage() {
                   paginatedList.map((inv) => (
                     <tr
                       key={inv.id}
-                      className="hover:bg-[#141122] transition-colors group cursor-pointer"
+                      className="hover:bg-[#222424]/40 transition-colors group cursor-pointer"
                     >
                       {/* Test & ID */}
-                      <td className="py-3 px-4">
+                      <td className="py-3.5 px-5">
                         <div className="flex flex-col">
                           <div className="flex items-center space-x-2">
-                            <span className="text-violet-400 font-semibold">
+                            <span className="text-[#F0EEE8] font-semibold">
                               {inv.id}
                             </span>
-                            <span className="text-zinc-200 font-sans font-medium group-hover:text-violet-300 truncate max-w-sm">
+                            <span className="text-[#F0EEE8] font-sans font-medium group-hover:text-[#C5C7C1] truncate max-w-sm">
                               {inv.testName}
                             </span>
                           </div>
-                          <span className="text-zinc-400 text-[11px] truncate max-w-md mt-0.5">
+                          <span className="text-[#777A76] text-[11px] truncate max-w-md mt-0.5 font-mono">
                             {inv.testFile}
                           </span>
                         </div>
                       </td>
 
                       {/* Repository */}
-                      <td className="py-3 px-3">
-                        <div className="flex items-center space-x-1.5 text-zinc-300 text-xs">
-                          <GitBranch className="w-3 h-3 text-violet-400 shrink-0" />
+                      <td className="py-3.5 px-4">
+                        <div className="flex items-center space-x-1.5 text-[#F0EEE8] text-xs">
+                          <GitBranch className="w-3 h-3 text-[#777A76] shrink-0" />
                           <span>{inv.repository}</span>
                         </div>
-                        <span className="text-[10px] text-zinc-400">
+                        <span className="text-[10px] text-[#777A76]">
                           {inv.branch}
                         </span>
                       </td>
 
                       {/* Flakiness Rate */}
-                      <td className="py-3 px-3 text-center">
+                      <td className="py-3.5 px-4 text-center">
                         <span
-                          className={`inline-block px-2 py-0.5 rounded font-semibold text-xs ${
+                          className={cn(
+                            "inline-block px-2 py-0.5 rounded-md font-semibold text-xs border",
                             inv.failureRate > 15
-                              ? "bg-rose-950/50 text-rose-300 border border-rose-500/30"
+                              ? "bg-[rgba(228,119,119,0.12)] text-[#E47777] border-[rgba(228,119,119,0.25)]"
                               : inv.failureRate > 8
-                              ? "bg-amber-950/50 text-amber-300 border border-amber-500/30"
-                              : "bg-emerald-950/50 text-emerald-300 border border-emerald-500/30"
-                          }`}
+                              ? "bg-[rgba(216,173,112,0.12)] text-[#D8AD70] border-[rgba(216,173,112,0.25)]"
+                              : "bg-[rgba(126,180,154,0.12)] text-[#7EB49A] border-[rgba(126,180,154,0.25)]"
+                          )}
                         >
                           {inv.failureRate.toFixed(1)}%
                         </span>
                       </td>
 
                       {/* Total Executions */}
-                      <td className="py-3 px-3 text-center">
-                        <span className="text-zinc-200">{inv.totalExecutions} runs</span>
-                        <div className="text-[10px] text-zinc-400">
+                      <td className="py-3.5 px-4 text-center">
+                        <span className="text-[#F0EEE8]">{inv.totalExecutions} runs</span>
+                        <div className="text-[10px] text-[#777A76]">
                           ({inv.failedExecutions} failed)
                         </div>
                       </td>
 
                       {/* Stage */}
-                      <td className="py-3 px-3 text-center">
+                      <td className="py-3.5 px-4 text-center">
                         <StatusBadge status={inv.stage} size="sm" />
                       </td>
 
                       {/* Status */}
-                      <td className="py-3 px-3 text-center">
+                      <td className="py-3.5 px-4 text-center">
                         <StatusBadge status={inv.status} size="sm" />
                       </td>
 
                       {/* Action */}
-                      <td className="py-3 px-4 text-right">
+                      <td className="py-3.5 px-5 text-right">
                         <Link
                           href={`/investigations/${inv.id}`}
                           aria-label={`Open investigation ${inv.id} for ${inv.testName}`}
-                          className="inline-flex items-center space-x-1 px-2.5 py-1 rounded bg-[#141122] text-zinc-200 hover:text-white hover:bg-violet-950/40 transition-colors border border-[rgba(139,92,246,0.16)] group-hover:border-violet-500/40 focus:outline-none focus-visible:ring-1 focus-visible:ring-violet-400"
+                          className="inline-flex items-center space-x-1 px-3 py-1.5 rounded-xl bg-[#222424] text-[#F0EEE8] hover:bg-[#2c2f2f] transition-all border border-[rgba(226,226,218,0.13)] hover:border-[rgba(235,235,228,0.25)] focus:outline-none focus-visible:ring-1 focus-visible:ring-[#C5C7C1]"
                         >
                           <span>Open</span>
-                          <ArrowRight className="w-3 h-3 text-violet-400 group-hover:translate-x-0.5 transition-transform" />
+                          <ArrowRight className="w-3 h-3 text-[#A8AAA5] group-hover:translate-x-0.5 transition-transform" />
                         </Link>
                       </td>
                     </tr>
@@ -404,17 +405,17 @@ export default function InvestigationsPage() {
 
           {/* Pagination Footer */}
           {totalPages > 1 && (
-            <div className="flex items-center justify-between px-4 py-2.5 border-t border-[rgba(139,92,246,0.12)] bg-[#090812] text-xs font-mono text-zinc-400">
+            <div className="flex items-center justify-between px-5 py-3 border-t border-[rgba(226,226,218,0.13)] bg-[#0B0C0D]/50 text-xs font-mono text-[#A8AAA5]">
               <span>
                 Page {currentPage} of {totalPages}
               </span>
-              <div className="flex items-center space-x-1">
+              <div className="flex items-center space-x-1.5">
                 <button
                   type="button"
                   aria-label="Previous page"
                   disabled={currentPage === 1}
                   onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-                  className="p-1 rounded border border-[rgba(139,92,246,0.14)] hover:bg-[#141122] disabled:opacity-30 transition-colors cursor-pointer focus:outline-none focus-visible:ring-1 focus-visible:ring-violet-400"
+                  className="p-1.5 rounded-lg border border-[rgba(226,226,218,0.13)] hover:bg-[#222424] text-[#A8AAA5] hover:text-[#F0EEE8] disabled:opacity-30 transition-colors cursor-pointer focus:outline-none focus-visible:ring-1 focus-visible:ring-[#C5C7C1]"
                 >
                   <ChevronLeft className="w-3.5 h-3.5" />
                 </button>
@@ -423,7 +424,7 @@ export default function InvestigationsPage() {
                   aria-label="Next page"
                   disabled={currentPage === totalPages}
                   onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
-                  className="p-1 rounded border border-[rgba(139,92,246,0.14)] hover:bg-[#141122] disabled:opacity-30 transition-colors cursor-pointer focus:outline-none focus-visible:ring-1 focus-visible:ring-violet-400"
+                  className="p-1.5 rounded-lg border border-[rgba(226,226,218,0.13)] hover:bg-[#222424] text-[#A8AAA5] hover:text-[#F0EEE8] disabled:opacity-30 transition-colors cursor-pointer focus:outline-none focus-visible:ring-1 focus-visible:ring-[#C5C7C1]"
                 >
                   <ChevronRight className="w-3.5 h-3.5" />
                 </button>

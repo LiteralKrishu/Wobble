@@ -7,8 +7,6 @@ import {
   Search,
   Calendar,
   GitBranch,
-  ChevronDown,
-  Activity,
 } from "lucide-react";
 
 interface TopBarProps {
@@ -28,67 +26,66 @@ export function TopBar({
   const [searchQuery, setSearchQuery] = useState("");
 
   return (
-    <header className="sticky top-0 z-30 h-14 bg-[#0a0812]/85 backdrop-blur-md border-b border-[rgba(139,92,246,0.12)]">
+    <header className="sticky top-0 z-30 h-14 bg-[#17191A]/85 backdrop-blur-md border-b border-[rgba(226,226,218,0.13)]">
       <div className="h-full px-4 sm:px-6 flex items-center justify-between gap-4">
         {/* Left: Mobile Toggle & Project Context */}
         <div className="flex items-center space-x-3">
-          {/* Mobile Menu Button - 44x44px minimum touch target for WCAG 2.5.5 */}
           <button
             type="button"
             onClick={onToggleMobileSidebar}
-            className="lg:hidden min-w-[44px] min-h-[44px] flex items-center justify-center rounded-md text-zinc-400 hover:text-white hover:bg-violet-950/30 border border-[rgba(139,92,246,0.15)] focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-400"
+            className="lg:hidden min-w-[44px] min-h-[44px] flex items-center justify-center rounded-xl text-[#A8AAA5] hover:text-[#F0EEE8] hover:bg-[#222424] border border-[rgba(226,226,218,0.13)] focus:outline-none focus-visible:ring-1 focus-visible:ring-[#C5C7C1]"
             aria-label="Open navigation menu"
           >
             <Menu className="w-5 h-5" />
           </button>
 
           {/* Project & Scope Selector */}
-          <div className="hidden sm:flex items-center space-x-2 bg-[#100d1c] px-2.5 py-1.5 rounded-md border border-[rgba(139,92,246,0.14)] text-xs">
-            <GitBranch className="w-3.5 h-3.5 text-violet-400" />
-            <span className="text-zinc-400 font-mono text-[11px]">Scope:</span>
+          <div className="hidden sm:flex items-center space-x-2 bg-[#0B0C0D] px-3 py-1.5 rounded-xl border border-[rgba(226,226,218,0.13)] text-xs font-mono">
+            <GitBranch className="w-3.5 h-3.5 text-[#777A76]" />
+            <span className="text-[#777A76] text-[11px]">Scope:</span>
             <select
               aria-label="Target repository scope"
               value={selectedRepo}
               onChange={(e) => onRepoChange?.(e.target.value)}
-              className="bg-transparent text-zinc-200 font-medium focus:outline-none focus-visible:ring-1 focus-visible:ring-violet-400 cursor-pointer text-xs"
+              className="bg-transparent text-[#F0EEE8] font-medium focus:outline-none focus-visible:ring-1 focus-visible:ring-[#C5C7C1] cursor-pointer text-xs"
             >
-              <option value="ALL" className="bg-[#0e0b1a]">
+              <option value="ALL" className="bg-[#17191A]">
                 All Repositories (5 Active)
               </option>
-              <option value="mono-repo/api-core" className="bg-[#0e0b1a]">
+              <option value="mono-repo/api-core" className="bg-[#17191A]">
                 mono-repo/api-core (98%)
               </option>
-              <option value="billing-engine" className="bg-[#0e0b1a]">
+              <option value="billing-engine" className="bg-[#17191A]">
                 billing-engine (96%)
               </option>
-              <option value="auth-vault" className="bg-[#0e0b1a]">
+              <option value="auth-vault" className="bg-[#17191A]">
                 auth-vault (92%)
               </option>
-              <option value="data-pipeline" className="bg-[#0e0b1a]">
+              <option value="data-pipeline" className="bg-[#17191A]">
                 data-pipeline (94%)
               </option>
-              <option value="checkout-svc" className="bg-[#0e0b1a]">
+              <option value="checkout-svc" className="bg-[#17191A]">
                 checkout-svc (97%)
               </option>
             </select>
           </div>
 
           {/* Time Range Selector */}
-          <div className="hidden md:flex items-center space-x-1.5 bg-[#100d1c] px-2.5 py-1.5 rounded-md border border-[rgba(139,92,246,0.14)] text-xs text-zinc-300">
-            <Calendar className="w-3.5 h-3.5 text-zinc-400" />
+          <div className="hidden md:flex items-center space-x-1.5 bg-[#0B0C0D] px-3 py-1.5 rounded-xl border border-[rgba(226,226,218,0.13)] text-xs font-mono text-[#F0EEE8]">
+            <Calendar className="w-3.5 h-3.5 text-[#777A76]" />
             <select
               aria-label="Time range filter"
               value={timeRange}
               onChange={(e) => setTimeRange(e.target.value)}
-              className="bg-transparent font-medium focus:outline-none focus-visible:ring-1 focus-visible:ring-violet-400 cursor-pointer text-xs"
+              className="bg-transparent font-medium focus:outline-none focus-visible:ring-1 focus-visible:ring-[#C5C7C1] cursor-pointer text-xs"
             >
-              <option value="24h" className="bg-[#0e0b1a]">
+              <option value="24h" className="bg-[#17191A]">
                 Last 24 Hours
               </option>
-              <option value="7d" className="bg-[#0e0b1a]">
+              <option value="7d" className="bg-[#17191A]">
                 Last 7 Days
               </option>
-              <option value="30d" className="bg-[#0e0b1a]">
+              <option value="30d" className="bg-[#17191A]">
                 Last 30 Days
               </option>
             </select>
@@ -98,17 +95,17 @@ export function TopBar({
         {/* Center: Global Search Bar */}
         <div className="flex-1 max-w-md hidden md:block">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-zinc-400" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[#777A76]" />
             <input
               type="text"
               aria-label="Search tests, seeds, and error hashes"
               placeholder="Search tests, seeds, error hashes..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-[#100d1c] border border-[rgba(139,92,246,0.14)] focus:border-violet-500/60 pl-8 pr-12 py-1.5 rounded-md text-xs text-zinc-200 placeholder-zinc-400 focus:outline-none focus-visible:ring-1 focus-visible:ring-violet-400 transition-colors"
+              className="w-full bg-[#0B0C0D] border border-[rgba(226,226,218,0.13)] focus:border-[#C5C7C1] pl-9 pr-12 py-1.5 rounded-xl text-xs text-[#F0EEE8] placeholder-[#777A76] focus:outline-none font-mono transition-colors"
             />
             <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-0.5 pointer-events-none" aria-hidden="true">
-              <kbd className="px-1.5 py-0.5 text-[10px] font-mono text-zinc-400 bg-zinc-800/80 rounded border border-zinc-700/60">
+              <kbd className="px-1.5 py-0.5 text-[10px] font-mono text-[#777A76] bg-[#222424] rounded border border-[rgba(226,226,218,0.13)]">
                 ⌘K
               </kbd>
             </div>
@@ -117,21 +114,19 @@ export function TopBar({
 
         {/* Right: Operational Status & Action Button */}
         <div className="flex items-center space-x-3">
-          {/* CI Health Pill */}
-          <div className="hidden sm:flex items-center space-x-1.5 px-2.5 py-1 rounded-full bg-emerald-950/40 border border-emerald-800/40 text-xs font-mono text-emerald-400">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+          <div className="hidden sm:flex items-center space-x-1.5 px-3 py-1 rounded-full bg-[rgba(126,180,154,0.12)] border border-[rgba(126,180,154,0.3)] text-xs font-mono text-[#7EB49A]">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#7EB49A]" />
             <span>CI: Operational</span>
           </div>
 
-          {/* New Investigation CTA */}
           {onNewInvestigation && (
             <button
               type="button"
               onClick={onNewInvestigation}
-              className="flex items-center space-x-1.5 px-3 py-1.5 rounded-md bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white text-xs font-medium shadow-[0_0_14px_rgba(139,92,246,0.35)] transition-all cursor-pointer focus:outline-none focus:ring-1 focus:ring-violet-400"
+              className="flex items-center space-x-1.5 px-3.5 py-1.5 rounded-xl bg-[#F0EEE8] hover:bg-[#FFFFFF] text-[#0B0C0D] text-xs font-medium font-mono transition-all cursor-pointer shadow-sm"
             >
               <Plus className="w-3.5 h-3.5 stroke-[2.5]" />
-              <span>New Investigation</span>
+              <span>New investigation</span>
             </button>
           )}
         </div>

@@ -1,9 +1,8 @@
 import React from "react";
 import {
   ShieldCheck,
-  FileCode,
-  Sparkles,
   CheckCircle2,
+  FileCode,
 } from "lucide-react";
 import { RootCauseHypothesis } from "@/types";
 import { cn } from "@/lib/utils";
@@ -15,14 +14,14 @@ interface RootCauseCardProps {
 
 export function RootCauseCard({ hypothesis, className }: RootCauseCardProps) {
   return (
-    <div className={cn("rounded-xl bg-[#0f0d18] border border-[rgba(139,92,246,0.14)] p-4 sm:p-5 shadow-[0_4px_24px_rgba(0,0,0,0.4)]", className)}>
+    <div className={cn("surface-solid rounded-2xl p-5 sm:p-6 shadow-2xl", className)}>
       {/* Header with Distinction Badge */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3.5 border-b border-[rgba(139,92,246,0.10)] gap-3">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3.5 border-b border-[rgba(226,226,218,0.13)] gap-3">
         <div>
-          <h3 className="text-xs font-semibold text-zinc-300 uppercase tracking-wider">
-            Root-Cause Diagnostic Analysis
+          <h3 className="text-base font-semibold text-[#F0EEE8] tracking-tight">
+            Root-cause diagnostic analysis
           </h3>
-          <p className="text-xs text-zinc-400 mt-0.5">
+          <p className="text-xs text-[#A8AAA5] mt-0.5">
             Automated empirical failure hypothesis and proof points
           </p>
         </div>
@@ -30,80 +29,79 @@ export function RootCauseCard({ hypothesis, className }: RootCauseCardProps) {
         {/* AI Hypothesis vs Confirmed Empirical Finding Pill */}
         <div className="flex items-center space-x-2">
           {hypothesis.isConfirmed ? (
-            <span className="flex items-center space-x-1.5 px-2.5 py-1 rounded-md bg-emerald-950/50 border border-emerald-800/60 text-emerald-400 text-xs font-mono font-medium">
-              <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-              <span>CONFIRMED FINDING</span>
+            <span className="flex items-center space-x-1.5 px-3 py-1 rounded-full bg-[rgba(126,180,154,0.12)] border border-[rgba(126,180,154,0.3)] text-[#7EB49A] text-xs font-mono font-medium">
+              <ShieldCheck className="w-3.5 h-3.5 text-[#7EB49A]" />
+              <span>Confirmed finding</span>
             </span>
           ) : (
-            <span className="flex items-center space-x-1.5 px-2.5 py-1 rounded-md bg-violet-950/40 border border-violet-800/50 text-violet-300 text-xs font-mono">
-              <Sparkles className="w-3.5 h-3.5 text-violet-400" />
-              <span>AI HYPOTHESIS (UNVERIFIED)</span>
+            <span className="flex items-center space-x-1.5 px-3 py-1 rounded-full bg-[#222424] border border-[rgba(226,226,218,0.13)] text-[#A8AAA5] text-xs font-mono">
+              <span>Hypothesis (unverified)</span>
             </span>
           )}
         </div>
       </div>
 
       {/* Suspected Cause Title & Confidence Gauge */}
-      <div className="my-4 p-4 rounded-lg bg-[#0c0a14] border border-[rgba(139,92,246,0.12)] space-y-2.5">
+      <div className="my-4 p-4 rounded-xl bg-[#17191A] border border-[rgba(226,226,218,0.13)] space-y-2.5">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div>
-            <span className="text-[10px] font-mono uppercase tracking-wider text-violet-400">
-              Primary Identified Mechanism
+            <span className="text-[11px] font-mono uppercase tracking-wider text-[#777A76] font-medium">
+              Primary identified mechanism
             </span>
-            <h4 className="text-sm sm:text-base font-semibold text-white mt-0.5">
+            <h4 className="text-base font-semibold text-[#F0EEE8] mt-0.5">
               {hypothesis.title}
             </h4>
           </div>
 
-          <div className="flex items-center space-x-3 bg-[#130f24] px-3 py-1.5 rounded-md border border-[rgba(139,92,246,0.16)] shrink-0 font-mono">
+          <div className="flex items-center space-x-3 bg-[#222424] px-3.5 py-1.5 rounded-xl border border-[rgba(226,226,218,0.13)] shrink-0 font-mono">
             <div>
-              <div className="text-[9px] text-zinc-400 uppercase">Confidence</div>
-              <div className="text-sm font-semibold text-violet-300">
+              <div className="text-[10px] text-[#777A76] uppercase">Confidence</div>
+              <div className="text-sm font-semibold text-[#F0EEE8]">
                 {hypothesis.confidence}%
               </div>
             </div>
-            <div className="w-14 bg-zinc-800 h-1.5 rounded-full overflow-hidden">
+            <div className="w-14 bg-[#0B0C0D] h-1.5 rounded-full overflow-hidden">
               <div
-                className="bg-gradient-to-r from-violet-500 to-indigo-500 h-full rounded-full"
+                className="bg-[#F0EEE8] h-full rounded-full"
                 style={{ width: `${hypothesis.confidence}%` }}
               />
             </div>
           </div>
         </div>
 
-        <p className="text-xs text-zinc-300 font-sans leading-relaxed">
+        <p className="text-xs text-[#A8AAA5] font-sans leading-relaxed">
           {hypothesis.description}
         </p>
       </div>
 
       {/* Supporting Evidence Points */}
       <div className="space-y-3">
-        <h5 className="text-[11px] font-mono uppercase tracking-wider text-zinc-400">
-          Supporting Empirical Evidence ({hypothesis.evidencePoints.length})
+        <h5 className="text-[11px] font-mono uppercase tracking-wider text-[#777A76] font-medium">
+          Supporting empirical evidence ({hypothesis.evidencePoints.length})
         </h5>
         <div className="space-y-2.5">
           {hypothesis.evidencePoints.map((ev) => (
             <div
               key={ev.id}
-              className="p-3.5 rounded-lg bg-[#0c0a14] border border-[rgba(139,92,246,0.10)] space-y-2 font-mono text-xs"
+              className="p-3.5 rounded-xl bg-[#17191A] border border-[rgba(226,226,218,0.13)] space-y-2 font-mono text-xs"
             >
-              <div className="flex items-center justify-between text-zinc-200">
-                <span className="font-semibold text-xs text-violet-300">{ev.label}</span>
+              <div className="flex items-center justify-between text-[#F0EEE8]">
+                <span className="font-semibold text-xs text-[#F0EEE8]">{ev.label}</span>
                 {ev.file && (
-                  <span className="text-zinc-400 text-[11px]">
+                  <span className="text-[#777A76] text-[11px]">
                     {ev.file}{ev.line ? `:${ev.line}` : ""}
                   </span>
                 )}
               </div>
-              <p className="text-zinc-300 text-xs font-sans leading-normal">
+              <p className="text-[#A8AAA5] text-xs font-sans leading-normal">
                 {ev.detail}
               </p>
 
               {ev.snippet && (
-                <div className="mt-2.5 p-3 rounded-md bg-[#08070d] border border-[rgba(139,92,246,0.12)] text-[11px] font-mono text-zinc-200 overflow-x-auto leading-relaxed">
+                <div className="mt-2.5 p-3 rounded-xl bg-[#0B0C0D] border border-[rgba(226,226,218,0.13)] text-[11px] font-mono text-[#F0EEE8] overflow-x-auto leading-relaxed">
                   <pre
                     data-lenis-prevent
-                    className="text-xs text-zinc-300"
+                    className="text-xs text-[#F0EEE8]"
                   >
                     {ev.snippet}
                   </pre>
@@ -115,12 +113,12 @@ export function RootCauseCard({ hypothesis, className }: RootCauseCardProps) {
       </div>
 
       {/* Recommended Fix */}
-      <div className="mt-4 p-3.5 rounded-lg bg-emerald-950/20 border border-emerald-800/40">
-        <div className="flex items-center space-x-1.5 text-emerald-400 text-xs font-mono font-medium mb-1">
-          <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-          <span>Recommended Remediation</span>
+      <div className="mt-4 p-4 rounded-xl bg-[rgba(126,180,154,0.08)] border border-[rgba(126,180,154,0.25)]">
+        <div className="flex items-center space-x-1.5 text-[#7EB49A] text-xs font-mono font-medium mb-1">
+          <CheckCircle2 className="w-3.5 h-3.5 text-[#7EB49A]" />
+          <span>Recommended remediation</span>
         </div>
-        <p className="text-xs text-zinc-300 leading-relaxed font-sans">
+        <p className="text-xs text-[#F0EEE8] leading-relaxed font-sans">
           {hypothesis.recommendedFix}
         </p>
       </div>

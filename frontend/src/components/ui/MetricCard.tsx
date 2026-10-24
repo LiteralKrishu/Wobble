@@ -13,7 +13,6 @@ interface MetricCardProps {
   };
   icon?: LucideIcon;
   subtext?: string;
-  glow?: string;
   className?: string;
 }
 
@@ -28,43 +27,43 @@ export function MetricCard({
   return (
     <div
       className={cn(
-        "rounded-lg bg-[#0f0d18] border border-[rgba(139,92,246,0.14)] p-4 flex flex-col justify-between transition-all duration-150 hover:border-[rgba(139,92,246,0.32)] hover:bg-[#131020] group",
+        "rounded-xl bg-[#17191A] border border-[rgba(226,226,218,0.13)] p-5 flex flex-col justify-between transition-colors hover:border-[rgba(226,226,218,0.24)] group",
         className
       )}
     >
       <div className="flex items-center justify-between gap-2">
-        <span className="text-xs font-medium text-zinc-400 tracking-wide">
+        <span className="text-xs font-medium text-[#A8AAA5] tracking-tight">
           {title}
         </span>
         {Icon && (
-          <div className="p-1.5 rounded-md text-violet-400 bg-violet-950/40 border border-violet-800/30 group-hover:border-violet-700/50 transition-colors">
+          <div className="p-1.5 rounded-lg text-[#C5C7C1] bg-[#222424] border border-[rgba(226,226,218,0.13)]">
             <Icon className="w-3.5 h-3.5" />
           </div>
         )}
       </div>
 
-      <div className="mt-3 flex items-baseline justify-between gap-3">
-        <div className="text-2xl font-semibold text-white tracking-tight">
+      <div className="mt-4 flex items-baseline justify-between gap-3">
+        <div className="text-2xl font-semibold text-[#F0EEE8] tracking-tight font-mono">
           {value}
         </div>
 
         {delta && (
           <div className="flex items-center space-x-1 font-mono text-xs">
             {delta.isNeutral ? (
-              <Minus className="w-3 h-3 text-zinc-400" />
+              <Minus className="w-3 h-3 text-[#A8AAA5]" />
             ) : delta.isPositive ? (
-              <TrendingUp className="w-3 h-3 text-emerald-400" />
+              <TrendingUp className="w-3 h-3 text-[#7EB49A]" />
             ) : (
-              <TrendingDown className="w-3 h-3 text-rose-400" />
+              <TrendingDown className="w-3 h-3 text-[#E47777]" />
             )}
             <span
               className={cn(
                 "font-medium",
                 delta.isNeutral
-                  ? "text-zinc-400"
+                  ? "text-[#A8AAA5]"
                   : delta.isPositive
-                  ? "text-emerald-400"
-                  : "text-rose-400"
+                  ? "text-[#7EB49A]"
+                  : "text-[#E47777]"
               )}
             >
               {delta.value}
@@ -74,7 +73,7 @@ export function MetricCard({
       </div>
 
       {(delta?.label || subtext) && (
-        <div className="mt-2.5 pt-2 border-t border-[rgba(139,92,246,0.10)] text-[11px] text-zinc-400 truncate">
+        <div className="mt-3 pt-2.5 border-t border-[rgba(226,226,218,0.10)] text-[12px] text-[#777A76] truncate">
           {delta?.label || subtext}
         </div>
       )}

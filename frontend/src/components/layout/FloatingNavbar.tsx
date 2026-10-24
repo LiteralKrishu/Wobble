@@ -57,32 +57,17 @@ export function FloatingNavbar({
         <div className="pointer-events-auto flex items-center">
           <Link
             href="/dashboard"
-            className="group flex items-center space-x-2.5 px-3 py-2 rounded-2xl glass-surface hover:border-[rgba(235,235,228,0.28)] transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F0EEE8]"
+            className="group flex items-center space-x-2.5 px-3 py-1.5 rounded-2xl glass-surface hover:border-[rgba(235,235,228,0.28)] transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F0EEE8]"
             aria-label="WOBBLE Home"
           >
-            {/* Architectural Minimalist Emblem */}
-            <div className="w-7 h-7 rounded-lg bg-[#222424] border border-[rgba(226,226,218,0.18)] flex items-center justify-center text-[#F0EEE8]">
-              <svg
-                className="w-3.5 h-3.5 stroke-current"
-                viewBox="0 0 24 24"
-                fill="none"
-                strokeWidth="2.2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M4 4l6 16 4-10 6 10" />
-              </svg>
-            </div>
-
-            {/* Wordmark */}
-            <div className="flex items-center space-x-2">
-              <span className="font-semibold text-sm tracking-tight text-[#F0EEE8]">
-                WOBBLE
-              </span>
-              <span className="text-[11px] font-mono px-1.5 py-0.5 rounded bg-[#222424] text-[#A8AAA5] border border-[rgba(226,226,218,0.13)]">
-                v3.4
-              </span>
-            </div>
+            <img
+              src="/logo.svg"
+              alt="WOBBLE"
+              className="h-8 w-auto object-contain"
+            />
+            <span className="text-[11px] font-mono px-1.5 py-0.5 rounded-full bg-[#222424] text-[#A8AAA5] border border-[rgba(226,226,218,0.13)]">
+              v3.4
+            </span>
           </Link>
         </div>
 

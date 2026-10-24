@@ -80,30 +80,16 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
             <Link
               href="/dashboard"
               onClick={onClose}
-              className="flex items-center space-x-2.5 focus:outline-none focus-visible:ring-1 focus-visible:ring-[#C5C7C1] rounded"
+              className="flex items-center space-x-2 focus:outline-none focus-visible:ring-1 focus-visible:ring-[#C5C7C1] rounded"
             >
-              <div className="w-7 h-7 rounded-lg bg-[#222424] border border-[rgba(235,235,228,0.16)] flex items-center justify-center">
-                <svg
-                  className="w-4 h-4 text-[#F0EEE8]"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M4 4l6 16 4-10 6 10" />
-                </svg>
-              </div>
-
-              <div className="flex items-center space-x-1.5">
-                <span className="font-semibold text-sm tracking-wider text-[#F0EEE8]">
-                  WOBBLE
-                </span>
-                <span className="text-[10px] font-mono px-1.5 py-0.2 rounded-full bg-[#222424] text-[#A8AAA5] border border-[rgba(226,226,218,0.13)]">
-                  v3.4
-                </span>
-              </div>
+              <img
+                src="/logo.svg"
+                alt="WOBBLE"
+                className="h-8 w-auto object-contain"
+              />
+              <span className="text-[10px] font-mono px-1.5 py-0.2 rounded-full bg-[#222424] text-[#A8AAA5] border border-[rgba(226,226,218,0.13)]">
+                v3.4
+              </span>
             </Link>
 
             <button

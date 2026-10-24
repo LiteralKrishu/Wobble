@@ -123,10 +123,11 @@ export default function SettingsPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs font-mono">
             <div>
-              <label className="block text-zinc-300 uppercase tracking-wider mb-1 text-[11px]">
+              <label htmlFor="drf-base-url" className="block text-zinc-300 uppercase tracking-wider mb-1 text-[11px]">
                 DRF Endpoint Base URL
               </label>
               <input
+                id="drf-base-url"
                 type="text"
                 value={settings.apiConnection.baseUrl}
                 onChange={(e) =>
@@ -139,9 +140,9 @@ export default function SettingsPage() {
                   })
                 }
                 placeholder="http://localhost:8000/api/v1"
-                className="w-full px-3 py-1.5 rounded bg-[#090812] border border-[rgba(139,92,246,0.14)] text-zinc-100 placeholder-zinc-500 text-xs focus:outline-none focus:border-violet-500/50"
+                className="w-full px-3 py-1.5 rounded bg-[#090812] border border-[rgba(139,92,246,0.14)] text-zinc-100 placeholder-zinc-500 text-xs focus:outline-none focus:border-violet-500/50 focus-visible:ring-1 focus-visible:ring-violet-400"
               />
-              <span className="text-[10px] text-zinc-500 mt-1 block">
+              <span className="text-[10px] text-zinc-400 mt-1 block">
                 Configured via NEXT_PUBLIC_API_URL or overridden locally.
               </span>
             </div>
@@ -151,7 +152,7 @@ export default function SettingsPage() {
                 type="button"
                 onClick={handlePingBackend}
                 disabled={isTestingApi}
-                className="flex items-center justify-center space-x-1.5 px-3.5 py-1.5 rounded bg-[#141122] hover:bg-[#1c172e] text-zinc-200 border border-[rgba(139,92,246,0.16)] transition-colors cursor-pointer text-xs"
+                className="flex items-center justify-center space-x-1.5 px-3.5 py-1.5 rounded bg-[#141122] hover:bg-[#1c172e] text-zinc-200 border border-[rgba(139,92,246,0.16)] transition-colors cursor-pointer text-xs focus:outline-none focus-visible:ring-1 focus-visible:ring-violet-400"
               >
                 <Radio className="w-3.5 h-3.5 text-violet-400" />
                 <span>
@@ -211,10 +212,11 @@ export default function SettingsPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs font-mono">
             <div>
-              <label className="block text-zinc-300 uppercase tracking-wider mb-1 text-[11px]">
+              <label htmlFor="max-repro-iterations" className="block text-zinc-300 uppercase tracking-wider mb-1 text-[11px]">
                 Max Reproduction Iterations ({settings.testExecution.maxReproductionIterations} runs)
               </label>
               <input
+                id="max-repro-iterations"
                 type="range"
                 min="20"
                 max="100"
@@ -234,10 +236,11 @@ export default function SettingsPage() {
             </div>
 
             <div>
-              <label className="block text-zinc-300 uppercase tracking-wider mb-1 text-[11px]">
+              <label htmlFor="parallel-workers" className="block text-zinc-300 uppercase tracking-wider mb-1 text-[11px]">
                 Parallel Workers ({settings.testExecution.parallelWorkers} workers)
               </label>
               <input
+                id="parallel-workers"
                 type="range"
                 min="2"
                 max="16"
@@ -257,10 +260,11 @@ export default function SettingsPage() {
             </div>
 
             <div>
-              <label className="block text-zinc-300 uppercase tracking-wider mb-1 text-[11px]">
+              <label htmlFor="prng-engine" className="block text-zinc-300 uppercase tracking-wider mb-1 text-[11px]">
                 PRNG Seed Engine
               </label>
               <select
+                id="prng-engine"
                 value={settings.testExecution.seedGenerator}
                 onChange={(e) =>
                   setSettings({
@@ -297,11 +301,12 @@ export default function SettingsPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5 text-xs font-mono">
             <div className="flex items-center justify-between p-2.5 rounded bg-[#090812] border border-[rgba(139,92,246,0.12)]">
-              <div>
+              <label htmlFor="chaos-thread-jitter" className="cursor-pointer">
                 <span className="text-zinc-200 font-medium block">Thread Jitter</span>
-                <span className="text-zinc-500 text-[10px]">Random context switch delays</span>
-              </div>
+                <span className="text-zinc-400 text-[10px]">Random context switch delays</span>
+              </label>
               <input
+                id="chaos-thread-jitter"
                 type="checkbox"
                 checked={settings.perturbation.enableThreadJitter}
                 onChange={(e) =>
@@ -318,10 +323,11 @@ export default function SettingsPage() {
             </div>
 
             <div>
-              <label className="block text-zinc-300 uppercase tracking-wider mb-1 text-[11px]">
+              <label htmlFor="chaos-clock-skew" className="block text-zinc-300 uppercase tracking-wider mb-1 text-[11px]">
                 Max Clock Skew (&plusmn;{settings.perturbation.maxClockSkewMs}ms)
               </label>
               <input
+                id="chaos-clock-skew"
                 type="range"
                 min="10"
                 max="100"
@@ -341,11 +347,12 @@ export default function SettingsPage() {
             </div>
 
             <div className="flex items-center justify-between p-2.5 rounded bg-[#090812] border border-[rgba(139,92,246,0.12)]">
-              <div>
+              <label htmlFor="chaos-memory-pressure" className="cursor-pointer">
                 <span className="text-zinc-200 font-medium block">Memory Pressure</span>
-                <span className="text-zinc-500 text-[10px]">Simulate heap spikes</span>
-              </div>
+                <span className="text-zinc-400 text-[10px]">Simulate heap spikes</span>
+              </label>
               <input
+                id="chaos-memory-pressure"
                 type="checkbox"
                 checked={settings.perturbation.memoryPressureSimulation}
                 onChange={(e) =>
@@ -379,11 +386,12 @@ export default function SettingsPage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs font-mono">
             <div className="flex items-center justify-between p-2.5 rounded bg-[#090812] border border-[rgba(139,92,246,0.12)]">
-              <div>
+              <label htmlFor="theme-reduced-motion" className="cursor-pointer">
                 <span className="text-zinc-200 font-medium block">Reduced Motion Mode</span>
-                <span className="text-zinc-500 text-[10px]">Disable all page transitions &amp; 3D rotation</span>
-              </div>
+                <span className="text-zinc-400 text-[10px]">Disable all page transitions &amp; 3D rotation</span>
+              </label>
               <input
+                id="theme-reduced-motion"
                 type="checkbox"
                 checked={settings.theme.reducedMotion}
                 onChange={(e) =>
@@ -400,11 +408,12 @@ export default function SettingsPage() {
             </div>
 
             <div className="flex items-center justify-between p-2.5 rounded bg-[#090812] border border-[rgba(139,92,246,0.12)]">
-              <div>
+              <label htmlFor="theme-particles" className="cursor-pointer">
                 <span className="text-zinc-200 font-medium block">3D Phase-Space Inspector</span>
-                <span className="text-zinc-500 text-[10px]">Render WebGL execution variance topology</span>
-              </div>
+                <span className="text-zinc-400 text-[10px]">Render WebGL execution variance topology</span>
+              </label>
               <input
+                id="theme-particles"
                 type="checkbox"
                 checked={settings.theme.particlesEnabled}
                 onChange={(e) =>

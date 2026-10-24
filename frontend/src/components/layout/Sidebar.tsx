@@ -68,6 +68,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
 
       {/* Main Sidebar Element */}
       <aside
+        aria-label="Application sidebar"
         className={cn(
           "fixed top-0 bottom-0 left-0 z-50 w-64 bg-[#0a0812] border-r border-[rgba(139,92,246,0.12)] flex flex-col justify-between transition-transform duration-250 ease-out lg:translate-x-0",
           isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
@@ -79,7 +80,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
             <Link
               href="/dashboard"
               onClick={onClose}
-              className="flex items-center space-x-2.5 focus:outline-none focus:ring-1 focus:ring-violet-500/50 rounded"
+              className="flex items-center space-x-2.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-400 rounded"
             >
               {/* Electric Violet Brand Icon */}
               <div className="w-7 h-7 rounded-md bg-gradient-to-br from-violet-600 to-indigo-700 p-0.5 shadow-[0_0_12px_rgba(139,92,246,0.35)] flex items-center justify-center">
@@ -108,14 +109,14 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
               </div>
             </Link>
 
-            {/* Mobile Close Button */}
+            {/* Mobile Close Button - 44x44px minimum touch target for WCAG 2.5.5 */}
             <button
               type="button"
               onClick={onClose}
-              className="lg:hidden p-1.5 rounded text-zinc-400 hover:text-white hover:bg-zinc-800/60"
+              className="lg:hidden min-w-[44px] min-h-[44px] flex items-center justify-center rounded text-zinc-400 hover:text-white hover:bg-zinc-800/60 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-400"
               aria-label="Close navigation sidebar"
             >
-              <X className="w-4 h-4" />
+              <X className="w-5 h-5" />
             </button>
           </div>
 
@@ -140,7 +141,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
           </div>
 
           {/* Navigation Section */}
-          <div className="px-2.5 py-4 space-y-1">
+          <nav aria-label="Workbench navigation" className="px-2.5 py-4 space-y-1">
             <div className="px-2 pb-1.5 text-[10px] font-mono uppercase tracking-wider text-zinc-400">
               Workbench
             </div>
@@ -156,8 +157,9 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
                   key={item.href}
                   href={item.href}
                   onClick={onClose}
+                  aria-current={isActive ? "page" : undefined}
                   className={cn(
-                    "flex items-center justify-between px-3 py-2 rounded-md text-xs font-medium transition-all group",
+                    "flex items-center justify-between px-3 py-2 rounded-md text-xs font-medium transition-all group focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-400",
                     isActive
                       ? "text-white bg-gradient-to-r from-violet-900/40 to-transparent border border-violet-500/30 shadow-[inset_2px_0_0_#8b5cf6]"
                       : "text-zinc-400 hover:text-zinc-200 hover:bg-violet-950/20 border border-transparent"
@@ -193,7 +195,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
                 </Link>
               );
             })}
-          </div>
+          </nav>
         </div>
 
         {/* Bottom Section: Health & User Profile */}
@@ -207,8 +209,15 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
               </span>
               <span className="text-zinc-200 font-mono font-medium">98.4%</span>
             </div>
-            {/* Health Bar */}
-            <div className="w-full h-1.5 rounded-full bg-zinc-800 overflow-hidden flex">
+            {/* Health Bar with Accessible Progressbar Role */}
+            <div
+              role="progressbar"
+              aria-valuenow={98.4}
+              aria-valuemin={0}
+              aria-valuemax={100}
+              aria-label="Test suite pass rate"
+              className="w-full h-1.5 rounded-full bg-zinc-800 overflow-hidden flex"
+            >
               <div className="bg-emerald-500 h-full w-[98.4%]" />
               <div className="bg-rose-500 h-full w-[1.6%]" />
             </div>

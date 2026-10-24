@@ -98,15 +98,17 @@ export default function FlakyTestsPage() {
               <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500" />
               <input
                 type="text"
+                aria-label="Filter by test identifier, file path, or suspected cause"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Filter by test identifier, file path, or suspected cause..."
-                className="w-full pl-8 pr-3 py-1.5 rounded bg-[#090812] border border-[rgba(139,92,246,0.12)] text-xs font-mono text-zinc-200 placeholder-zinc-500 focus:outline-none focus:border-violet-500/50"
+                className="w-full pl-8 pr-3 py-1.5 rounded bg-[#090812] border border-[rgba(139,92,246,0.12)] text-xs font-mono text-zinc-200 placeholder-zinc-500 focus:outline-none focus:border-violet-500/50 focus-visible:ring-1 focus-visible:ring-violet-400"
               />
             </div>
 
             <div>
               <select
+                aria-label="Filter by repository"
                 value={selectedRepo}
                 onChange={(e) => setSelectedRepo(e.target.value)}
                 className="w-full px-2.5 py-1.5 rounded bg-[#090812] border border-[rgba(139,92,246,0.12)] text-xs font-mono text-zinc-300 focus:outline-none focus:border-violet-500/50 cursor-pointer"
@@ -122,6 +124,7 @@ export default function FlakyTestsPage() {
 
             <div>
               <select
+                aria-label="Filter by minimum flakiness rate"
                 value={minRate}
                 onChange={(e) => setMinRate(Number(e.target.value))}
                 className="w-full px-2.5 py-1.5 rounded bg-[#090812] border border-[rgba(139,92,246,0.12)] text-xs font-mono text-zinc-300 focus:outline-none focus:border-violet-500/50 cursor-pointer"

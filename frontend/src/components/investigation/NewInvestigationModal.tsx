@@ -108,44 +108,47 @@ export function NewInvestigationModal({
 
         {/* Test Identifier */}
         <div>
-          <label className="block text-xs font-mono text-zinc-300 uppercase tracking-wider mb-1">
+          <label htmlFor="inv-test-name" className="block text-xs font-mono text-zinc-300 uppercase tracking-wider mb-1">
             Test Identifier *
           </label>
           <input
+            id="inv-test-name"
             type="text"
             required
             value={testName}
             onChange={(e) => setTestName(e.target.value)}
             placeholder="e.g. TestAsyncConnectionPoolDrainUnderLoad"
-            className="w-full px-3 py-1.5 rounded bg-[#090812] border border-[rgba(139,92,246,0.16)] text-zinc-100 placeholder-zinc-500 text-xs font-mono focus:outline-none focus:border-violet-500/50"
+            className="w-full px-3 py-1.5 rounded bg-[#090812] border border-[rgba(139,92,246,0.16)] text-zinc-100 placeholder-zinc-500 text-xs font-mono focus:outline-none focus:border-violet-500/50 focus-visible:ring-1 focus-visible:ring-violet-400"
           />
         </div>
 
         {/* File Path */}
         <div>
-          <label className="block text-xs font-mono text-zinc-300 uppercase tracking-wider mb-1">
+          <label htmlFor="inv-test-file" className="block text-xs font-mono text-zinc-300 uppercase tracking-wider mb-1">
             Test File Path *
           </label>
           <input
+            id="inv-test-file"
             type="text"
             required
             value={testFile}
             onChange={(e) => setTestFile(e.target.value)}
             placeholder="e.g. services/gateway/pool_test.go"
-            className="w-full px-3 py-1.5 rounded bg-[#090812] border border-[rgba(139,92,246,0.16)] text-zinc-100 placeholder-zinc-500 text-xs font-mono focus:outline-none focus:border-violet-500/50"
+            className="w-full px-3 py-1.5 rounded bg-[#090812] border border-[rgba(139,92,246,0.16)] text-zinc-100 placeholder-zinc-500 text-xs font-mono focus:outline-none focus:border-violet-500/50 focus-visible:ring-1 focus-visible:ring-violet-400"
           />
         </div>
 
         {/* Repository & Branch */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
-            <label className="block text-xs font-mono text-zinc-300 uppercase tracking-wider mb-1">
+            <label htmlFor="inv-target-repo" className="block text-xs font-mono text-zinc-300 uppercase tracking-wider mb-1">
               Target Repository
             </label>
             <select
+              id="inv-target-repo"
               value={repository}
               onChange={(e) => setRepository(e.target.value)}
-              className="w-full px-3 py-1.5 rounded bg-[#090812] border border-[rgba(139,92,246,0.16)] text-zinc-200 text-xs font-mono focus:outline-none focus:border-violet-500/50 cursor-pointer"
+              className="w-full px-3 py-1.5 rounded bg-[#090812] border border-[rgba(139,92,246,0.16)] text-zinc-200 text-xs font-mono focus:outline-none focus:border-violet-500/50 focus-visible:ring-1 focus-visible:ring-violet-400 cursor-pointer"
             >
               {MOCK_REPOSITORIES.map((repo) => (
                 <option key={repo.id} value={repo.name} className="bg-[#0f0d18]">
@@ -156,15 +159,16 @@ export function NewInvestigationModal({
           </div>
 
           <div>
-            <label className="block text-xs font-mono text-zinc-300 uppercase tracking-wider mb-1">
+            <label htmlFor="inv-target-branch" className="block text-xs font-mono text-zinc-300 uppercase tracking-wider mb-1">
               Target Git Branch
             </label>
             <input
+              id="inv-target-branch"
               type="text"
               value={branch}
               onChange={(e) => setBranch(e.target.value)}
               placeholder="main"
-              className="w-full px-3 py-1.5 rounded bg-[#090812] border border-[rgba(139,92,246,0.16)] text-zinc-100 text-xs font-mono focus:outline-none focus:border-violet-500/50"
+              className="w-full px-3 py-1.5 rounded bg-[#090812] border border-[rgba(139,92,246,0.16)] text-zinc-100 text-xs font-mono focus:outline-none focus:border-violet-500/50 focus-visible:ring-1 focus-visible:ring-violet-400"
             />
           </div>
         </div>
@@ -172,10 +176,11 @@ export function NewInvestigationModal({
         {/* Iterations & Priority */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
-            <label className="block text-xs font-mono text-zinc-300 uppercase tracking-wider mb-1">
+            <label htmlFor="inv-iterations" className="block text-xs font-mono text-zinc-300 uppercase tracking-wider mb-1">
               Reproduction Iterations ({iterations} runs)
             </label>
             <input
+              id="inv-iterations"
               type="range"
               min="10"
               max="100"
@@ -184,7 +189,7 @@ export function NewInvestigationModal({
               onChange={(e) => setIterations(Number(e.target.value))}
               className="w-full accent-violet-500 cursor-pointer"
             />
-            <div className="flex justify-between text-[10px] font-mono text-zinc-500 mt-1">
+            <div className="flex justify-between text-[10px] font-mono text-zinc-400 mt-1">
               <span>10 runs</span>
               <span>50 runs</span>
               <span>100 runs</span>
@@ -192,16 +197,17 @@ export function NewInvestigationModal({
           </div>
 
           <div>
-            <label className="block text-xs font-mono text-zinc-300 uppercase tracking-wider mb-1">
+            <span className="block text-xs font-mono text-zinc-300 uppercase tracking-wider mb-1">
               Priority
-            </label>
-            <div className="grid grid-cols-3 gap-1.5">
+            </span>
+            <div role="group" aria-label="Investigation Priority" className="grid grid-cols-3 gap-1.5">
               {(["HIGH", "MEDIUM", "LOW"] as const).map((p) => (
                 <button
                   key={p}
                   type="button"
+                  aria-pressed={priority === p}
                   onClick={() => setPriority(p)}
-                  className={`py-1 text-xs font-mono rounded border transition-colors cursor-pointer ${
+                  className={`py-1 text-xs font-mono rounded border transition-colors cursor-pointer focus:outline-none focus-visible:ring-1 focus-visible:ring-violet-400 ${
                     priority === p
                       ? p === "HIGH"
                         ? "bg-red-950/60 border-red-500/50 text-red-300 font-semibold"

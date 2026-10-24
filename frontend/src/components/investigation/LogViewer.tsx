@@ -56,23 +56,26 @@ export function LogViewer({ logs, stackTrace, className }: LogViewerProps) {
           <Search className="w-3.5 h-3.5 absolute left-2.5 top-1/2 -translate-y-1/2 text-zinc-500" />
           <input
             type="text"
+            aria-label="Filter logs by message or package"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search log messages or source packages..."
-            className="w-full pl-8 pr-3 py-1 rounded bg-[#090812] border border-[rgba(139,92,246,0.12)] text-xs font-mono text-zinc-200 placeholder-zinc-500 focus:outline-none focus:border-violet-500/50"
+            className="w-full pl-8 pr-3 py-1 rounded bg-[#090812] border border-[rgba(139,92,246,0.12)] text-xs font-mono text-zinc-200 placeholder-zinc-500 focus:outline-none focus:border-violet-500/50 focus-visible:ring-1 focus-visible:ring-violet-400"
           />
         </div>
 
         {/* Level Filters & Copy Button */}
         <div className="flex items-center space-x-2">
-          <div className="flex items-center bg-[#090812] p-0.5 rounded border border-[rgba(139,92,246,0.12)] text-[11px] font-mono">
+          <div role="tablist" aria-label="Log level filter" className="flex items-center bg-[#090812] p-0.5 rounded border border-[rgba(139,92,246,0.12)] text-[11px] font-mono">
             {["ALL", "ERROR", "WARN", "INFO", "DEBUG"].map((lvl) => (
               <button
                 key={lvl}
+                role="tab"
+                aria-selected={levelFilter === lvl}
                 type="button"
                 onClick={() => setLevelFilter(lvl)}
                 className={cn(
-                  "px-2 py-0.5 rounded transition-colors cursor-pointer",
+                  "px-2 py-0.5 rounded transition-colors cursor-pointer focus:outline-none focus-visible:ring-1 focus-visible:ring-violet-400",
                   levelFilter === lvl
                     ? "bg-violet-950/50 text-violet-200 font-semibold border border-violet-500/40"
                     : "text-zinc-400 hover:text-zinc-200"
@@ -86,7 +89,8 @@ export function LogViewer({ logs, stackTrace, className }: LogViewerProps) {
           <button
             type="button"
             onClick={handleCopyLogs}
-            className="flex items-center space-x-1 px-2.5 py-1 rounded bg-[#141122] hover:bg-[#1c172e] text-zinc-300 text-xs font-mono border border-[rgba(139,92,246,0.16)] transition-colors cursor-pointer"
+            aria-label="Copy logs to clipboard"
+            className="flex items-center space-x-1 px-2.5 py-1 rounded bg-[#141122] hover:bg-[#1c172e] text-zinc-300 text-xs font-mono border border-[rgba(139,92,246,0.16)] transition-colors cursor-pointer focus:outline-none focus-visible:ring-1 focus-visible:ring-violet-400"
           >
             {copied ? (
               <>
@@ -108,8 +112,10 @@ export function LogViewer({ logs, stackTrace, className }: LogViewerProps) {
         <div className="border-b border-[rgba(139,92,246,0.12)] bg-red-950/20">
           <button
             type="button"
+            aria-expanded={showStackTrace}
+            aria-controls="stack-trace-panel"
             onClick={() => setShowStackTrace(!showStackTrace)}
-            className="w-full flex items-center justify-between px-3.5 py-2 text-left font-mono text-xs text-red-300 hover:bg-red-900/10 transition-colors cursor-pointer"
+            className="w-full flex items-center justify-between px-3.5 py-2 text-left font-mono text-xs text-red-300 hover:bg-red-900/10 transition-colors cursor-pointer focus:outline-none focus-visible:ring-1 focus-visible:ring-violet-400"
           >
             <div className="flex items-center space-x-2">
               <AlertCircle className="w-3.5 h-3.5 text-red-400 shrink-0" />
@@ -124,6 +130,7 @@ export function LogViewer({ logs, stackTrace, className }: LogViewerProps) {
 
           {showStackTrace && (
             <div
+              id="stack-trace-panel"
               data-lenis-prevent
               className="p-3 bg-[#08070d] font-mono text-xs text-red-300 overflow-x-auto border-t border-red-900/30 max-h-56 leading-relaxed"
             >

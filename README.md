@@ -2,7 +2,7 @@
 
 Wobble is a local tool that hunts order-dependent pytest failures. It runs a test suite in shuffled orders, reports an observed failure rate with a 95% Wilson interval, and reduces a failing order to a small set of earlier tests.
 
-The first version is a CLI. It can run a trusted repository in fresh Python processes or run each experiment in a disposable Docker container. The container runner can limit CPU, memory, and processes, and shift the wall clock. A local model can choose a bounded sequence of experiments and propose a small source insertion. Wobble verifies each candidate patch in a disposable copy. See [the architecture](docs/architecture.md) for the build order.
+The first version is a CLI. It can run a trusted repository in fresh Python processes or run each experiment in a disposable Docker container. The container runner can limit CPU, memory, and processes, and shift the wall clock. A local model can choose a bounded sequence of experiments and propose a small source insertion. Wobble verifies each candidate patch in a disposable copy. See [the architecture](https://github.com/LiteralKrishu/Wobble/blob/main/docs/architecture.md) for the build order.
 
 ## Install
 
@@ -26,7 +26,7 @@ python -m pip install "/path/to/Wobble"
 python -m wobble --help
 ```
 
-To install a wheel, use `python -m pip install /path/to/wobble-0.1.0-py3-none-any.whl` instead. `pip install` installs Wobble and its Python dependency, pytest. It does not install Ollama or download model weights. Install and start [Ollama](https://ollama.com/download) separately. Then run:
+To install a wheel, use `python -m pip install /path/to/wobble_flaky-0.1.0-py3-none-any.whl` instead. The distribution name is `wobble-flaky`; the Python module and command remain `wobble`. `pip install` installs Wobble and its Python dependency, pytest. It does not install Ollama or download model weights. Install and start [Ollama](https://ollama.com/download) separately. Then run:
 
 ```sh
 python -m wobble setup
@@ -135,7 +135,7 @@ Use a hunt report with a minimized reproducer. Wobble first tries a narrow deter
 
 `--patch-output` writes a model patch only after final verification. The baseline handles one simple pattern: a test writes to a module-level dictionary that the victim reads. It does not try to repair other causes. The three-case model check found three verified repairs from Qwen3 4B Instruct and none from the previous Qwen2.5 Coder 7B installation. A separate environment-variable case also passed 100 Docker reruns. These small results do not establish general repair quality.
 
-The [model selection check](docs/model-selection.md) runs three fixed demo cases under the same Docker verification budget.
+The [model selection check](https://github.com/LiteralKrishu/Wobble/blob/main/docs/model-selection.md) runs three fixed demo cases under the same Docker verification budget.
 
 To run only the baseline while testing a local model setup:
 

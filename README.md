@@ -4,6 +4,8 @@ Wobble is a local tool that hunts order-dependent pytest failures. It runs a tes
 
 The first version is a CLI.
 
+We are actively working to make this a Python Package available on Pypi so everyone can use it.
+
 ## Features
 
 - **Hunt:** run a suite in shuffled, repeatable orders and report per-test pass and fail counts.

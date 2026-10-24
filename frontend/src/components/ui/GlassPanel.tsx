@@ -11,7 +11,6 @@ interface GlassPanelProps extends React.HTMLAttributes<HTMLDivElement> {
 export function GlassPanel({
   children,
   className,
-  // Retain props for compatibility but render clean, solid engineering surfaces without artificial glows
   glow = "none",
   hasCorners = false,
   ...props
@@ -19,7 +18,8 @@ export function GlassPanel({
   return (
     <div
       className={cn(
-        "relative rounded-lg bg-[#111317] border border-[#1e2229] transition-colors duration-150",
+        "relative rounded-lg bg-[#0f0d18] border border-[rgba(139,92,246,0.14)] transition-all duration-150",
+        glow === "violet" && "shadow-[0_0_20px_rgba(139,92,246,0.15)] border-violet-500/30",
         className
       )}
       {...props}

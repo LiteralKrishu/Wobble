@@ -38,11 +38,11 @@ export function InvestigationPipeline({
   return (
     <div
       className={cn(
-        "rounded-lg bg-[#111317] border border-[#1e2229] p-4",
+        "rounded-xl bg-[#0f0d18] border border-[rgba(139,92,246,0.14)] p-4 sm:p-5 shadow-[0_4px_24px_rgba(0,0,0,0.4)]",
         className
       )}
     >
-      <div className="flex items-center justify-between mb-4">
+      <div className="flex items-center justify-between mb-4 pb-3 border-b border-[rgba(139,92,246,0.10)]">
         <div>
           <h3 className="text-xs font-semibold text-zinc-300 uppercase tracking-wider">
             Diagnostic Workflow Lifecycle
@@ -59,8 +59,8 @@ export function InvestigationPipeline({
               status === "VERIFIED"
                 ? "text-emerald-400"
                 : status === "FAILED"
-                ? "text-red-400"
-                : "text-amber-400"
+                ? "text-rose-400"
+                : "text-violet-400"
             )}
           >
             {status}
@@ -69,7 +69,7 @@ export function InvestigationPipeline({
       </div>
 
       {/* 5-Stage Stepper Grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 relative">
+      <div className="grid grid-cols-2 sm:grid-cols-5 gap-2.5 relative">
         {STAGES.map((s, idx) => {
           const isCompleted = idx < currentIndex || status === "VERIFIED";
           const isActive = idx === currentIndex && status !== "VERIFIED" && status !== "FAILED";
@@ -80,19 +80,19 @@ export function InvestigationPipeline({
             <div
               key={s.key}
               className={cn(
-                "flex flex-col items-center p-3 rounded border text-center transition-colors",
+                "flex flex-col items-center p-3 rounded-lg border text-center transition-all",
                 isCompleted && "bg-emerald-950/20 border-emerald-800/40 text-emerald-300",
-                isActive && "bg-[#181c23] border-amber-500/50 text-zinc-100",
-                isFailed && "bg-red-950/30 border-red-800/60 text-red-300",
-                isPending && "bg-[#0c0d10] border-[#1e2229] text-zinc-400"
+                isActive && "bg-violet-950/40 border-violet-500/50 text-white shadow-[0_0_15px_rgba(139,92,246,0.2)]",
+                isFailed && "bg-rose-950/30 border-rose-800/60 text-rose-300",
+                isPending && "bg-[#0c0a14] border-[rgba(139,92,246,0.10)] text-zinc-400"
               )}
             >
               <div
                 className={cn(
                   "w-6 h-6 rounded-full flex items-center justify-center font-mono text-xs font-semibold mb-1.5",
                   isCompleted && "bg-emerald-500 text-zinc-950",
-                  isActive && "bg-amber-500 text-zinc-950",
-                  isFailed && "bg-red-500 text-white",
+                  isActive && "bg-violet-500 text-white shadow-[0_0_8px_rgba(139,92,246,0.5)]",
+                  isFailed && "bg-rose-500 text-white",
                   isPending && "bg-zinc-800 text-zinc-400 border border-zinc-700"
                 )}
               >
@@ -116,10 +116,10 @@ export function InvestigationPipeline({
 
               <span
                 className={cn(
-                  "mt-2 text-[9px] font-mono px-1 py-0.2 rounded uppercase tracking-wider",
+                  "mt-2 text-[9px] font-mono px-1.5 py-0.2 rounded uppercase tracking-wider",
                   isCompleted && "text-emerald-400 bg-emerald-950/60",
-                  isActive && "text-amber-300 bg-amber-950/60 font-semibold",
-                  isFailed && "text-red-400 bg-red-950/60",
+                  isActive && "text-violet-300 bg-violet-950/60 font-semibold",
+                  isFailed && "text-rose-400 bg-rose-950/60",
                   isPending && "text-zinc-400 bg-zinc-900"
                 )}
               >

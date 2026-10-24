@@ -117,7 +117,7 @@ export function NewInvestigationModal({
             value={testName}
             onChange={(e) => setTestName(e.target.value)}
             placeholder="e.g. TestAsyncConnectionPoolDrainUnderLoad"
-            className="w-full px-3 py-1.5 rounded bg-[#0c0d10] border border-[#1e2229] text-zinc-100 placeholder-zinc-500 text-xs font-mono focus:outline-none focus:border-zinc-700"
+            className="w-full px-3 py-1.5 rounded bg-[#090812] border border-[rgba(139,92,246,0.16)] text-zinc-100 placeholder-zinc-500 text-xs font-mono focus:outline-none focus:border-violet-500/50"
           />
         </div>
 
@@ -132,7 +132,7 @@ export function NewInvestigationModal({
             value={testFile}
             onChange={(e) => setTestFile(e.target.value)}
             placeholder="e.g. services/gateway/pool_test.go"
-            className="w-full px-3 py-1.5 rounded bg-[#0c0d10] border border-[#1e2229] text-zinc-100 placeholder-zinc-500 text-xs font-mono focus:outline-none focus:border-zinc-700"
+            className="w-full px-3 py-1.5 rounded bg-[#090812] border border-[rgba(139,92,246,0.16)] text-zinc-100 placeholder-zinc-500 text-xs font-mono focus:outline-none focus:border-violet-500/50"
           />
         </div>
 
@@ -145,10 +145,10 @@ export function NewInvestigationModal({
             <select
               value={repository}
               onChange={(e) => setRepository(e.target.value)}
-              className="w-full px-3 py-1.5 rounded bg-[#0c0d10] border border-[#1e2229] text-zinc-200 text-xs font-mono focus:outline-none focus:border-zinc-700 cursor-pointer"
+              className="w-full px-3 py-1.5 rounded bg-[#090812] border border-[rgba(139,92,246,0.16)] text-zinc-200 text-xs font-mono focus:outline-none focus:border-violet-500/50 cursor-pointer"
             >
               {MOCK_REPOSITORIES.map((repo) => (
-                <option key={repo.id} value={repo.name} className="bg-[#111317]">
+                <option key={repo.id} value={repo.name} className="bg-[#0f0d18]">
                   {repo.name}
                 </option>
               ))}
@@ -164,7 +164,7 @@ export function NewInvestigationModal({
               value={branch}
               onChange={(e) => setBranch(e.target.value)}
               placeholder="main"
-              className="w-full px-3 py-1.5 rounded bg-[#0c0d10] border border-[#1e2229] text-zinc-100 text-xs font-mono focus:outline-none focus:border-zinc-700"
+              className="w-full px-3 py-1.5 rounded bg-[#090812] border border-[rgba(139,92,246,0.16)] text-zinc-100 text-xs font-mono focus:outline-none focus:border-violet-500/50"
             />
           </div>
         </div>
@@ -182,9 +182,9 @@ export function NewInvestigationModal({
               step="10"
               value={iterations}
               onChange={(e) => setIterations(Number(e.target.value))}
-              className="w-full accent-amber-500 cursor-pointer"
+              className="w-full accent-violet-500 cursor-pointer"
             />
-            <div className="flex justify-between text-[10px] font-mono text-zinc-400 mt-1">
+            <div className="flex justify-between text-[10px] font-mono text-zinc-500 mt-1">
               <span>10 runs</span>
               <span>50 runs</span>
               <span>100 runs</span>
@@ -204,11 +204,11 @@ export function NewInvestigationModal({
                   className={`py-1 text-xs font-mono rounded border transition-colors cursor-pointer ${
                     priority === p
                       ? p === "HIGH"
-                        ? "bg-red-950/60 border-red-800 text-red-300 font-semibold"
+                        ? "bg-red-950/60 border-red-500/50 text-red-300 font-semibold"
                         : p === "MEDIUM"
-                        ? "bg-amber-950/60 border-amber-800 text-amber-300 font-semibold"
-                        : "bg-zinc-800 border-zinc-700 text-zinc-200 font-semibold"
-                      : "bg-[#0c0d10] border-[#1e2229] text-zinc-400 hover:text-zinc-200"
+                        ? "bg-amber-950/60 border-amber-500/50 text-amber-300 font-semibold"
+                        : "bg-violet-950/60 border-violet-500/50 text-violet-200 font-semibold"
+                      : "bg-[#090812] border-[rgba(139,92,246,0.12)] text-zinc-400 hover:text-zinc-200"
                   }`}
                 >
                   {p}
@@ -219,15 +219,15 @@ export function NewInvestigationModal({
         </div>
 
         {/* Notice */}
-        <div className="p-2.5 rounded bg-[#0c0d10] border border-[#1e2229] text-[11px] font-mono text-zinc-400 flex items-start space-x-2">
-          <ShieldAlert className="w-3.5 h-3.5 text-amber-400 shrink-0 mt-0.5" />
+        <div className="p-2.5 rounded bg-[#090812] border border-[rgba(139,92,246,0.12)] text-[11px] font-mono text-zinc-400 flex items-start space-x-2">
+          <ShieldAlert className="w-3.5 h-3.5 text-violet-400 shrink-0 mt-0.5" />
           <span>
             Telemetry note: The investigation pipeline will execute in Simulated Mock Adapter mode with synthetic thread interleaving and fuzz seeds.
           </span>
         </div>
 
         {/* Modal Actions */}
-        <div className="pt-3 border-t border-[#1e2229] flex items-center justify-end space-x-2">
+        <div className="pt-3 border-t border-[rgba(139,92,246,0.12)] flex items-center justify-end space-x-2">
           <button
             type="button"
             onClick={onClose}
@@ -240,7 +240,7 @@ export function NewInvestigationModal({
           <button
             type="submit"
             disabled={isSubmitting}
-            className="flex items-center space-x-1.5 px-3 py-1.5 rounded bg-amber-500 hover:bg-amber-400 text-zinc-950 text-xs font-medium font-mono transition-colors cursor-pointer disabled:opacity-50"
+            className="flex items-center space-x-1.5 px-3.5 py-1.5 rounded bg-violet-600 hover:bg-violet-500 text-white text-xs font-medium font-mono transition-colors cursor-pointer disabled:opacity-50 shadow-[0_0_20px_rgba(139,92,246,0.35)]"
           >
             {isSubmitting ? (
               <>

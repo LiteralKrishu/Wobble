@@ -8,12 +8,12 @@ interface SeverityDistributionChartProps {
   data?: typeof MOCK_SEVERITY_DISTRIBUTION;
 }
 
-// Crisp, muted palette for root causes
+// Sophisticated violet-centric palette for failure causes
 const RESTRAINED_COLORS = [
-  "#f59e0b", // Amber (Data Race)
-  "#38bdf8", // Sky Blue (Async Timing)
-  "#818cf8", // Indigo (Resource Contention)
-  "#71717a", // Zinc (Order Dependency)
+  "#8b5cf6", // Electric Violet (Race Conditions)
+  "#6366f1", // Indigo (Shared Mutable State)
+  "#38bdf8", // Sky Blue (Timing & Sleeps)
+  "#f43f5e", // Rose (Order Dependencies)
 ];
 
 export function SeverityDistributionChart({
@@ -27,15 +27,15 @@ export function SeverityDistributionChart({
 
   if (!isMounted) {
     return (
-      <div className="rounded-lg bg-[#111317] border border-[#1e2229] p-4 h-[280px] flex items-center justify-center font-mono text-xs text-zinc-500">
+      <div className="rounded-xl bg-[#0f0d18] border border-[rgba(139,92,246,0.14)] p-4 h-[280px] flex items-center justify-center font-mono text-xs text-zinc-500">
         Loading failure taxonomy...
       </div>
     );
   }
 
   return (
-    <div className="rounded-lg bg-[#111317] border border-[#1e2229] p-4 flex flex-col justify-between">
-      <div className="pb-3 border-b border-[#1e2229]">
+    <div className="rounded-xl bg-[#0f0d18] border border-[rgba(139,92,246,0.14)] p-5 flex flex-col justify-between shadow-[0_4px_24px_rgba(0,0,0,0.4)]">
+      <div className="pb-3.5 border-b border-[rgba(139,92,246,0.10)]">
         <h3 className="text-xs font-semibold text-zinc-300 uppercase tracking-wider">
           Failure Mechanism Taxonomy
         </h3>
@@ -57,7 +57,7 @@ export function SeverityDistributionChart({
                 outerRadius={58}
                 paddingAngle={3}
                 dataKey="value"
-                stroke="#111317"
+                stroke="#0f0d18"
                 strokeWidth={2}
               >
                 {data.map((entry, index) => (
@@ -72,9 +72,9 @@ export function SeverityDistributionChart({
                   if (active && payload && payload.length) {
                     const item = payload[0].payload;
                     return (
-                      <div className="p-2 rounded bg-[#181c23] border border-[#2a303c] shadow-lg font-mono text-xs">
-                        <div className="text-zinc-200 font-semibold">{item.name}</div>
-                        <div className="text-zinc-400 mt-0.5">
+                      <div className="p-2.5 rounded-lg bg-[#140f24] border border-[rgba(139,92,246,0.25)] shadow-xl font-mono text-xs">
+                        <div className="text-white font-semibold">{item.name}</div>
+                        <div className="text-violet-300 mt-0.5">
                           {item.value}% ({item.count} tests)
                         </div>
                       </div>
@@ -92,7 +92,7 @@ export function SeverityDistributionChart({
           {data.map((item, idx) => (
             <div
               key={idx}
-              className="flex items-center justify-between p-1 rounded hover:bg-zinc-800/30 transition-colors"
+              className="flex items-center justify-between p-1.5 rounded-md hover:bg-violet-950/20 transition-colors"
             >
               <div className="flex items-center space-x-2">
                 <span
@@ -105,7 +105,7 @@ export function SeverityDistributionChart({
                 <span className="text-zinc-300 text-xs">{item.name}</span>
               </div>
               <div className="flex items-center space-x-1.5">
-                <span className="font-semibold text-zinc-200">{item.value}%</span>
+                <span className="font-semibold text-white">{item.value}%</span>
                 <span className="text-[10px] text-zinc-400">({item.count})</span>
               </div>
             </div>

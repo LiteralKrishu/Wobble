@@ -93,7 +93,7 @@ export function InvestigationWorkspace({ id }: InvestigationWorkspaceProps) {
     return (
       <AppShell>
         <div className="py-24 text-center space-y-3 font-mono">
-          <Loader2 className="w-6 h-6 animate-spin text-zinc-400 mx-auto" />
+          <Loader2 className="w-6 h-6 animate-spin text-violet-400 mx-auto" />
           <p className="text-xs text-zinc-400">Loading diagnostic workspace for {id}...</p>
         </div>
       </AppShell>
@@ -104,13 +104,13 @@ export function InvestigationWorkspace({ id }: InvestigationWorkspaceProps) {
     return (
       <AppShell>
         <div className="py-24 text-center space-y-4">
-          <h2 className="text-lg font-semibold text-zinc-100">Investigation Not Found</h2>
+          <h2 className="text-lg font-semibold text-white">Investigation Not Found</h2>
           <p className="text-zinc-400 font-mono text-xs">
             Identifier {id} does not match any active test records.
           </p>
           <Link
             href="/investigations"
-            className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded bg-zinc-800 text-zinc-200 border border-zinc-700 font-mono text-xs cursor-pointer"
+            className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-md bg-[#161228] text-zinc-200 border border-[rgba(139,92,246,0.2)] font-mono text-xs cursor-pointer hover:border-violet-500/40"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
             <span>Return to Explorer</span>
@@ -127,7 +127,7 @@ export function InvestigationWorkspace({ id }: InvestigationWorkspaceProps) {
         <div className="flex items-center justify-between">
           <Link
             href="/investigations"
-            className="flex items-center space-x-1.5 text-xs font-mono text-zinc-400 hover:text-zinc-200 transition-colors cursor-pointer"
+            className="flex items-center space-x-1.5 text-xs font-mono text-violet-400 hover:text-violet-300 transition-colors cursor-pointer"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
             <span>Back to Investigation Explorer</span>
@@ -135,56 +135,56 @@ export function InvestigationWorkspace({ id }: InvestigationWorkspaceProps) {
 
           {/* Action Feedback Toast */}
           {actionFeedback && (
-            <div className="px-2.5 py-1 rounded bg-zinc-800 border border-zinc-700 text-zinc-200 text-xs font-mono animate-in fade-in">
+            <div className="px-3 py-1 rounded-md bg-[#181328] border border-violet-500/40 text-violet-200 text-xs font-mono animate-in fade-in shadow-[0_0_12px_rgba(139,92,246,0.2)]">
               {actionFeedback}
             </div>
           )}
         </div>
 
         {/* Investigation Master Identity Header */}
-        <div className="rounded-lg bg-[#111317] border border-[#1e2229] p-4 sm:p-5">
+        <div className="rounded-xl bg-[#0f0d18] border border-[rgba(139,92,246,0.14)] p-4 sm:p-5 shadow-[0_4px_24px_rgba(0,0,0,0.4)]">
           <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-4">
             <div className="space-y-1.5">
               <div className="flex flex-wrap items-center gap-2">
-                <span className="text-xs font-mono font-semibold text-zinc-300 px-1.5 py-0.5 rounded bg-[#0c0d10] border border-[#1e2229]">
+                <span className="text-xs font-mono font-semibold text-violet-300 px-2 py-0.5 rounded-md bg-[#0c0a14] border border-[rgba(139,92,246,0.16)]">
                   {investigation.id}
                 </span>
                 <StatusBadge status={investigation.status} size="sm" />
-                <span className="text-xs font-mono px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-300 border border-zinc-700">
+                <span className="text-xs font-mono px-2 py-0.5 rounded-md bg-[#141022] text-zinc-300 border border-[rgba(139,92,246,0.12)]">
                   Priority: {investigation.severity}
                 </span>
-                <span className="text-xs font-mono px-1.5 py-0.5 rounded bg-red-950/50 text-red-400 border border-red-800/60 font-semibold">
+                <span className="text-xs font-mono px-2 py-0.5 rounded-md bg-rose-950/40 text-rose-300 border border-rose-800/60 font-semibold">
                   {investigation.failureRate}% Flakiness Rate
                 </span>
               </div>
 
-              <h1 className="text-lg sm:text-xl font-semibold text-zinc-100 tracking-tight break-all font-mono">
+              <h1 className="text-lg sm:text-xl font-semibold text-white tracking-tight break-all font-mono">
                 {investigation.testName}
               </h1>
 
               <div className="flex items-center space-x-1.5 text-xs font-mono text-zinc-400">
-                <FileCode className="w-3.5 h-3.5 text-zinc-500 shrink-0" />
+                <FileCode className="w-3.5 h-3.5 text-zinc-400 shrink-0" />
                 <span className="text-zinc-300 select-all">{investigation.testFile}</span>
               </div>
 
               {/* Technical Context Strip */}
               <div className="flex flex-wrap items-center gap-x-5 gap-y-1.5 pt-1 text-xs font-mono text-zinc-400">
                 <div className="flex items-center space-x-1.5">
-                  <GitBranch className="w-3.5 h-3.5 text-zinc-400" />
+                  <GitBranch className="w-3.5 h-3.5 text-violet-400" />
                   <span>{investigation.repository}</span>
                   <span className="text-zinc-600">/</span>
                   <span className="text-zinc-300">{investigation.branch}</span>
                 </div>
                 <div className="flex items-center space-x-1">
-                  <GitCommit className="w-3.5 h-3.5 text-zinc-500" />
+                  <GitCommit className="w-3.5 h-3.5 text-zinc-400" />
                   <span>Commit: {investigation.commitHash}</span>
                 </div>
                 <div className="flex items-center space-x-1">
-                  <User className="w-3.5 h-3.5 text-zinc-500" />
+                  <User className="w-3.5 h-3.5 text-zinc-400" />
                   <span>Author: {investigation.author}</span>
                 </div>
                 <div className="flex items-center space-x-1">
-                  <Clock className="w-3.5 h-3.5 text-zinc-500" />
+                  <Clock className="w-3.5 h-3.5 text-zinc-400" />
                   <span>Duration: {formatDuration(investigation.durationMs)}</span>
                 </div>
               </div>
@@ -195,7 +195,7 @@ export function InvestigationWorkspace({ id }: InvestigationWorkspaceProps) {
               <button
                 type="button"
                 onClick={handleExportReport}
-                className="flex items-center space-x-1.5 px-2.5 py-1.5 rounded bg-[#181c23] hover:bg-[#20252f] border border-[#2a303c] text-xs font-mono text-zinc-200 transition-colors cursor-pointer"
+                className="flex items-center space-x-1.5 px-3 py-1.5 rounded-md bg-[#161226] hover:bg-violet-900/30 border border-[rgba(139,92,246,0.18)] hover:border-violet-500/40 text-xs font-mono text-zinc-200 hover:text-white transition-all cursor-pointer"
               >
                 <Download className="w-3.5 h-3.5 text-zinc-400" />
                 <span>Export Report JSON</span>
@@ -205,7 +205,7 @@ export function InvestigationWorkspace({ id }: InvestigationWorkspaceProps) {
                 <button
                   type="button"
                   onClick={handleCancelInvestigation}
-                  className="flex items-center space-x-1.5 px-2.5 py-1.5 rounded bg-[#181c23] hover:bg-red-950/40 border border-[#2a303c] text-xs font-mono text-zinc-400 hover:text-red-300 transition-colors cursor-pointer"
+                  className="flex items-center space-x-1.5 px-3 py-1.5 rounded-md bg-[#161226] hover:bg-rose-950/40 border border-[rgba(139,92,246,0.18)] hover:border-rose-800/60 text-xs font-mono text-zinc-400 hover:text-rose-300 transition-colors cursor-pointer"
                 >
                   <StopCircle className="w-3.5 h-3.5 text-zinc-400" />
                   <span>Halt Session</span>
@@ -222,7 +222,7 @@ export function InvestigationWorkspace({ id }: InvestigationWorkspaceProps) {
         />
 
         {/* Workspace Section Navigation Tabs */}
-        <div className="flex items-center space-x-1 border-b border-[#1e2229] overflow-x-auto pb-0.5 text-xs font-mono">
+        <div className="flex items-center space-x-1 border-b border-[rgba(139,92,246,0.12)] overflow-x-auto pb-0.5 text-xs font-mono">
           {[
             { key: "ANALYSIS", label: "Diagnostic Analysis & Topology" },
             {
@@ -246,10 +246,10 @@ export function InvestigationWorkspace({ id }: InvestigationWorkspaceProps) {
               key={tab.key}
               type="button"
               onClick={() => setActiveTab(tab.key as any)}
-              className={`px-3 py-1.5 rounded-t transition-colors whitespace-nowrap cursor-pointer font-medium ${
+              className={`px-3.5 py-2 rounded-t-md transition-all whitespace-nowrap cursor-pointer font-medium ${
                 activeTab === tab.key
-                  ? "bg-[#181c23] text-zinc-100 border-t border-x border-[#2a303c]"
-                  : "text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/30"
+                  ? "bg-[#161228] text-white border-t border-x border-[rgba(139,92,246,0.25)] shadow-[0_-2px_10px_rgba(139,92,246,0.15)]"
+                  : "text-zinc-400 hover:text-zinc-200 hover:bg-violet-950/20"
               }`}
             >
               {tab.label}

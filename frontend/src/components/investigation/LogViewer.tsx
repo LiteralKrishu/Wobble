@@ -48,24 +48,24 @@ export function LogViewer({ logs, stackTrace, className }: LogViewerProps) {
   };
 
   return (
-    <div className={cn("flex flex-col rounded-lg overflow-hidden bg-[#0c0d10] border border-[#1e2229]", className)}>
+    <div className={cn("flex flex-col rounded-lg overflow-hidden bg-[#090812] border border-[rgba(139,92,246,0.14)]", className)}>
       {/* Search & Action Bar */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between p-2.5 bg-[#111317] border-b border-[#1e2229] gap-2.5">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between p-2.5 bg-[#0f0d18] border-b border-[rgba(139,92,246,0.12)] gap-2.5">
         {/* Search Input */}
         <div className="relative flex-1 max-w-md">
-          <Search className="w-3.5 h-3.5 absolute left-2.5 top-1/2 -translate-y-1/2 text-zinc-400" />
+          <Search className="w-3.5 h-3.5 absolute left-2.5 top-1/2 -translate-y-1/2 text-zinc-500" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search log messages or source packages..."
-            className="w-full pl-8 pr-3 py-1 rounded bg-[#0c0d10] border border-[#1e2229] text-xs font-mono text-zinc-200 placeholder-zinc-400 focus:outline-none focus:border-zinc-700"
+            className="w-full pl-8 pr-3 py-1 rounded bg-[#090812] border border-[rgba(139,92,246,0.12)] text-xs font-mono text-zinc-200 placeholder-zinc-500 focus:outline-none focus:border-violet-500/50"
           />
         </div>
 
         {/* Level Filters & Copy Button */}
         <div className="flex items-center space-x-2">
-          <div className="flex items-center bg-[#0c0d10] p-0.5 rounded border border-[#1e2229] text-[11px] font-mono">
+          <div className="flex items-center bg-[#090812] p-0.5 rounded border border-[rgba(139,92,246,0.12)] text-[11px] font-mono">
             {["ALL", "ERROR", "WARN", "INFO", "DEBUG"].map((lvl) => (
               <button
                 key={lvl}
@@ -74,7 +74,7 @@ export function LogViewer({ logs, stackTrace, className }: LogViewerProps) {
                 className={cn(
                   "px-2 py-0.5 rounded transition-colors cursor-pointer",
                   levelFilter === lvl
-                    ? "bg-[#181c23] text-zinc-100 font-semibold border border-[#2a303c]"
+                    ? "bg-violet-950/50 text-violet-200 font-semibold border border-violet-500/40"
                     : "text-zinc-400 hover:text-zinc-200"
                 )}
               >
@@ -86,7 +86,7 @@ export function LogViewer({ logs, stackTrace, className }: LogViewerProps) {
           <button
             type="button"
             onClick={handleCopyLogs}
-            className="flex items-center space-x-1 px-2.5 py-1 rounded bg-[#181c23] hover:bg-[#222731] text-zinc-300 text-xs font-mono border border-[#2a303c] transition-colors cursor-pointer"
+            className="flex items-center space-x-1 px-2.5 py-1 rounded bg-[#141122] hover:bg-[#1c172e] text-zinc-300 text-xs font-mono border border-[rgba(139,92,246,0.16)] transition-colors cursor-pointer"
           >
             {copied ? (
               <>
@@ -105,7 +105,7 @@ export function LogViewer({ logs, stackTrace, className }: LogViewerProps) {
 
       {/* Expandable Stack Trace Section */}
       {stackTrace && (
-        <div className="border-b border-[#1e2229] bg-red-950/20">
+        <div className="border-b border-[rgba(139,92,246,0.12)] bg-red-950/20">
           <button
             type="button"
             onClick={() => setShowStackTrace(!showStackTrace)}
@@ -125,7 +125,7 @@ export function LogViewer({ logs, stackTrace, className }: LogViewerProps) {
           {showStackTrace && (
             <div
               data-lenis-prevent
-              className="p-3 bg-[#090a0c] font-mono text-xs text-red-300 overflow-x-auto border-t border-red-900/30 max-h-56 leading-relaxed"
+              className="p-3 bg-[#08070d] font-mono text-xs text-red-300 overflow-x-auto border-t border-red-900/30 max-h-56 leading-relaxed"
             >
               <pre>{stackTrace}</pre>
             </div>

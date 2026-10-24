@@ -1,27 +1,23 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { AppShell } from "@/components/layout/AppShell";
 import { MetricCard } from "@/components/ui/MetricCard";
 import { FlakinessTrendChart } from "@/components/dashboard/FlakinessTrendChart";
 import { SeverityDistributionChart } from "@/components/dashboard/SeverityDistributionChart";
 import { RecentInvestigationsTable } from "@/components/dashboard/RecentInvestigationsTable";
 import { ActivityFeed } from "@/components/dashboard/ActivityFeed";
-import { GlassPanel } from "@/components/ui/GlassPanel";
+import { FlakinessOrbit3D } from "@/components/3d/FlakinessOrbit3D";
 import {
   ShieldAlert,
   Search,
   CheckCircle2,
-  Activity,
-  Layers,
-  GitBranch,
   RefreshCw,
-  Zap,
-  ArrowUpRight,
-  Filter,
+  GitBranch,
 } from "lucide-react";
 import { api, DashboardMetrics } from "@/services/api";
 import { Investigation, Repository, TelemetryEvent } from "@/types";
+import gsap from "gsap";
 
 export default function DashboardPage() {
   const [metrics, setMetrics] = useState<DashboardMetrics | null>(null);
@@ -30,6 +26,7 @@ export default function DashboardPage() {
   const [telemetry, setTelemetry] = useState<TelemetryEvent[]>([]);
   const [selectedRepo, setSelectedRepo] = useState<string>("ALL");
   const [isLoading, setIsLoading] = useState(true);
+  const dashboardRoot = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     async function loadData() {
@@ -49,9 +46,37 @@ export default function DashboardPage() {
     loadData();
   }, [selectedRepo]);
 
+  // Purposeful GSAP entrance reveal
+  useEffect(() => {
+    if (
+      !dashboardRoot.current ||
+      typeof window === "undefined" ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
+      return;
+    }
+
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        ".wobble-stagger-card",
+        { opacity: 0, y: 16 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.5,
+          stagger: 0.08,
+          ease: "power2.out",
+          delay: 0.1,
+        }
+      );
+    }, dashboardRoot);
+
+    return () => ctx.revert();
+  }, [isLoading]);
+
   return (
     <AppShell>
-      <div className="space-y-8">
+      <div ref={dashboardRoot} className="space-y-8">
         {/* Top Control Bar & Project Selector */}
         <div className="flex flex-col md:flex-row md:items-center justify-between pb-6 border-b border-white/10 gap-4">
           <div>
@@ -94,54 +119,70 @@ export default function DashboardPage() {
 
         {/* Top 4 Key Metric Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <MetricCard
-            title="Total Tests Scanned"
-            value={metrics?.totalScanned.toLocaleString() || "14,820"}
-            delta={{ value: "+12.4%", isPositive: true, label: "vs last sprint" }}
-            icon={Search}
-            glow="none"
-          />
-          <MetricCard
-            title="Flaky Tests Detected"
-            value={metrics?.flakyCount || "38"}
-            delta={{ value: "-4 flakes", isPositive: true, label: "reduced this week" }}
-            icon={ShieldAlert}
-            glow="none"
-          />
-          <MetricCard
-            title="Active Investigations"
-            value={metrics?.investigationsInProgress || "4"}
-            delta={{ value: "2 in reproduction", isNeutral: true }}
-            icon={RefreshCw}
-            glow="violet"
-          />
-          <MetricCard
-            title="Empirically Verified Fixes"
-            value={metrics?.verifiedFixes || "29"}
-            delta={{ value: "+6 verified", isPositive: true, label: "100% clean" }}
-            icon={CheckCircle2}
-            glow="lime"
-          />
+          <div className="wobble-stagger-card">
+            <MetricCard
+              title="Total Tests Scanned"
+              value={metrics?.totalScanned.toLocaleString() || "14,820"}
+              delta={{ value: "+12.4%", isPositive: true, label: "vs last sprint" }}
+              icon={Search}
+              glow="none"
+            />
+          </div>
+          <div className="wobble-stagger-card">
+            <MetricCard
+              title="Flaky Tests Detected"
+              value={metrics?.flakyCount || "38"}
+              delta={{ value: "-4 flakes", isPositive: true, label: "reduced this week" }}
+              icon={ShieldAlert}
+              glow="none"
+            />
+          </div>
+          <div className="wobble-stagger-card">
+            <MetricCard
+              title="Active Investigations"
+              value={metrics?.investigationsInProgress || "4"}
+              delta={{ value: "2 in reproduction", isNeutral: true }}
+              icon={RefreshCw}
+              glow="violet"
+            />
+          </div>
+          <div className="wobble-stagger-card">
+            <MetricCard
+              title="Empirically Verified Fixes"
+              value={metrics?.verifiedFixes || "29"}
+              delta={{ value: "+6 verified", isPositive: true, label: "100% clean" }}
+              icon={CheckCircle2}
+              glow="lime"
+            />
+          </div>
         </div>
 
-        {/* Charts Grid: Trend and Category Distribution */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* 3D State Space Telemetry & Historical Trends */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 wobble-stagger-card">
           <div className="lg:col-span-2">
             <FlakinessTrendChart data={metrics?.trendData} />
+          </div>
+          <div>
+            <FlakinessOrbit3D
+              flakinessRate={metrics?.overallFlakinessRate || 1.6}
+              testName="Cluster Execution Vectors"
+            />
+          </div>
+        </div>
+
+        {/* Recent Investigations Table & Taxonomy Distribution */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 wobble-stagger-card">
+          <div className="lg:col-span-2">
+            <RecentInvestigationsTable investigations={investigations} />
           </div>
           <div>
             <SeverityDistributionChart data={metrics?.severityDistribution} />
           </div>
         </div>
 
-        {/* Recent Investigations & Live Activity Stream */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div className="lg:col-span-2">
-            <RecentInvestigationsTable investigations={investigations} />
-          </div>
-          <div>
-            <ActivityFeed events={telemetry} />
-          </div>
+        {/* Live Activity Telemetry Feed */}
+        <div className="wobble-stagger-card">
+          <ActivityFeed events={telemetry} />
         </div>
       </div>
     </AppShell>

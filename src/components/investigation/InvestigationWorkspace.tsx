@@ -12,6 +12,7 @@ import { RootCauseCard } from "@/components/investigation/RootCauseCard";
 import { MinimizationDiff } from "@/components/investigation/MinimizationDiff";
 import { FixVerificationCard } from "@/components/investigation/FixVerificationCard";
 import { LogViewer } from "@/components/investigation/LogViewer";
+import { FlakinessOrbit3D } from "@/components/3d/FlakinessOrbit3D";
 import {
   ArrowLeft,
   GitBranch,
@@ -265,6 +266,10 @@ export function InvestigationWorkspace({ id }: InvestigationWorkspaceProps) {
                 <MinimizationDiff minimization={investigation.minimization} />
               </div>
               <div className="space-y-6">
+                <FlakinessOrbit3D
+                  flakinessRate={investigation.failureRate}
+                  testName={investigation.testName}
+                />
                 <FixVerificationCard
                   investigationId={investigation.id}
                   verification={investigation.verification}

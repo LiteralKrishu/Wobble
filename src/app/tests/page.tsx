@@ -3,25 +3,17 @@
 import React, { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
 import { AppShell } from "@/components/layout/AppShell";
-import { GlassPanel } from "@/components/ui/GlassPanel";
 import { StatusBadge } from "@/components/ui/StatusBadge";
 import {
-  Layers,
   Search,
-  Filter,
   ArrowRight,
   GitBranch,
-  ShieldAlert,
-  Clock,
-  Sparkles,
   Play,
-  ArrowUpDown,
-  ExternalLink,
+  FileCode,
 } from "lucide-react";
 import { api } from "@/services/api";
 import { FlakyTestSummary, Repository } from "@/types";
 import { formatRelativeTime } from "@/lib/utils";
-import { cn } from "@/lib/utils";
 
 export default function FlakyTestsPage() {
   const [tests, setTests] = useState<FlakyTestSummary[]>([]);
@@ -78,51 +70,38 @@ export default function FlakyTestsPage() {
     return result;
   }, [tests, searchQuery, selectedRepo, minRate, sortBy, sortOrder]);
 
-  const toggleSort = (field: "flakinessRate" | "executionCount" | "failureCount") => {
-    if (sortBy === field) {
-      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
-    } else {
-      setSortBy(field);
-      setSortOrder("desc");
-    }
-  };
-
   return (
     <AppShell>
-      <div className="space-y-6">
+      <div className="space-y-5">
         {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-white/10 gap-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-[#1e2229] gap-3">
           <div>
-            <div className="flex items-center space-x-2 text-xs font-mono text-cyan-400 uppercase tracking-widest">
-              <span className="w-2 h-2 rounded-full bg-cyan-400" />
-              <span>CI Telemetry Scan</span>
-            </div>
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight mt-1">
-              Flaky Test Inventory
+            <h1 className="text-xl font-semibold text-zinc-100 tracking-tight">
+              Flaky Test Directory &amp; Confidence Registry
             </h1>
-            <p className="text-xs text-slate-400 font-mono mt-1">
-              Systematic catalog of non-deterministic tests with 95% confidence intervals
+            <p className="text-xs text-zinc-400 mt-0.5">
+              Empirical registry of non-deterministic tests with 95% binomial confidence intervals
             </p>
           </div>
 
-          <div className="flex items-center space-x-3 text-xs font-mono">
-            <span className="px-3 py-1.5 rounded-xl bg-slate-900 border border-white/10 text-slate-300">
-              Active Signatures: <strong className="text-cyan-300">{filteredTests.length}</strong>
+          <div className="flex items-center space-x-2 text-xs font-mono">
+            <span className="px-2.5 py-1 rounded bg-[#111317] border border-[#1e2229] text-zinc-300">
+              Active Signatures: <strong className="text-amber-400">{filteredTests.length}</strong>
             </span>
           </div>
         </div>
 
         {/* Filter Toolbar */}
-        <GlassPanel hasCorners className="p-4 sm:p-5 space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
+        <div className="rounded-lg bg-[#111317] border border-[#1e2229] p-3.5 space-y-3">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-2.5">
             <div className="relative md:col-span-2">
-              <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+              <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400" />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search flaky tests by identifier, file path, or suspected cause..."
-                className="w-full pl-9 pr-4 py-2 rounded-xl bg-black/60 border border-white/10 text-xs font-mono text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-cyan-400 focus:border-cyan-400 transition-all"
+                placeholder="Filter by test identifier, file path, or suspected cause..."
+                className="w-full pl-8 pr-3 py-1.5 rounded bg-[#0c0d10] border border-[#1e2229] text-xs font-mono text-zinc-200 placeholder-zinc-400 focus:outline-none focus:border-zinc-700"
               />
             </div>
 
@@ -130,7 +109,7 @@ export default function FlakyTestsPage() {
               <select
                 value={selectedRepo}
                 onChange={(e) => setSelectedRepo(e.target.value)}
-                className="w-full px-3 py-2 rounded-xl bg-black/60 border border-white/10 text-xs font-mono text-slate-300 focus:outline-none focus:ring-1 focus:ring-cyan-400 transition-all cursor-pointer"
+                className="w-full px-2.5 py-1.5 rounded bg-[#0c0d10] border border-[#1e2229] text-xs font-mono text-zinc-300 focus:outline-none focus:border-zinc-700 cursor-pointer"
               >
                 <option value="ALL">All Repositories</option>
                 {repositories.map((repo) => (
@@ -145,7 +124,7 @@ export default function FlakyTestsPage() {
               <select
                 value={minRate}
                 onChange={(e) => setMinRate(Number(e.target.value))}
-                className="w-full px-3 py-2 rounded-xl bg-black/60 border border-white/10 text-xs font-mono text-slate-300 focus:outline-none focus:ring-1 focus:ring-cyan-400 transition-all cursor-pointer"
+                className="w-full px-2.5 py-1.5 rounded bg-[#0c0d10] border border-[#1e2229] text-xs font-mono text-zinc-300 focus:outline-none focus:border-zinc-700 cursor-pointer"
               >
                 <option value={0}>Any Flakiness Rate</option>
                 <option value={10}>Min 10% Flakiness</option>
@@ -154,72 +133,69 @@ export default function FlakyTestsPage() {
               </select>
             </div>
           </div>
-        </GlassPanel>
+        </div>
 
-        {/* Inventory Cards / Table */}
-        <div className="space-y-4">
+        {/* Inventory Cards */}
+        <div className="space-y-3">
           {filteredTests.map((t) => (
-            <GlassPanel
+            <div
               key={t.id}
-              hasCorners
-              className="p-5 hover:border-cyan-500/30 transition-all duration-200"
+              className="rounded-lg bg-[#111317] border border-[#1e2229] p-4 hover:border-[#2a303c] transition-colors"
             >
               <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-                <div className="space-y-1.5 flex-1">
+                <div className="space-y-1 flex-1">
                   <div className="flex flex-wrap items-center gap-2">
-                    <span className="text-xs font-mono font-bold text-slate-400 px-2 py-0.5 rounded bg-slate-900 border border-white/10">
+                    <span className="text-xs font-mono font-semibold text-zinc-300 px-1.5 py-0.2 rounded bg-[#0c0d10] border border-[#1e2229]">
                       {t.id}
                     </span>
                     <StatusBadge status={t.investigationStatus} size="sm" />
-                    <span className="text-xs font-mono text-slate-500">
+                    <span className="text-xs font-mono text-zinc-400">
                       Last failure: {formatRelativeTime(t.lastObservedFailure)}
                     </span>
                   </div>
 
-                  <h3 className="text-base sm:text-lg font-bold font-sans text-white hover:text-cyan-300 transition-colors">
+                  <h3 className="text-sm sm:text-base font-semibold text-zinc-100 hover:text-amber-400 transition-colors font-mono">
                     {t.name}
                   </h3>
 
-                  <div className="flex items-center space-x-2 text-xs font-mono text-slate-400">
+                  <div className="flex items-center space-x-2 text-xs font-mono text-zinc-400">
+                    <FileCode className="w-3.5 h-3.5 text-zinc-500 shrink-0" />
                     <span>{t.file}</span>
-                    <span className="text-slate-600">&bull;</span>
-                    <span className="text-cyan-400/80">{t.repository}</span>
-                    <span className="text-slate-600">&bull;</span>
+                    <span className="text-zinc-600">•</span>
+                    <span>{t.repository}</span>
+                    <span className="text-zinc-600">•</span>
                     <span>{t.branch}</span>
                   </div>
 
                   {/* Suspected Cause */}
-                  <div className="pt-2 text-xs font-mono text-slate-300 flex items-start space-x-2">
-                    <Sparkles className="w-3.5 h-3.5 text-violet-400 shrink-0 mt-0.5" />
-                    <span>
-                      <strong className="text-violet-300">Suspected Cause:</strong>{" "}
-                      {t.suspectedCause}
-                    </span>
+                  <div className="pt-1.5 text-xs text-zinc-300 flex items-start space-x-1.5 font-sans">
+                    <span className="font-semibold text-amber-400 text-xs">Identified Cause:</span>
+                    <span className="text-zinc-300">{t.suspectedCause}</span>
                   </div>
                 </div>
 
                 {/* Quantitative Measurement & CI Interval */}
-                <div className="flex flex-wrap sm:flex-nowrap items-center gap-4 lg:gap-6 border-t lg:border-t-0 lg:border-l border-white/10 pt-3 lg:pt-0 lg:pl-6 shrink-0 font-mono text-xs">
+                <div className="flex flex-wrap sm:flex-nowrap items-center gap-4 lg:gap-6 border-t lg:border-t-0 lg:border-l border-[#1e2229] pt-3 lg:pt-0 lg:pl-5 shrink-0 font-mono text-xs">
                   <div>
-                    <span className="text-[10px] text-slate-500 uppercase block">
+                    <span className="text-[10px] text-zinc-400 uppercase block">
                       Flakiness Rate
                     </span>
-                    <div className="text-lg font-bold text-amber-400 mt-0.5">
+                    <div className="text-base font-semibold text-amber-400 mt-0.5">
                       {t.flakinessRate.toFixed(1)}%
                     </div>
-                    <span className="text-[10px] text-slate-400 block">
+                    <span className="text-[10px] text-zinc-400 block">
                       95% CI: [{t.confidenceInterval[0]}% - {t.confidenceInterval[1]}%]
                     </span>
                   </div>
 
                   <div>
-                    <span className="text-[10px] text-slate-500 uppercase block">
+                    <span className="text-[10px] text-zinc-400 uppercase block">
                       Observed Runs
                     </span>
-                    <div className="text-base font-bold text-slate-200 mt-0.5">
+                    <div className="text-sm font-semibold text-zinc-200 mt-0.5">
                       {t.executionCount}
                     </div>
-                    <span className="text-[10px] text-rose-400 block">
+                    <span className="text-[10px] text-red-400 block">
                       {t.failureCount} Failures
                     </span>
                   </div>
@@ -229,24 +205,24 @@ export default function FlakyTestsPage() {
                     {t.activeInvestigationId ? (
                       <Link
                         href={`/investigations/${t.activeInvestigationId}`}
-                        className="inline-flex items-center space-x-1.5 px-3.5 py-2 rounded-xl bg-cyan-500/15 text-cyan-300 hover:bg-cyan-500/25 border border-cyan-500/30 transition-all font-mono text-xs font-bold shadow-[0_0_15px_-3px_rgba(0,229,255,0.25)]"
+                        className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded bg-[#181c23] hover:bg-[#20252f] text-zinc-200 border border-[#2a303c] transition-colors font-mono text-xs font-medium"
                       >
                         <span>Workspace</span>
-                        <ArrowRight className="w-3.5 h-3.5" />
+                        <ArrowRight className="w-3.5 h-3.5 text-zinc-400" />
                       </Link>
                     ) : (
                       <Link
                         href="/investigations"
-                        className="inline-flex items-center space-x-1.5 px-3.5 py-2 rounded-xl bg-slate-800 text-slate-300 hover:text-white border border-white/10 transition-colors font-mono text-xs"
+                        className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded bg-[#181c23] hover:bg-[#20252f] text-zinc-300 border border-[#2a303c] transition-colors font-mono text-xs"
                       >
                         <span>Investigate</span>
-                        <Play className="w-3 h-3 fill-current" />
+                        <Play className="w-3 h-3 fill-current text-zinc-400" />
                       </Link>
                     )}
                   </div>
                 </div>
               </div>
-            </GlassPanel>
+            </div>
           ))}
         </div>
       </div>

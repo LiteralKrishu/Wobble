@@ -1,5 +1,5 @@
 import React from "react";
-import { Check, Loader2, X, Circle, ShieldCheck } from "lucide-react";
+import { Check, Loader2, X } from "lucide-react";
 import { InvestigationStage, InvestigationStatus } from "@/types";
 import { cn } from "@/lib/utils";
 
@@ -38,29 +38,29 @@ export function InvestigationPipeline({
   return (
     <div
       className={cn(
-        "glass-panel rounded-2xl p-5 sm:p-6 border border-white/10",
+        "rounded-lg bg-[#111317] border border-[#1e2229] p-4",
         className
       )}
     >
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center justify-between mb-4">
         <div>
-          <h3 className="text-xs font-mono tracking-widest text-slate-400 uppercase">
-            Investigation Workflow Pipeline
+          <h3 className="text-xs font-semibold text-zinc-300 uppercase tracking-wider">
+            Diagnostic Workflow Lifecycle
           </h3>
-          <p className="text-sm font-semibold text-white mt-0.5">
-            Automated Lifecycle Progression
+          <p className="text-xs text-zinc-400 mt-0.5">
+            5-stage automated progression from initial CI failure to verified clean fix
           </p>
         </div>
         <div className="flex items-center space-x-2 text-xs font-mono">
-          <span className="text-slate-400">STATE:</span>
+          <span className="text-zinc-400">STATE:</span>
           <span
             className={cn(
-              "font-bold",
+              "font-medium",
               status === "VERIFIED"
                 ? "text-emerald-400"
                 : status === "FAILED"
-                ? "text-rose-400"
-                : "text-cyan-400"
+                ? "text-red-400"
+                : "text-amber-400"
             )}
           >
             {status}
@@ -68,83 +68,72 @@ export function InvestigationPipeline({
         </div>
       </div>
 
-      <div className="relative">
-        {/* Responsive grid / flex container */}
-        <div className="grid grid-cols-2 sm:grid-cols-5 gap-4 relative z-10">
-          {STAGES.map((s, idx) => {
-            const isCompleted = idx < currentIndex || status === "VERIFIED";
-            const isActive = idx === currentIndex && status !== "VERIFIED" && status !== "FAILED";
-            const isFailed = idx === currentIndex && status === "FAILED";
-            const isPending = idx > currentIndex && status !== "VERIFIED";
+      {/* 5-Stage Stepper Grid */}
+      <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 relative">
+        {STAGES.map((s, idx) => {
+          const isCompleted = idx < currentIndex || status === "VERIFIED";
+          const isActive = idx === currentIndex && status !== "VERIFIED" && status !== "FAILED";
+          const isFailed = idx === currentIndex && status === "FAILED";
+          const isPending = idx > currentIndex && status !== "VERIFIED";
 
-            return (
+          return (
+            <div
+              key={s.key}
+              className={cn(
+                "flex flex-col items-center p-3 rounded border text-center transition-colors",
+                isCompleted && "bg-emerald-950/20 border-emerald-800/40 text-emerald-300",
+                isActive && "bg-[#181c23] border-amber-500/50 text-zinc-100",
+                isFailed && "bg-red-950/30 border-red-800/60 text-red-300",
+                isPending && "bg-[#0c0d10] border-[#1e2229] text-zinc-400"
+              )}
+            >
               <div
-                key={s.key}
                 className={cn(
-                  "relative flex flex-col items-center p-3.5 rounded-xl transition-all duration-300 border text-center",
-                  isCompleted &&
-                    "bg-emerald-500/10 border-emerald-500/30 text-emerald-300",
-                  isActive &&
-                    "bg-cyan-500/15 border-cyan-400/50 text-cyan-200 shadow-[0_0_20px_-3px_rgba(0,229,255,0.35)]",
-                  isFailed &&
-                    "bg-rose-500/15 border-rose-500/40 text-rose-300 shadow-[0_0_20px_-3px_rgba(244,63,94,0.3)]",
-                  isPending &&
-                    "bg-slate-900/40 border-white/5 text-slate-500"
+                  "w-6 h-6 rounded-full flex items-center justify-center font-mono text-xs font-semibold mb-1.5",
+                  isCompleted && "bg-emerald-500 text-zinc-950",
+                  isActive && "bg-amber-500 text-zinc-950",
+                  isFailed && "bg-red-500 text-white",
+                  isPending && "bg-zinc-800 text-zinc-400 border border-zinc-700"
                 )}
               >
-                {/* Node Indicator Icon */}
-                <div
-                  className={cn(
-                    "w-8 h-8 rounded-full flex items-center justify-center font-mono text-xs font-bold mb-2 transition-all",
-                    isCompleted &&
-                      "bg-emerald-500 text-slate-950 shadow-[0_0_12px_rgba(16,245,150,0.5)]",
-                    isActive &&
-                      "bg-cyan-400 text-slate-950 shadow-[0_0_15px_rgba(0,229,255,0.6)] animate-pulse",
-                    isFailed &&
-                      "bg-rose-500 text-white shadow-[0_0_12px_rgba(244,63,94,0.5)]",
-                    isPending && "bg-slate-800 text-slate-500 border border-white/10"
-                  )}
-                >
-                  {isCompleted ? (
-                    <Check className="w-4 h-4 stroke-[3]" />
-                  ) : isActive ? (
-                    <Loader2 className="w-4 h-4 animate-spin stroke-[2.5]" />
-                  ) : isFailed ? (
-                    <X className="w-4 h-4 stroke-[3]" />
-                  ) : (
-                    <span>0{idx + 1}</span>
-                  )}
-                </div>
-
-                <span className="text-xs font-mono font-bold tracking-wider">
-                  {s.title}
-                </span>
-                <span className="text-[10px] text-slate-400 mt-1 font-mono leading-tight">
-                  {s.desc}
-                </span>
-
-                {/* Status Sub-badge */}
-                <span
-                  className={cn(
-                    "mt-2 text-[9px] font-mono px-1.5 py-0.5 rounded tracking-wide uppercase",
-                    isCompleted && "bg-emerald-500/20 text-emerald-400",
-                    isActive && "bg-cyan-400/20 text-cyan-300 animate-pulse",
-                    isFailed && "bg-rose-500/20 text-rose-400",
-                    isPending && "bg-slate-800/80 text-slate-500"
-                  )}
-                >
-                  {isCompleted
-                    ? "COMPLETED"
-                    : isActive
-                    ? "ACTIVE"
-                    : isFailed
-                    ? "HALTED"
-                    : "QUEUED"}
-                </span>
+                {isCompleted ? (
+                  <Check className="w-3.5 h-3.5 stroke-[3]" />
+                ) : isActive ? (
+                  <Loader2 className="w-3.5 h-3.5 animate-spin stroke-[2.5]" />
+                ) : isFailed ? (
+                  <X className="w-3.5 h-3.5 stroke-[3]" />
+                ) : (
+                  <span>{idx + 1}</span>
+                )}
               </div>
-            );
-          })}
-        </div>
+
+              <span className="text-xs font-mono font-medium tracking-wide">
+                {s.title}
+              </span>
+              <span className="text-[10px] text-zinc-400 mt-0.5 font-mono">
+                {s.desc}
+              </span>
+
+              <span
+                className={cn(
+                  "mt-2 text-[9px] font-mono px-1 py-0.2 rounded uppercase tracking-wider",
+                  isCompleted && "text-emerald-400 bg-emerald-950/60",
+                  isActive && "text-amber-300 bg-amber-950/60 font-semibold",
+                  isFailed && "text-red-400 bg-red-950/60",
+                  isPending && "text-zinc-400 bg-zinc-900"
+                )}
+              >
+                {isCompleted
+                  ? "Completed"
+                  : isActive
+                  ? "Running"
+                  : isFailed
+                  ? "Halted"
+                  : "Queued"}
+              </span>
+            </div>
+          );
+        })}
       </div>
     </div>
   );

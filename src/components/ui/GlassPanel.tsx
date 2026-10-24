@@ -4,13 +4,14 @@ import { cn } from "@/lib/utils";
 interface GlassPanelProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
   className?: string;
-  glow?: "none" | "cyan" | "lime" | "violet";
+  glow?: "none" | "cyan" | "lime" | "violet" | "amber";
   hasCorners?: boolean;
 }
 
 export function GlassPanel({
   children,
   className,
+  // Retain props for compatibility but render clean, solid engineering surfaces without artificial glows
   glow = "none",
   hasCorners = false,
   ...props
@@ -18,23 +19,11 @@ export function GlassPanel({
   return (
     <div
       className={cn(
-        "relative rounded-2xl glass-panel transition-all duration-300",
-        glow === "cyan" && "border-cyan-500/30 shadow-[0_0_25px_-5px_rgba(0,229,255,0.15)]",
-        glow === "lime" && "border-emerald-500/30 shadow-[0_0_25px_-5px_rgba(16,245,150,0.15)]",
-        glow === "violet" && "border-violet-500/30 shadow-[0_0_25px_-5px_rgba(168,85,247,0.15)]",
+        "relative rounded-lg bg-[#111317] border border-[#1e2229] transition-colors duration-150",
         className
       )}
       {...props}
     >
-      {/* Decorative futuristic corner brackets */}
-      {hasCorners && (
-        <>
-          <span className="absolute top-0 left-0 w-2 h-2 border-t border-l border-cyan-400/40 rounded-tl-sm pointer-events-none" />
-          <span className="absolute top-0 right-0 w-2 h-2 border-t border-r border-cyan-400/40 rounded-tr-sm pointer-events-none" />
-          <span className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-cyan-400/40 rounded-bl-sm pointer-events-none" />
-          <span className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-cyan-400/40 rounded-br-sm pointer-events-none" />
-        </>
-      )}
       {children}
     </div>
   );

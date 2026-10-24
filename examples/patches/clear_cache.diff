@@ -1,0 +1,19 @@
+diff --git a/test_order.py b/test_order.py
+--- a/test_order.py
++++ b/test_order.py
+@@ -1,6 +1,15 @@
+ """A deliberate order-dependent failure for the local demo."""
+ 
++import pytest
++
+ cache = {}
+ 
+ 
++@pytest.fixture(autouse=True)
++def clear_cache_between_tests():
++    cache.clear()
++    yield
++    cache.clear()
++
++
+ def test_a_polluter():

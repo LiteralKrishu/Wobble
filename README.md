@@ -16,6 +16,27 @@ python3 -m venv .venv
 
 The install needs access to pytest. If the target repository has other dependencies, install them in the same environment before a local hunt. For Docker runs, put those dependencies in the runner image instead. The commands below use paths relative to this project directory.
 
+### Install Wobble as a Python package
+
+Install Wobble in the **target project's Python environment**. The local runner uses that environment to run pytest, so the target's dependencies must be installed there too. The package is not yet published on PyPI. Install it from a Wobble checkout or from a wheel:
+
+```sh
+# Run this with the target project's Python interpreter.
+python -m pip install "/path/to/Wobble"
+python -m wobble doctor
+```
+
+To install a wheel, use `python -m pip install /path/to/wobble-0.1.0-py3-none-any.whl` instead. `pip install` installs Wobble and its Python dependency, pytest. It does not install Ollama or download model weights. Install and start [Ollama](https://ollama.com/download) separately. Then run:
+
+```sh
+python -m wobble setup
+python -m wobble hunt /path/to/target-project --runs 20 --minimize --output hunt.json
+```
+
+`wobble setup` checks for the default `qwen3:4b-instruct` model. It skips the download when the model is already installed. If the model is missing, it asks before downloading. Use `wobble setup --yes` only when you want to approve that download without a prompt. Use `wobble doctor --check-inference` to check that the model can answer a short structured request. A plain hunt and `verify` do not need Ollama.
+
+The examples below use `.venv/bin/wobble` from this checkout. In an installed environment, run its `wobble` command instead. The `examples/` folders are part of the source checkout, not the installed wheel.
+
 ## Quick start with the included tests
 
 First, find a flaky test and save a minimized reproducer:
@@ -46,6 +67,13 @@ Build the runner image once:
 docker build -f Dockerfile.runner -t wobble-pytest:py311 .
 ```
 
+After installing the wheel, export the same recipe and build the image only when you choose to use Docker:
+
+```sh
+wobble dockerfile --output runner.Dockerfile
+docker build -f runner.Dockerfile -t wobble-pytest:py311 .
+```
+
 Then run the same hunt with container isolation:
 
 ```sh
@@ -66,10 +94,10 @@ The clock shift uses `libfaketime`. Some programs bypass its time hooks, so conf
 
 ## Let a local model investigate
 
-Start [Ollama](https://ollama.com/) and use an installed open-weight model. The default model is Qwen3 4B Instruct. Check that it is available locally before this step:
+Start Ollama and use an installed open-weight model. The default model is Qwen3 4B Instruct. Check it with `wobble doctor`, or run `wobble setup` to install it with consent:
 
 ```sh
-ollama list
+.venv/bin/wobble doctor
 .venv/bin/wobble hunt examples/order_dependent --runner docker --runs 20 \
   --seed 0 --agent --model qwen3:4b-instruct --output reports/agent.json
 ```
@@ -127,7 +155,24 @@ The failure rate is the fraction of observed runs that failed. The confidence in
 
 ## Command reference
 
-Run `.venv/bin/wobble --help` for the command list. Run `.venv/bin/wobble hunt --help`, `.venv/bin/wobble verify --help`, or `.venv/bin/wobble repair --help` for the CLI's current syntax. You can also start the CLI with `.venv/bin/python -m wobble`.
+Run `.venv/bin/wobble --help` for the command list. Add `--help` to any command for its current syntax. You can also start the CLI with `.venv/bin/python -m wobble`.
+
+### `wobble doctor`, `wobble setup`, and `wobble dockerfile`
+
+`doctor` checks this Python environment, the Ollama server, and whether the selected model is installed. It never downloads a model. `setup` installs a missing local model only after consent and then checks structured inference. Both use the local Ollama server by default. Set `WOBBLE_OLLAMA_URL` or pass `--ollama-url URL` for a different server. A nonlocal server receives model requests and, during investigation and repair, relevant test source.
+
+| Command and flag | Default | What it does |
+| --- | --- | --- |
+| `doctor --model NAME` | `qwen3:4b-instruct` | Check this model. |
+| `doctor --ollama-url URL` | `http://127.0.0.1:11434` | Check this Ollama server. |
+| `doctor --timeout SECONDS` | `180` | Limit each server request. |
+| `doctor --check-inference` | off | Ask the installed model for a short structured reply. |
+| `setup --model NAME` | `qwen3:4b-instruct` | Check or install this local model. |
+| `setup --ollama-url URL` | `http://127.0.0.1:11434` | Use this Ollama server. |
+| `setup --timeout SECONDS` | `180` | Limit each server request or stalled download read. |
+| `setup --yes` | off | Approve a missing model download without an interactive prompt. |
+| `dockerfile --output FILE` | required | Export the Docker runner recipe from the installed package. |
+| `dockerfile --force` | off | Replace an existing output file. |
 
 ### `wobble hunt`
 
@@ -149,6 +194,7 @@ Run `.venv/bin/wobble --help` for the command list. Run `.venv/bin/wobble hunt -
 | `--agent` | off | Let the local model choose and run bounded follow-up experiments. Do not combine with `--minimize`. |
 | `--agent-steps N` | `5` | Limit the model's experiment and finish decisions. Used with `--agent`. |
 | `--model NAME` | `qwen3:4b-instruct` | Select an installed Ollama model for `--agent`. |
+| `--ollama-url URL` | local server | Use this Ollama server for `--agent`. |
 | `--model-timeout SECONDS` | `90` | Limit each model request during `--agent`. |
 | `--replay-budget N` | `80` | Limit pytest replays during `--minimize`. |
 | `--output FILE` | none | Save the full hunt evidence as JSON. |
@@ -176,6 +222,7 @@ Docker-only flags have no effect with `--runner local`, except a nonzero clock s
 | --- | --- | --- |
 | `--evidence FILE` | required | Read a hunt JSON file with a successfully minimized reproducer. |
 | `--model NAME` | `qwen3:4b-instruct` | Select an installed local Ollama model. |
+| `--ollama-url URL` | local server | Use this Ollama server. |
 | `--model-timeout SECONDS` | `180` | Limit each model request. |
 | `--attempts N` | `2` | Limit model repair proposals. |
 | `--screen-runs N` | `5` | Run this many shuffled full-suite checks before final verification. |

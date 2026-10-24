@@ -56,7 +56,10 @@ class ModelSetupTests(unittest.TestCase):
             setup("qwen3:cloud", None, 30, True)
 
     def test_invalid_server_address_is_rejected(self):
-        for address in ("file:///tmp/ollama", "http://host/path", "http://user:secret@host"):
+        for address in (
+            "file:///tmp/ollama", "http://host/path", "http://user:secret@host",
+            "http://127.0.0.1:invalid", "http://[invalid", "http://host:0",
+        ):
             with self.subTest(address=address), self.assertRaises(SetupError):
                 resolve_ollama_url(address)
 

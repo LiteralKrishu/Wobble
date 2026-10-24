@@ -22,11 +22,15 @@ class SetupError(RuntimeError):
 def resolve_ollama_url(value: str | None = None) -> str:
     """Return the explicit endpoint, or the configured local default."""
     url = value or os.environ.get("WOBBLE_OLLAMA_URL", DEFAULT_OLLAMA_URL)
-    parts = urlsplit(url)
+    try:
+        parts = urlsplit(url)
+        port = parts.port
+    except ValueError as error:
+        raise SetupError("Ollama URL must have a valid host and port") from error
     if (
         parts.scheme not in ("http", "https") or not parts.hostname
         or parts.username or parts.password or parts.path not in ("", "/")
-        or parts.query or parts.fragment
+        or parts.query or parts.fragment or port == 0
     ):
         raise SetupError("Ollama URL must be an HTTP(S) server address without a path or credentials")
     return url.rstrip("/")

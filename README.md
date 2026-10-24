@@ -23,7 +23,7 @@ Install Wobble in the **target project's Python environment**. The local runner 
 ```sh
 # Run this with the target project's Python interpreter.
 python -m pip install "/path/to/Wobble"
-python -m wobble doctor
+python -m wobble --help
 ```
 
 To install a wheel, use `python -m pip install /path/to/wobble-0.1.0-py3-none-any.whl` instead. `pip install` installs Wobble and its Python dependency, pytest. It does not install Ollama or download model weights. Install and start [Ollama](https://ollama.com/download) separately. Then run:

@@ -90,6 +90,8 @@ class OllamaClient:
         self, model: str = DEFAULT_MODEL, timeout_seconds: float = 90,
         base_url: str | None = None,
     ):
+        if not model.strip() or model.endswith(":cloud"):
+            raise ModelError("Choose an installed local model; cloud model tags are not supported")
         self.model = model
         self.timeout_seconds = timeout_seconds
         self.base_url = resolve_ollama_url(base_url)

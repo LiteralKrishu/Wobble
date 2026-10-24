@@ -162,6 +162,7 @@ def main(argv: list[str] | None = None) -> int:
             return _repair_command(args)
         if args.agent and args.minimize:
             raise ValueError("Use either --agent or --minimize for one investigation")
+        client = OllamaClient(args.model, args.model_timeout, args.ollama_url) if args.agent else None
         if args.runner == "docker":
             runner = ContainerPytestRunner(
                 args.repo, args.timeout, args.image, args.cpus, args.memory_mb,
@@ -197,7 +198,6 @@ def main(argv: list[str] | None = None) -> int:
                 print("No test showed both a pass and a failure; nothing to minimize")
         if args.agent:
             if flaky:
-                client = OllamaClient(args.model, args.model_timeout, args.ollama_url)
                 try:
                     result = run_agent(
                         runner, report, flaky.nodeid, client, args.agent_steps,
@@ -220,7 +220,7 @@ def main(argv: list[str] | None = None) -> int:
             args.output.write_text(json.dumps(evidence, indent=2) + "\n", encoding="utf-8")
             print(f"Saved evidence to {args.output}")
         return 2 if "agent_error" in evidence else 0
-    except (RunnerError, ValueError, ModelError, SetupError) as error:
+    except (OSError, RunnerError, ValueError, ModelError, SetupError) as error:
         print(f"wobble: {error}", file=sys.stderr)
         return 2
 

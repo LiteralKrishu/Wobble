@@ -97,37 +97,32 @@ export function BackgroundAtmosphere() {
       {/* 1. Deep Obsidian / Charcoal Base */}
       <div className="absolute inset-0 bg-[#06050b]" />
 
-      {/* 2. Atmospheric Top Center Spotlight Bloom */}
+      {/* 2. Vector Artwork Background from /public/background.svg */}
       <div
-        className="absolute top-0 left-1/2 -translate-x-1/2 w-[1400px] h-[650px] opacity-80 blur-3xl pointer-events-none"
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-85 pointer-events-none transition-opacity duration-700"
         style={{
-          background:
-            "radial-gradient(ellipse 70% 50% at 50% 0%, rgba(139, 92, 246, 0.18) 0%, rgba(109, 40, 217, 0.06) 50%, transparent 80%)",
+          backgroundImage: "url('/background.svg')",
+          backgroundPosition: "center top",
+          backgroundSize: "cover",
+          backgroundAttachment: "fixed",
         }}
       />
 
-      {/* 3. Subtle Warm Twilight Horizon Haze (Inspired by the Techfest golden dusk horizon) */}
+      {/* 3. Atmospheric Vignette & Contrast Scrim for High-Contrast UI Readability */}
       <div
-        className="absolute top-1/3 left-0 right-0 h-[400px] opacity-25 blur-3xl pointer-events-none"
+        className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "radial-gradient(ellipse 90% 40% at 50% 50%, rgba(168, 85, 247, 0.12) 0%, rgba(245, 158, 11, 0.04) 45%, transparent 75%)",
+            "radial-gradient(ellipse 95% 75% at 50% 25%, rgba(6, 5, 11, 0.35) 0%, rgba(6, 5, 11, 0.7) 65%, #06050b 100%)",
         }}
       />
 
-      {/* 4. Deep Lower Flank Aubergine Pools */}
+      {/* 4. Atmospheric Top Center Spotlight Bloom */}
       <div
-        className="absolute -bottom-20 -left-40 w-[700px] h-[700px] opacity-35 blur-3xl pointer-events-none"
+        className="absolute top-0 left-1/2 -translate-x-1/2 w-[1400px] h-[600px] opacity-60 blur-3xl pointer-events-none"
         style={{
           background:
-            "radial-gradient(circle, rgba(109, 40, 217, 0.10) 0%, transparent 70%)",
-        }}
-      />
-      <div
-        className="absolute -bottom-20 -right-40 w-[700px] h-[700px] opacity-30 blur-3xl pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(circle, rgba(91, 33, 182, 0.08) 0%, transparent 70%)",
+            "radial-gradient(ellipse 70% 50% at 50% 0%, rgba(139, 92, 246, 0.16) 0%, rgba(109, 40, 217, 0.04) 50%, transparent 80%)",
         }}
       />
 

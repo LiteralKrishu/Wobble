@@ -59,9 +59,17 @@ export function NavigationRail({ className }: NavigationRailProps) {
     >
       {/* Top Header Mark */}
       <div className="mb-2 flex flex-col items-center">
-        <div className="w-7 h-7 rounded-lg bg-[#222424] border border-[rgba(226,226,218,0.18)] flex items-center justify-center text-[#F0EEE8]">
-          <Activity className="w-3.5 h-3.5" />
-        </div>
+        <Link
+          href="/dashboard"
+          className="w-7 h-7 rounded-lg bg-[#222424] border border-[rgba(226,226,218,0.18)] flex items-center justify-center overflow-hidden hover:border-[rgba(235,235,228,0.3)] transition-all cursor-pointer"
+          title="WOBBLE Home"
+        >
+          <img
+            src="/logo.svg"
+            alt="WOBBLE"
+            className="w-14 h-7 max-w-none object-cover object-left"
+          />
+        </Link>
       </div>
 
       <div className="w-5 h-[1px] bg-[rgba(226,226,218,0.13)] my-2" />

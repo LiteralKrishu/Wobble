@@ -67,9 +67,11 @@ export function AppShell({
             <footer className="mt-20 border-t border-[rgba(226,226,218,0.13)] bg-[#0B0C0D]/90 backdrop-blur-md py-6 px-5 sm:px-8 md:pl-24 md:pr-16 lg:pr-20">
               <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#A8AAA5]">
                 <div className="flex items-center space-x-3">
-                  <span className="font-semibold text-[#F0EEE8] tracking-tight">
-                    WOBBLE
-                  </span>
+                  <img
+                    src="/logo.svg"
+                    alt="WOBBLE"
+                    className="h-6 w-auto object-contain"
+                  />
                   <span className="text-[#777A76]">—</span>
                   <span className="text-[#A8AAA5]">
                     Test reliability &amp; empirical verification platform

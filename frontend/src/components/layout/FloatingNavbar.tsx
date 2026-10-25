@@ -4,16 +4,10 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
-  Activity,
-  Search,
-  Settings,
   Plus,
-  Layers,
   Menu,
   X,
   GitBranch,
-  ShieldCheck,
-  Zap,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -25,23 +19,22 @@ interface FloatingNavbarProps {
 
 const NAV_ITEMS = [
   {
-    name: "TRIAGE",
+    name: "Triage",
     href: "/dashboard",
     badge: null,
   },
   {
-    name: "INVESTIGATIONS",
+    name: "Investigations",
     href: "/investigations",
-    badge: "ACTIVE 4",
-    badgeColor: "amber", // Similar to Techfest's EARLY BIRD gold pill
+    badge: "Active 4",
   },
   {
-    name: "CATALOG",
+    name: "Catalog",
     href: "/tests",
     badge: null,
   },
   {
-    name: "ENGINE",
+    name: "Settings",
     href: "/settings",
     badge: null,
   },
@@ -56,42 +49,37 @@ export function FloatingNavbar({
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <div className="fixed top-3 sm:top-4 left-0 right-0 z-50 pointer-events-none px-3 sm:px-6">
+    <div className="fixed top-4 left-0 right-0 z-50 pointer-events-none px-4 sm:px-8">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         {/* ============================================================ */}
-        {/* 1. TOP LEFT: DISTINCTIVE WOBBLE WORDMARK & STYLIZED EMBLEM   */}
+        {/* 1. TOP LEFT: MINIMALIST WOBBLE WORDMARK                      */}
         {/* ============================================================ */}
         <div className="pointer-events-auto flex items-center">
           <Link
             href="/dashboard"
-            className="group flex items-center space-x-3 px-3 py-2 rounded-xl bg-[#090713]/80 backdrop-blur-xl border border-[rgba(139,92,246,0.20)] shadow-[0_8px_30px_rgba(0,0,0,0.6)] hover:border-violet-500/40 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-400"
+            className="group flex items-center space-x-2.5 px-3 py-2 rounded-2xl glass-surface hover:border-[rgba(235,235,228,0.28)] transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F0EEE8]"
             aria-label="WOBBLE Home"
           >
-            {/* Stylized Sharp Futuristic Emblem */}
-            <div className="relative w-8 h-8 rounded-lg bg-gradient-to-br from-violet-600 via-indigo-600 to-purple-800 p-[1px] shadow-[0_0_15px_rgba(139,92,246,0.4)] flex items-center justify-center">
-              <div className="w-full h-full bg-[#0a0714] rounded-[7px] flex items-center justify-center overflow-hidden">
-                <svg
-                  className="w-4 h-4 text-violet-300 group-hover:scale-110 transition-transform duration-200"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M4 4l6 16 4-10 6 10" />
-                </svg>
-                {/* Tech scanline accent */}
-                <div className="absolute inset-0 bg-gradient-to-b from-white/10 to-transparent pointer-events-none" />
-              </div>
+            {/* Architectural Minimalist Emblem */}
+            <div className="w-7 h-7 rounded-lg bg-[#222424] border border-[rgba(226,226,218,0.18)] flex items-center justify-center text-[#F0EEE8]">
+              <svg
+                className="w-3.5 h-3.5 stroke-current"
+                viewBox="0 0 24 24"
+                fill="none"
+                strokeWidth="2.2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M4 4l6 16 4-10 6 10" />
+              </svg>
             </div>
 
             {/* Wordmark */}
             <div className="flex items-center space-x-2">
-              <span className="font-bold text-sm tracking-wider text-white group-hover:text-violet-200 transition-colors uppercase font-mono">
+              <span className="font-semibold text-sm tracking-tight text-[#F0EEE8]">
                 WOBBLE
               </span>
-              <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-violet-950/60 text-violet-300 border border-violet-800/40">
+              <span className="text-[11px] font-mono px-1.5 py-0.5 rounded bg-[#222424] text-[#A8AAA5] border border-[rgba(226,226,218,0.13)]">
                 v3.4
               </span>
             </div>
@@ -99,30 +87,23 @@ export function FloatingNavbar({
         </div>
 
         {/* ============================================================ */}
-        {/* 2. CENTER: TECHFEST-STYLE CHAMFERED FLOATING NAVIGATION PILL */}
+        {/* 2. CENTER: SMOKED-GLASS FLOATING NAVIGATION                  */}
         {/* ============================================================ */}
         <nav
           aria-label="Primary Navigation"
           className="pointer-events-auto hidden md:flex items-center relative"
         >
-          {/* Outer Chamfered Shell with Hairline Border and Atmospheric Glass */}
-          <div className="relative flex items-center h-12 px-6 bg-[#0a0815]/90 backdrop-blur-xl border border-[rgba(139,92,246,0.22)] shadow-[0_12px_40px_rgba(0,0,0,0.7),0_0_20px_rgba(139,92,246,0.12)] chamfer-nav-pill">
-            {/* Tech Corner Decorative Brackets (Inspired by Techfest reference) */}
-            <div
-              className="absolute left-2.5 top-1/2 -translate-y-1/2 text-violet-400/40 font-mono text-[11px] select-none pointer-events-none"
+          <div className="relative flex items-center h-11 px-5 glass-surface-nav chamfer-nav-pill">
+            {/* Subtle Architectural Corner Ticks */}
+            <span
+              className="text-[#777A76] font-mono text-[10px] select-none pointer-events-none mr-2"
               aria-hidden="true"
             >
               [
-            </div>
-            <div
-              className="absolute right-2.5 top-1/2 -translate-y-1/2 text-violet-400/40 font-mono text-[11px] select-none pointer-events-none"
-              aria-hidden="true"
-            >
-              ]
-            </div>
+            </span>
 
             {/* Navigation Tabs */}
-            <div className="flex items-center space-x-6 sm:space-x-8 px-2 font-mono text-xs">
+            <div className="flex items-center space-x-1 sm:space-x-2 text-xs">
               {NAV_ITEMS.map((item) => {
                 const isActive =
                   pathname === item.href ||
@@ -133,96 +114,101 @@ export function FloatingNavbar({
                     key={item.href}
                     href={item.href}
                     className={cn(
-                      "group relative flex items-center py-1 transition-all select-none tracking-widest text-[11px] font-semibold focus:outline-none focus-visible:ring-1 focus-visible:ring-violet-400",
+                      "group relative flex items-center px-3 py-1.5 rounded-lg text-xs font-medium transition-all select-none focus:outline-none focus-visible:ring-1 focus-visible:ring-[#F0EEE8]",
                       isActive
-                        ? "text-white"
-                        : "text-zinc-400 hover:text-zinc-100"
+                        ? "text-[#F0EEE8] bg-[#222424] border border-[rgba(235,235,228,0.18)] shadow-sm"
+                        : "text-[#A8AAA5] hover:text-[#F0EEE8] hover:bg-[#1E2021] border border-transparent"
                     )}
                   >
-                    {/* Floating Gold/Amber Badge (Identical to Techfest's EARLY BIRD badge) */}
-                    {item.badge && (
-                      <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-1.5 py-0.2 rounded-[3px] bg-amber-500/20 border border-amber-400/50 text-amber-300 font-mono text-[8px] font-bold tracking-normal uppercase shadow-[0_0_8px_rgba(245,158,11,0.3)] animate-pulse">
-                        {item.badge}
-                      </span>
-                    )}
-
                     <span>{item.name}</span>
 
-                    {/* Active State Bottom Glow Bar */}
-                    {isActive && (
-                      <span className="absolute -bottom-1.5 left-0 right-0 h-[2px] bg-gradient-to-r from-violet-500 via-indigo-400 to-violet-500 rounded-full shadow-[0_0_8px_#8b5cf6]" />
+                    {/* Restrained Amber Pill Badge */}
+                    {item.badge && (
+                      <span className="ml-1.5 px-1.5 py-0.2 rounded text-[10px] font-mono font-medium bg-[rgba(216,173,112,0.14)] text-[#D8AD70] border border-[rgba(216,173,112,0.28)]">
+                        {item.badge}
+                      </span>
                     )}
                   </Link>
                 );
               })}
             </div>
+
+            <span
+              className="text-[#777A76] font-mono text-[10px] select-none pointer-events-none ml-2"
+              aria-hidden="true"
+            >
+              ]
+            </span>
           </div>
         </nav>
 
         {/* ============================================================ */}
-        {/* 3. TOP RIGHT: USER IDENTITY, SCOPE & NEW INVESTIGATION CTA   */}
+        {/* 3. TOP RIGHT: SCOPE, USER PROFILE & ACTION CTA               */}
         {/* ============================================================ */}
         <div className="pointer-events-auto flex items-center space-x-2.5">
-          {/* Subtle Repository Scope Pill */}
-          <div className="hidden lg:flex items-center space-x-2 bg-[#090713]/80 backdrop-blur-xl px-3 py-1.5 rounded-xl border border-[rgba(139,92,246,0.18)] text-xs font-mono shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
-            <GitBranch className="w-3.5 h-3.5 text-violet-400" />
+          {/* Subtle Repository Scope Selector */}
+          <div className="hidden lg:flex items-center space-x-2 glass-surface px-3 py-1.5 rounded-xl text-xs font-mono">
+            <GitBranch className="w-3.5 h-3.5 text-[#C5C7C1]" />
             <select
-              aria-label="Repository Context Scope"
+              aria-label="Repository Scope"
               value={selectedRepo}
               onChange={(e) => onRepoChange?.(e.target.value)}
-              className="bg-transparent text-zinc-300 hover:text-white font-medium focus:outline-none cursor-pointer text-xs"
+              className="bg-transparent text-[#F0EEE8] font-medium focus:outline-none cursor-pointer text-xs"
             >
-              <option value="ALL" className="bg-[#0b0817]">
-                All Repos (5 Active)
+              <option value="ALL" className="bg-[#17191A]">
+                All Repositories (5 Active)
               </option>
-              <option value="mono-repo/api-core" className="bg-[#0b0817]">
+              <option value="mono-repo/api-core" className="bg-[#17191A]">
                 mono-repo/api-core
               </option>
-              <option value="billing-engine" className="bg-[#0b0817]">
+              <option value="billing-engine" className="bg-[#17191A]">
                 billing-engine
               </option>
-              <option value="auth-vault" className="bg-[#0b0817]">
+              <option value="auth-vault" className="bg-[#17191A]">
                 auth-vault
               </option>
-              <option value="data-pipeline" className="bg-[#0b0817]">
+              <option value="data-pipeline" className="bg-[#17191A]">
                 data-pipeline
               </option>
             </select>
           </div>
 
-          {/* User Profile Pill (Inspired by Techfest's "YASH" button) */}
-          <div className="flex items-center space-x-2 px-3 py-1.5 rounded-xl bg-[#090713]/85 backdrop-blur-xl border border-[rgba(139,92,246,0.22)] shadow-[0_8px_25px_rgba(0,0,0,0.6)]">
-            <div className="w-5 h-5 rounded-md bg-gradient-to-tr from-violet-600 to-indigo-500 flex items-center justify-center text-[10px] font-bold text-white shadow-[0_0_8px_rgba(139,92,246,0.4)]">
+          {/* User Profile Pill */}
+          <div className="flex items-center space-x-2 px-3 py-1.5 rounded-xl glass-surface">
+            <div className="w-5 h-5 rounded bg-[#222424] border border-[rgba(226,226,218,0.18)] flex items-center justify-center text-[10px] font-bold text-[#F0EEE8]">
               AM
             </div>
-            <span className="text-xs font-mono font-medium text-zinc-200 hidden sm:inline">
+            <span className="text-xs font-medium text-[#F0EEE8] hidden sm:inline">
               Alex Mercer
             </span>
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse ml-0.5" />
+            <span
+              className="w-1.5 h-1.5 rounded-full bg-[#7EB49A] ml-0.5"
+              title="CI Engine connected"
+            />
           </div>
 
-          {/* New Investigation CTA */}
+          {/* New Investigation CTA in Warm Ivory Contrast */}
           {onNewInvestigation && (
             <button
               type="button"
               onClick={onNewInvestigation}
-              className="flex items-center space-x-1.5 px-3 py-2 rounded-xl bg-gradient-to-r from-violet-600 via-purple-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white text-xs font-medium font-mono shadow-[0_0_20px_rgba(139,92,246,0.35)] transition-all cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-400"
+              className="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-[#F0EEE8] hover:bg-[#FFFFFF] text-[#0B0C0D] text-xs font-medium transition-colors cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F0EEE8] shadow-sm"
             >
-              <Plus className="w-3.5 h-3.5 stroke-[2.5]" />
-              <span className="hidden sm:inline">New Investigation</span>
+              <Plus className="w-3.5 h-3.5 stroke-[2.4]" />
+              <span className="hidden sm:inline">New investigation</span>
               <span className="sm:hidden">New</span>
             </button>
           )}
 
-          {/* Mobile Menu Toggle Button (44x44px touch target) */}
+          {/* Mobile Menu Button (44x44px touch target) */}
           <button
             type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden min-w-[44px] min-h-[44px] flex items-center justify-center rounded-xl bg-[#090713]/85 backdrop-blur-xl border border-[rgba(139,92,246,0.20)] text-zinc-300 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-400"
-            aria-label="Toggle Navigation Menu"
+            className="md:hidden min-w-[40px] min-h-[40px] flex items-center justify-center rounded-xl glass-surface text-[#F0EEE8] hover:bg-[#222424] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F0EEE8]"
+            aria-label="Toggle navigation menu"
             aria-expanded={mobileMenuOpen}
           >
-            {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            {mobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
           </button>
         </div>
       </div>
@@ -231,9 +217,9 @@ export function FloatingNavbar({
       {/* 4. RESPONSIVE MOBILE DRAWER                                   */}
       {/* ============================================================ */}
       {mobileMenuOpen && (
-        <div className="pointer-events-auto md:hidden mt-3 max-w-7xl mx-auto p-4 rounded-2xl bg-[#090715]/95 backdrop-blur-2xl border border-[rgba(139,92,246,0.25)] shadow-[0_15px_50px_rgba(0,0,0,0.8)] space-y-2 font-mono">
-          <div className="text-[10px] text-zinc-400 uppercase tracking-wider px-2 py-1 border-b border-[rgba(139,92,246,0.12)]">
-            Navigation Menu
+        <div className="pointer-events-auto md:hidden mt-3 max-w-7xl mx-auto p-4 rounded-2xl glass-surface-nav space-y-2">
+          <div className="text-[11px] text-[#777A76] uppercase tracking-wider px-2 py-1 border-b border-[rgba(226,226,218,0.13)]">
+            Navigation
           </div>
           {NAV_ITEMS.map((item) => {
             const isActive =
@@ -246,15 +232,15 @@ export function FloatingNavbar({
                 href={item.href}
                 onClick={() => setMobileMenuOpen(false)}
                 className={cn(
-                  "flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-medium transition-colors",
+                  "flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-medium transition-colors",
                   isActive
-                    ? "text-white bg-violet-950/60 border border-violet-500/40"
-                    : "text-zinc-300 hover:bg-[#141026]"
+                    ? "text-[#F0EEE8] bg-[#222424] border border-[rgba(235,235,228,0.18)]"
+                    : "text-[#A8AAA5] hover:text-[#F0EEE8] hover:bg-[#1E2021]"
                 )}
               >
                 <span>{item.name}</span>
                 {item.badge && (
-                  <span className="px-1.5 py-0.5 rounded text-[9px] bg-amber-500/20 text-amber-300 border border-amber-500/40">
+                  <span className="px-1.5 py-0.5 rounded text-[10px] font-mono bg-[rgba(216,173,112,0.14)] text-[#D8AD70] border border-[rgba(216,173,112,0.28)]">
                     {item.badge}
                   </span>
                 )}
@@ -262,12 +248,12 @@ export function FloatingNavbar({
             );
           })}
 
-          <div className="pt-2 border-t border-[rgba(139,92,246,0.12)] flex items-center justify-between px-2 text-xs text-zinc-400">
+          <div className="pt-2 border-t border-[rgba(226,226,218,0.13)] flex items-center justify-between px-2 text-xs text-[#A8AAA5]">
             <span className="flex items-center space-x-1.5">
-              <span className="w-2 h-2 rounded-full bg-emerald-400" />
+              <span className="w-1.5 h-1.5 rounded-full bg-[#7EB49A]" />
               <span>CI Health: 98.4%</span>
             </span>
-            <span className="font-mono text-[10px] text-violet-400">Mock Adapter</span>
+            <span className="font-mono text-[11px] text-[#C5C7C1]">Local Adapter</span>
           </div>
         </div>
       )}

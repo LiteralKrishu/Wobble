@@ -14,11 +14,11 @@ const STAGES: {
   title: string;
   desc: string;
 }[] = [
-  { key: "DETECT", title: "DETECT", desc: "Signature Isolation" },
-  { key: "REPRODUCE", title: "REPRODUCE", desc: "Seed Fuzzing" },
-  { key: "MINIMIZE", title: "MINIMIZE", desc: "Delta Debugging" },
-  { key: "DIAGNOSE", title: "DIAGNOSE", desc: "Root Cause" },
-  { key: "VERIFY", title: "VERIFY", desc: "Perturbation Suite" },
+  { key: "DETECT", title: "Detect", desc: "Signature isolation" },
+  { key: "REPRODUCE", title: "Reproduce", desc: "Seed fuzzing" },
+  { key: "MINIMIZE", title: "Minimize", desc: "Delta debugging" },
+  { key: "DIAGNOSE", title: "Diagnose", desc: "Root cause" },
+  { key: "VERIFY", title: "Verify", desc: "Perturbation suite" },
 ];
 
 export function InvestigationPipeline({
@@ -38,29 +38,29 @@ export function InvestigationPipeline({
   return (
     <div
       className={cn(
-        "rounded-xl bg-[#0f0d18] border border-[rgba(139,92,246,0.14)] p-4 sm:p-5 shadow-[0_4px_24px_rgba(0,0,0,0.4)]",
+        "surface-solid rounded-2xl p-5 sm:p-6 shadow-2xl",
         className
       )}
     >
-      <div className="flex items-center justify-between mb-4 pb-3 border-b border-[rgba(139,92,246,0.10)]">
+      <div className="flex items-center justify-between mb-4 pb-3 border-b border-[rgba(226,226,218,0.13)]">
         <div>
-          <h3 className="text-xs font-semibold text-zinc-300 uppercase tracking-wider">
-            Diagnostic Workflow Lifecycle
+          <h3 className="text-base font-semibold text-[#F0EEE8] tracking-tight">
+            Diagnostic workflow lifecycle
           </h3>
-          <p className="text-xs text-zinc-400 mt-0.5">
-            5-stage automated progression from initial CI failure to verified clean fix
+          <p className="text-xs text-[#A8AAA5] mt-0.5">
+            Five-stage automated progression from initial CI failure to verified clean fix
           </p>
         </div>
         <div className="flex items-center space-x-2 text-xs font-mono">
-          <span className="text-zinc-400">STATE:</span>
+          <span className="text-[#777A76]">State:</span>
           <span
             className={cn(
               "font-medium",
               status === "VERIFIED"
-                ? "text-emerald-400"
+                ? "text-[#7EB49A]"
                 : status === "FAILED"
-                ? "text-rose-400"
-                : "text-violet-400"
+                ? "text-[#E47777]"
+                : "text-[#F0EEE8]"
             )}
           >
             {status}
@@ -69,7 +69,7 @@ export function InvestigationPipeline({
       </div>
 
       {/* 5-Stage Stepper Grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-5 gap-2.5 relative">
+      <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 relative">
         {STAGES.map((s, idx) => {
           const isCompleted = idx < currentIndex || status === "VERIFIED";
           const isActive = idx === currentIndex && status !== "VERIFIED" && status !== "FAILED";
@@ -80,20 +80,20 @@ export function InvestigationPipeline({
             <div
               key={s.key}
               className={cn(
-                "flex flex-col items-center p-3 rounded-lg border text-center transition-all",
-                isCompleted && "bg-emerald-950/20 border-emerald-800/40 text-emerald-300",
-                isActive && "bg-violet-950/40 border-violet-500/50 text-white shadow-[0_0_15px_rgba(139,92,246,0.2)]",
-                isFailed && "bg-rose-950/30 border-rose-800/60 text-rose-300",
-                isPending && "bg-[#0c0a14] border-[rgba(139,92,246,0.10)] text-zinc-400"
+                "flex flex-col items-center p-3.5 rounded-xl border text-center transition-all",
+                isCompleted && "bg-[rgba(126,180,154,0.08)] border-[rgba(126,180,154,0.25)] text-[#7EB49A]",
+                isActive && "bg-[#222424] border-[rgba(235,235,228,0.25)] text-[#F0EEE8] shadow-sm",
+                isFailed && "bg-[rgba(228,119,119,0.08)] border-[rgba(228,119,119,0.25)] text-[#E47777]",
+                isPending && "bg-[#17191A] border-[rgba(226,226,218,0.10)] text-[#777A76]"
               )}
             >
               <div
                 className={cn(
-                  "w-6 h-6 rounded-full flex items-center justify-center font-mono text-xs font-semibold mb-1.5",
-                  isCompleted && "bg-emerald-500 text-zinc-950",
-                  isActive && "bg-violet-500 text-white shadow-[0_0_8px_rgba(139,92,246,0.5)]",
-                  isFailed && "bg-rose-500 text-white",
-                  isPending && "bg-zinc-800 text-zinc-400 border border-zinc-700"
+                  "w-6 h-6 rounded-full flex items-center justify-center font-mono text-xs font-semibold mb-2",
+                  isCompleted && "bg-[#7EB49A] text-[#0B0C0D]",
+                  isActive && "bg-[#F0EEE8] text-[#0B0C0D]",
+                  isFailed && "bg-[#E47777] text-[#0B0C0D]",
+                  isPending && "bg-[#222424] text-[#777A76] border border-[rgba(226,226,218,0.13)]"
                 )}
               >
                 {isCompleted ? (
@@ -107,20 +107,20 @@ export function InvestigationPipeline({
                 )}
               </div>
 
-              <span className="text-xs font-mono font-medium tracking-wide">
+              <span className="text-xs font-medium tracking-normal font-sans">
                 {s.title}
               </span>
-              <span className="text-[10px] text-zinc-400 mt-0.5 font-mono">
+              <span className="text-[11px] text-[#A8AAA5] mt-0.5 font-mono">
                 {s.desc}
               </span>
 
               <span
                 className={cn(
-                  "mt-2 text-[9px] font-mono px-1.5 py-0.2 rounded uppercase tracking-wider",
-                  isCompleted && "text-emerald-400 bg-emerald-950/60",
-                  isActive && "text-violet-300 bg-violet-950/60 font-semibold",
-                  isFailed && "text-rose-400 bg-rose-950/60",
-                  isPending && "text-zinc-400 bg-zinc-900"
+                  "mt-2 text-[10px] font-mono px-2 py-0.5 rounded-full uppercase tracking-wider font-medium",
+                  isCompleted && "text-[#7EB49A] bg-[rgba(126,180,154,0.15)]",
+                  isActive && "text-[#F0EEE8] bg-[#222424]",
+                  isFailed && "text-[#E47777] bg-[rgba(228,119,119,0.15)]",
+                  isPending && "text-[#777A76] bg-[#17191A]"
                 )}
               >
                 {isCompleted

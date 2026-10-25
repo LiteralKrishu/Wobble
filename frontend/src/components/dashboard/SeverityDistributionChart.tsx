@@ -8,11 +8,11 @@ interface SeverityDistributionChartProps {
   data?: typeof MOCK_SEVERITY_DISTRIBUTION;
 }
 
-const RESTRAINED_COLORS = [
-  "#8b5cf6", // Electric Violet (Race Conditions)
-  "#6366f1", // Indigo (Shared Mutable State)
-  "#38bdf8", // Sky Blue (Timing & Sleeps)
-  "#f43f5e", // Rose (Order Dependencies)
+const MONOCHROME_SCALE = [
+  "#F0EEE8", // Warm ivory
+  "#C5C7C1", // Muted silver
+  "#A8AAA5", // Secondary neutral
+  "#777A76", // Subtle neutral
 ];
 
 export function SeverityDistributionChart({
@@ -26,27 +26,22 @@ export function SeverityDistributionChart({
 
   if (!isMounted) {
     return (
-      <div className="rounded-2xl bg-[#090714]/85 backdrop-blur-xl border border-[rgba(139,92,246,0.18)] p-6 h-[290px] flex items-center justify-center font-mono text-xs text-zinc-400">
+      <div className="surface-solid rounded-2xl p-6 h-[290px] flex items-center justify-center font-mono text-xs text-[#777A76]">
         Loading failure taxonomy...
       </div>
     );
   }
 
   return (
-    <div className="relative rounded-2xl bg-[#090714]/85 backdrop-blur-xl border border-[rgba(139,92,246,0.18)] p-5 sm:p-6 flex flex-col justify-between shadow-[0_12px_40px_rgba(0,0,0,0.6)] overflow-hidden">
-      {/* Decorative Technical Crosshair */}
-      <div className="absolute top-2 right-2 text-[9px] font-mono text-violet-400/40 select-none pointer-events-none" aria-hidden="true">
-        +
-      </div>
-
-      <div className="pb-3.5 border-b border-[rgba(139,92,246,0.12)]">
-        <div className="text-[10px] font-mono text-violet-400 uppercase tracking-widest font-semibold">
-          [ ROOT CAUSE CLASSIFICATION ]
+    <div className="surface-solid rounded-2xl p-5 sm:p-6 flex flex-col justify-between shadow-2xl overflow-hidden">
+      <div className="pb-3.5 border-b border-[rgba(226,226,218,0.13)]">
+        <div className="text-[11px] font-mono text-[#777A76] tracking-wider uppercase font-medium">
+          Root cause classification
         </div>
-        <h3 className="text-sm font-semibold text-white tracking-tight mt-0.5">
-          Failure Mechanism Taxonomy
+        <h3 className="text-base font-semibold text-[#F0EEE8] tracking-tight mt-0.5">
+          Failure mechanism taxonomy
         </h3>
-        <p className="text-xs text-zinc-400 mt-0.5">
+        <p className="text-xs text-[#A8AAA5] mt-0.5">
           Breakdown of isolated root-cause failure vectors
         </p>
       </div>
@@ -60,17 +55,17 @@ export function SeverityDistributionChart({
                 data={data}
                 cx="50%"
                 cy="50%"
-                innerRadius={36}
-                outerRadius={56}
+                innerRadius={38}
+                outerRadius={58}
                 paddingAngle={4}
                 dataKey="value"
-                stroke="#090714"
+                stroke="#17191A"
                 strokeWidth={2}
               >
                 {data.map((entry, index) => (
                   <Cell
                     key={`cell-${index}`}
-                    fill={RESTRAINED_COLORS[index % RESTRAINED_COLORS.length]}
+                    fill={MONOCHROME_SCALE[index % MONOCHROME_SCALE.length]}
                   />
                 ))}
               </Pie>
@@ -79,9 +74,9 @@ export function SeverityDistributionChart({
                   if (active && payload && payload.length) {
                     const item = payload[0].payload;
                     return (
-                      <div className="p-3 rounded-xl bg-[#0d091a] border border-[rgba(139,92,246,0.3)] shadow-[0_8px_30px_rgba(0,0,0,0.8)] font-mono text-xs">
-                        <div className="text-white font-semibold">{item.name}</div>
-                        <div className="text-violet-300 mt-0.5 font-bold">
+                      <div className="p-3 rounded-xl bg-[#222424] border border-[rgba(235,235,228,0.16)] shadow-2xl font-mono text-xs">
+                        <div className="text-[#F0EEE8] font-semibold">{item.name}</div>
+                        <div className="text-[#A8AAA5] mt-0.5 font-medium">
                           {item.value}% ({item.count} tests)
                         </div>
                       </div>
@@ -99,22 +94,21 @@ export function SeverityDistributionChart({
           {data.map((item, idx) => (
             <div
               key={idx}
-              className="flex items-center justify-between p-1.5 rounded-lg hover:bg-[#120e24] transition-colors"
+              className="flex items-center justify-between p-1.5 rounded-lg hover:bg-[#222424]/40 transition-colors"
             >
               <div className="flex items-center space-x-2">
                 <span
-                  className="w-2.5 h-2.5 rounded-sm shrink-0"
+                  className="w-2.5 h-2.5 rounded-full shrink-0"
                   style={{
                     backgroundColor:
-                      RESTRAINED_COLORS[idx % RESTRAINED_COLORS.length],
-                    boxShadow: `0 0 6px ${RESTRAINED_COLORS[idx % RESTRAINED_COLORS.length]}60`,
+                      MONOCHROME_SCALE[idx % MONOCHROME_SCALE.length],
                   }}
                 />
-                <span className="text-zinc-300 truncate max-w-[110px] text-[11px]">
+                <span className="text-[#A8AAA5] truncate max-w-[120px] text-[11px]">
                   {item.name}
                 </span>
               </div>
-              <span className="text-zinc-400 font-bold text-[11px]">
+              <span className="text-[#F0EEE8] font-medium text-[11px]">
                 {item.value}%
               </span>
             </div>

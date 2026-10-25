@@ -3,7 +3,6 @@
 import React, { useState } from "react";
 import {
   ShieldCheck,
-  ShieldAlert,
   Play,
   Loader2,
   CheckCircle2,
@@ -45,17 +44,17 @@ export function FixVerificationCard({
   };
 
   return (
-    <div className={cn("rounded-lg bg-[#0f0d18] border border-[rgba(139,92,246,0.14)] p-4 sm:p-5", className)}>
+    <div className={cn("surface-solid rounded-2xl p-5 sm:p-6 shadow-2xl", className)}>
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-[rgba(139,92,246,0.12)] gap-3">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3.5 border-b border-[rgba(226,226,218,0.13)] gap-3">
         <div>
           <div className="flex items-center space-x-2">
-            <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-            <h3 className="text-xs font-semibold text-zinc-200 uppercase tracking-wider font-mono">
-              Fix Empirical Verification Suite
+            <ShieldCheck className="w-4 h-4 text-[#7EB49A]" />
+            <h3 className="text-base font-semibold text-[#F0EEE8] tracking-tight">
+              Fix empirical verification suite
             </h3>
           </div>
-          <p className="text-xs text-zinc-400 mt-1">
+          <p className="text-xs text-[#A8AAA5] mt-0.5">
             Statistical stress validation under scheduler jitter and clock skew perturbations
           </p>
         </div>
@@ -63,27 +62,27 @@ export function FixVerificationCard({
         {/* Verification Status Pill */}
         <div className="flex items-center space-x-2">
           {verification.isVerified ? (
-            <span className="flex items-center space-x-1.5 px-2.5 py-1 rounded bg-emerald-950/40 border border-emerald-500/30 text-emerald-400 text-xs font-mono font-medium">
-              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-              <span>FIX VERIFIED (100% CLEAN)</span>
+            <span className="flex items-center space-x-1.5 px-3 py-1 rounded-full bg-[rgba(126,180,154,0.12)] border border-[rgba(126,180,154,0.3)] text-[#7EB49A] text-xs font-mono font-medium">
+              <CheckCircle2 className="w-3.5 h-3.5 text-[#7EB49A]" />
+              <span>Fix verified (100% clean)</span>
             </span>
           ) : (
-            <span className="flex items-center space-x-1.5 px-2.5 py-1 rounded bg-amber-950/40 border border-amber-500/30 text-amber-400 text-xs font-mono">
-              <AlertTriangle className="w-3.5 h-3.5 text-amber-400" />
-              <span>UNVERIFIED ({verification.totalRuns}/{verification.targetThreshold} RUNS)</span>
+            <span className="flex items-center space-x-1.5 px-3 py-1 rounded-full bg-[rgba(216,173,112,0.12)] border border-[rgba(216,173,112,0.3)] text-[#D8AD70] text-xs font-mono">
+              <AlertTriangle className="w-3.5 h-3.5 text-[#D8AD70]" />
+              <span>Unverified ({verification.totalRuns}/{verification.targetThreshold} runs)</span>
             </span>
           )}
         </div>
       </div>
 
       {/* Progress towards verification threshold */}
-      <div className="my-3.5 p-3.5 rounded bg-[#090812] border border-[rgba(139,92,246,0.12)] space-y-2.5 font-mono">
+      <div className="my-4 p-4 rounded-xl bg-[#17191A] border border-[rgba(226,226,218,0.13)] space-y-2.5 font-mono">
         <div className="flex items-center justify-between text-xs">
-          <span className="text-zinc-400 uppercase tracking-wider text-[11px]">
-            Target Verification Iterations
+          <span className="text-[#777A76] uppercase tracking-wider text-[11px] font-medium">
+            Target verification iterations
           </span>
-          <span className="text-zinc-200 font-semibold">
-            {verification.passedRuns} / {verification.targetThreshold} Clean Runs
+          <span className="text-[#F0EEE8] font-medium">
+            {verification.passedRuns} / {verification.targetThreshold} clean runs
           </span>
         </div>
 
@@ -93,52 +92,52 @@ export function FixVerificationCard({
           aria-valuemin={0}
           aria-valuemax={verification.targetThreshold}
           aria-label="Target verification iterations progress"
-          className="h-2 w-full rounded bg-[#141122] overflow-hidden border border-[rgba(139,92,246,0.14)]"
+          className="h-2 w-full rounded-full bg-[#0B0C0D] overflow-hidden border border-[rgba(226,226,218,0.13)]"
         >
           <div
             className={cn(
-              "h-full rounded transition-all duration-300",
-              verification.isVerified ? "bg-emerald-500" : "bg-amber-500"
+              "h-full rounded-full transition-all duration-300",
+              verification.isVerified ? "bg-[#7EB49A]" : "bg-[#D8AD70]"
             )}
             style={{ width: `${progressPercent}%` }}
           />
         </div>
 
-        <div className="flex items-center justify-between text-[10px] text-zinc-400">
-          <span>0 Runs</span>
-          <span className="text-zinc-300">{progressPercent}% confidence threshold (p &lt; 0.001)</span>
-          <span>{verification.targetThreshold} Runs</span>
+        <div className="flex items-center justify-between text-[11px] text-[#777A76]">
+          <span>0 runs</span>
+          <span className="text-[#A8AAA5]">{progressPercent}% confidence threshold (p &lt; 0.001)</span>
+          <span>{verification.targetThreshold} runs</span>
         </div>
       </div>
 
       {/* Perturbation Parameters Under Test */}
-      <div className="space-y-2 mb-3.5">
-        <div className="text-[11px] font-mono text-zinc-400 uppercase tracking-wider flex items-center space-x-1.5 font-medium">
-          <Flame className="w-3.5 h-3.5 text-amber-400" />
-          <span>Active Stress Perturbations</span>
+      <div className="space-y-2 mb-4">
+        <div className="text-[11px] font-mono text-[#777A76] uppercase tracking-wider flex items-center space-x-1.5 font-medium">
+          <Flame className="w-3.5 h-3.5 text-[#D8AD70]" />
+          <span>Active stress perturbations</span>
         </div>
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 font-mono text-xs">
-          <div className="p-2.5 rounded bg-[#090812] border border-[rgba(139,92,246,0.10)]">
-            <span className="text-zinc-400 text-[10px] block">Thread Jitter</span>
-            <span className={verification.perturbationParams.threadJitter ? "text-emerald-400 font-medium" : "text-zinc-400"}>
-              {verification.perturbationParams.threadJitter ? "ACTIVE (±25ms)" : "OFF"}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 font-mono text-xs">
+          <div className="p-3 rounded-xl bg-[#17191A] border border-[rgba(226,226,218,0.10)]">
+            <span className="text-[#777A76] text-[10px] block">Thread jitter</span>
+            <span className={verification.perturbationParams.threadJitter ? "text-[#7EB49A] font-medium" : "text-[#777A76]"}>
+              {verification.perturbationParams.threadJitter ? "Active (±25ms)" : "Off"}
             </span>
           </div>
-          <div className="p-2.5 rounded bg-[#090812] border border-[rgba(139,92,246,0.10)]">
-            <span className="text-zinc-400 text-[10px] block">Clock Drift</span>
-            <span className="text-zinc-200 font-medium">
+          <div className="p-3 rounded-xl bg-[#17191A] border border-[rgba(226,226,218,0.10)]">
+            <span className="text-[#777A76] text-[10px] block">Clock drift</span>
+            <span className="text-[#F0EEE8] font-medium">
               &plusmn;{verification.perturbationParams.clockSkewMs}ms
             </span>
           </div>
-          <div className="p-2.5 rounded bg-[#090812] border border-[rgba(139,92,246,0.10)]">
-            <span className="text-zinc-400 text-[10px] block">CPU Quota</span>
-            <span className="text-zinc-200 font-medium">
+          <div className="p-3 rounded-xl bg-[#17191A] border border-[rgba(226,226,218,0.10)]">
+            <span className="text-[#777A76] text-[10px] block">CPU quota</span>
+            <span className="text-[#F0EEE8] font-medium">
               {verification.perturbationParams.cpuThrottlePercent}% quota
             </span>
           </div>
-          <div className="p-2.5 rounded bg-[#090812] border border-[rgba(139,92,246,0.10)]">
-            <span className="text-zinc-400 text-[10px] block">Memory Spikes</span>
-            <span className="text-zinc-200 font-medium">
+          <div className="p-3 rounded-xl bg-[#17191A] border border-[rgba(226,226,218,0.10)]">
+            <span className="text-[#777A76] text-[10px] block">Memory spikes</span>
+            <span className="text-[#F0EEE8] font-medium">
               {verification.perturbationParams.memoryPressureMb}MB spike
             </span>
           </div>
@@ -146,8 +145,8 @@ export function FixVerificationCard({
       </div>
 
       {/* Interactive Trigger Button Strip */}
-      <div className="pt-3 border-t border-[rgba(139,92,246,0.12)] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-        <div role="group" aria-label="Batch size" className="flex items-center space-x-2 text-xs font-mono text-zinc-400">
+      <div className="pt-3.5 border-t border-[rgba(226,226,218,0.13)] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div role="group" aria-label="Batch size" className="flex items-center space-x-2 text-xs font-mono text-[#A8AAA5]">
           <span>Batch:</span>
           {[10, 20, 50].map((count) => (
             <button
@@ -156,10 +155,10 @@ export function FixVerificationCard({
               aria-pressed={selectedBatchSize === count}
               onClick={() => setSelectedBatchSize(count)}
               className={cn(
-                "px-2.5 py-1 rounded border text-xs cursor-pointer transition-colors focus:outline-none focus-visible:ring-1 focus-visible:ring-violet-400",
+                "px-2.5 py-1 rounded-lg border text-xs cursor-pointer transition-colors focus:outline-none focus-visible:ring-1 focus-visible:ring-[#C5C7C1]",
                 selectedBatchSize === count
-                  ? "bg-violet-950/40 border-violet-500/40 text-violet-200 font-semibold"
-                  : "bg-[#090812] border-[rgba(139,92,246,0.12)] text-zinc-400 hover:text-zinc-200"
+                  ? "bg-[#222424] border-[rgba(235,235,228,0.22)] text-[#F0EEE8] font-medium"
+                  : "bg-[#17191A] border-[rgba(226,226,218,0.13)] text-[#A8AAA5] hover:text-[#F0EEE8]"
               )}
             >
               +{count}
@@ -171,17 +170,17 @@ export function FixVerificationCard({
           type="button"
           onClick={handleTrigger}
           disabled={isRunning}
-          className="flex items-center justify-center space-x-1.5 px-3.5 py-1.5 rounded bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-medium font-mono transition-colors cursor-pointer disabled:opacity-50 shadow-[0_0_15px_rgba(16,185,129,0.25)]"
+          className="flex items-center justify-center space-x-1.5 px-4 py-2 rounded-xl bg-[#F0EEE8] hover:bg-[#FFFFFF] text-[#0B0C0D] text-xs font-medium font-mono transition-all cursor-pointer disabled:opacity-50 shadow-sm"
         >
           {isRunning ? (
             <>
               <Loader2 className="w-3.5 h-3.5 animate-spin" />
-              <span>Simulating Perturbation Batch...</span>
+              <span>Simulating perturbation batch...</span>
             </>
           ) : (
             <>
               <Play className="w-3 h-3 fill-current" />
-              <span>Run +{selectedBatchSize} Verification Runs</span>
+              <span>Run +{selectedBatchSize} verification runs</span>
             </>
           )}
         </button>
@@ -191,7 +190,7 @@ export function FixVerificationCard({
       {verification.verificationLog.length > 0 && (
         <div
           data-lenis-prevent
-          className="mt-3.5 p-3 rounded bg-[#090812] border border-[rgba(139,92,246,0.10)] font-mono text-[11px] text-zinc-400 max-h-32 overflow-y-auto space-y-0.5"
+          className="mt-4 p-3.5 rounded-xl bg-[#0B0C0D] border border-[rgba(226,226,218,0.10)] font-mono text-[11px] text-[#A8AAA5] max-h-32 overflow-y-auto space-y-1"
         >
           {verification.verificationLog.map((log, idx) => (
             <div
@@ -199,8 +198,8 @@ export function FixVerificationCard({
               className={cn(
                 "leading-relaxed",
                 log.includes("SUCCESS") || log.includes("VERIFIED")
-                  ? "text-emerald-400 font-medium"
-                  : "text-zinc-400"
+                  ? "text-[#7EB49A] font-medium"
+                  : "text-[#A8AAA5]"
               )}
             >
               {log}

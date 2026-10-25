@@ -83,14 +83,14 @@ export function NewInvestigationModal({
     <Modal
       isOpen={isOpen}
       onClose={onClose}
-      title="Launch Flaky Test Investigation"
+      title="Launch flaky test investigation"
       description="Initialize automated test repetition, delta-minimization, and root-cause analysis"
       maxWidth="lg"
     >
-      <form onSubmit={handleSubmit} className="space-y-3.5">
+      <form onSubmit={handleSubmit} className="space-y-4">
         {error && (
-          <div className="p-2.5 rounded bg-red-950/40 border border-red-800/60 flex items-center space-x-2 text-red-300 text-xs">
-            <AlertCircle className="w-4 h-4 shrink-0 text-red-400" />
+          <div className="p-3 rounded-xl bg-[rgba(228,119,119,0.08)] border border-[rgba(228,119,119,0.25)] flex items-center space-x-2 text-[#E47777] text-xs font-mono">
+            <AlertCircle className="w-4 h-4 shrink-0 text-[#E47777]" />
             <span>{error}</span>
           </div>
         )}
@@ -99,17 +99,17 @@ export function NewInvestigationModal({
           <button
             type="button"
             onClick={handleQuickFill}
-            className="text-[11px] font-mono text-amber-400 hover:text-amber-300 flex items-center space-x-1 underline cursor-pointer"
+            className="text-[11px] font-mono text-[#A8AAA5] hover:text-[#F0EEE8] flex items-center space-x-1.5 transition-colors cursor-pointer"
           >
-            <Sparkles className="w-3 h-3" />
-            <span>Fill with Sample Flaky Test</span>
+            <Sparkles className="w-3.5 h-3.5 text-[#C5C7C1]" />
+            <span>Fill with sample flaky test</span>
           </button>
         </div>
 
         {/* Test Identifier */}
         <div>
-          <label htmlFor="inv-test-name" className="block text-xs font-mono text-zinc-300 uppercase tracking-wider mb-1">
-            Test Identifier *
+          <label htmlFor="inv-test-name" className="block text-xs font-mono text-[#A8AAA5] uppercase tracking-wider mb-1 font-medium">
+            Test identifier *
           </label>
           <input
             id="inv-test-name"
@@ -118,14 +118,14 @@ export function NewInvestigationModal({
             value={testName}
             onChange={(e) => setTestName(e.target.value)}
             placeholder="e.g. TestAsyncConnectionPoolDrainUnderLoad"
-            className="w-full px-3 py-1.5 rounded bg-[#090812] border border-[rgba(139,92,246,0.16)] text-zinc-100 placeholder-zinc-500 text-xs font-mono focus:outline-none focus:border-violet-500/50 focus-visible:ring-1 focus-visible:ring-violet-400"
+            className="w-full px-3.5 py-2 rounded-xl bg-[#0B0C0D] border border-[rgba(226,226,218,0.13)] text-[#F0EEE8] placeholder-[#777A76] text-xs font-mono focus:outline-none focus:border-[#C5C7C1]"
           />
         </div>
 
         {/* File Path */}
         <div>
-          <label htmlFor="inv-test-file" className="block text-xs font-mono text-zinc-300 uppercase tracking-wider mb-1">
-            Test File Path *
+          <label htmlFor="inv-test-file" className="block text-xs font-mono text-[#A8AAA5] uppercase tracking-wider mb-1 font-medium">
+            Test file path *
           </label>
           <input
             id="inv-test-file"
@@ -134,24 +134,24 @@ export function NewInvestigationModal({
             value={testFile}
             onChange={(e) => setTestFile(e.target.value)}
             placeholder="e.g. services/gateway/pool_test.go"
-            className="w-full px-3 py-1.5 rounded bg-[#090812] border border-[rgba(139,92,246,0.16)] text-zinc-100 placeholder-zinc-500 text-xs font-mono focus:outline-none focus:border-violet-500/50 focus-visible:ring-1 focus-visible:ring-violet-400"
+            className="w-full px-3.5 py-2 rounded-xl bg-[#0B0C0D] border border-[rgba(226,226,218,0.13)] text-[#F0EEE8] placeholder-[#777A76] text-xs font-mono focus:outline-none focus:border-[#C5C7C1]"
           />
         </div>
 
         {/* Repository & Branch */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
           <div>
-            <label htmlFor="inv-target-repo" className="block text-xs font-mono text-zinc-300 uppercase tracking-wider mb-1">
-              Target Repository
+            <label htmlFor="inv-target-repo" className="block text-xs font-mono text-[#A8AAA5] uppercase tracking-wider mb-1 font-medium">
+              Target repository
             </label>
             <select
               id="inv-target-repo"
               value={repository}
               onChange={(e) => setRepository(e.target.value)}
-              className="w-full px-3 py-1.5 rounded bg-[#090812] border border-[rgba(139,92,246,0.16)] text-zinc-200 text-xs font-mono focus:outline-none focus:border-violet-500/50 focus-visible:ring-1 focus-visible:ring-violet-400 cursor-pointer"
+              className="w-full px-3 py-2 rounded-xl bg-[#0B0C0D] border border-[rgba(226,226,218,0.13)] text-[#F0EEE8] text-xs font-mono focus:outline-none focus:border-[#C5C7C1] cursor-pointer"
             >
               {MOCK_REPOSITORIES.map((repo) => (
-                <option key={repo.id} value={repo.name} className="bg-[#0f0d18]">
+                <option key={repo.id} value={repo.name} className="bg-[#17191A]">
                   {repo.name}
                 </option>
               ))}
@@ -159,8 +159,8 @@ export function NewInvestigationModal({
           </div>
 
           <div>
-            <label htmlFor="inv-target-branch" className="block text-xs font-mono text-zinc-300 uppercase tracking-wider mb-1">
-              Target Git Branch
+            <label htmlFor="inv-target-branch" className="block text-xs font-mono text-[#A8AAA5] uppercase tracking-wider mb-1 font-medium">
+              Target git branch
             </label>
             <input
               id="inv-target-branch"
@@ -168,16 +168,16 @@ export function NewInvestigationModal({
               value={branch}
               onChange={(e) => setBranch(e.target.value)}
               placeholder="main"
-              className="w-full px-3 py-1.5 rounded bg-[#090812] border border-[rgba(139,92,246,0.16)] text-zinc-100 text-xs font-mono focus:outline-none focus:border-violet-500/50 focus-visible:ring-1 focus-visible:ring-violet-400"
+              className="w-full px-3.5 py-2 rounded-xl bg-[#0B0C0D] border border-[rgba(226,226,218,0.13)] text-[#F0EEE8] text-xs font-mono focus:outline-none focus:border-[#C5C7C1]"
             />
           </div>
         </div>
 
         {/* Iterations & Priority */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
           <div>
-            <label htmlFor="inv-iterations" className="block text-xs font-mono text-zinc-300 uppercase tracking-wider mb-1">
-              Reproduction Iterations ({iterations} runs)
+            <label htmlFor="inv-iterations" className="block text-xs font-mono text-[#A8AAA5] uppercase tracking-wider mb-1 font-medium">
+              Reproduction iterations ({iterations} runs)
             </label>
             <input
               id="inv-iterations"
@@ -187,9 +187,9 @@ export function NewInvestigationModal({
               step="10"
               value={iterations}
               onChange={(e) => setIterations(Number(e.target.value))}
-              className="w-full accent-violet-500 cursor-pointer"
+              className="w-full accent-[#F0EEE8] cursor-pointer mt-1"
             />
-            <div className="flex justify-between text-[10px] font-mono text-zinc-400 mt-1">
+            <div className="flex justify-between text-[11px] font-mono text-[#777A76] mt-1">
               <span>10 runs</span>
               <span>50 runs</span>
               <span>100 runs</span>
@@ -197,24 +197,24 @@ export function NewInvestigationModal({
           </div>
 
           <div>
-            <span className="block text-xs font-mono text-zinc-300 uppercase tracking-wider mb-1">
+            <span className="block text-xs font-mono text-[#A8AAA5] uppercase tracking-wider mb-1 font-medium">
               Priority
             </span>
-            <div role="group" aria-label="Investigation Priority" className="grid grid-cols-3 gap-1.5">
+            <div role="group" aria-label="Investigation Priority" className="grid grid-cols-3 gap-2 mt-1">
               {(["HIGH", "MEDIUM", "LOW"] as const).map((p) => (
                 <button
                   key={p}
                   type="button"
                   aria-pressed={priority === p}
                   onClick={() => setPriority(p)}
-                  className={`py-1 text-xs font-mono rounded border transition-colors cursor-pointer focus:outline-none focus-visible:ring-1 focus-visible:ring-violet-400 ${
+                  className={`py-1.5 text-xs font-mono rounded-xl border transition-colors cursor-pointer focus:outline-none focus-visible:ring-1 focus-visible:ring-[#C5C7C1] ${
                     priority === p
                       ? p === "HIGH"
-                        ? "bg-red-950/60 border-red-500/50 text-red-300 font-semibold"
+                        ? "bg-[rgba(228,119,119,0.15)] border-[rgba(228,119,119,0.35)] text-[#E47777] font-semibold"
                         : p === "MEDIUM"
-                        ? "bg-amber-950/60 border-amber-500/50 text-amber-300 font-semibold"
-                        : "bg-violet-950/60 border-violet-500/50 text-violet-200 font-semibold"
-                      : "bg-[#090812] border-[rgba(139,92,246,0.12)] text-zinc-400 hover:text-zinc-200"
+                        ? "bg-[rgba(216,173,112,0.15)] border-[rgba(216,173,112,0.35)] text-[#D8AD70] font-semibold"
+                        : "bg-[#222424] border-[rgba(235,235,228,0.25)] text-[#F0EEE8] font-semibold"
+                      : "bg-[#17191A] border-[rgba(226,226,218,0.13)] text-[#777A76] hover:text-[#F0EEE8]"
                   }`}
                 >
                   {p}
@@ -225,20 +225,20 @@ export function NewInvestigationModal({
         </div>
 
         {/* Notice */}
-        <div className="p-2.5 rounded bg-[#090812] border border-[rgba(139,92,246,0.12)] text-[11px] font-mono text-zinc-400 flex items-start space-x-2">
-          <ShieldAlert className="w-3.5 h-3.5 text-violet-400 shrink-0 mt-0.5" />
+        <div className="p-3 rounded-xl bg-[#0B0C0D] border border-[rgba(226,226,218,0.10)] text-[11px] font-mono text-[#777A76] flex items-start space-x-2">
+          <ShieldAlert className="w-3.5 h-3.5 text-[#A8AAA5] shrink-0 mt-0.5" />
           <span>
             Telemetry note: The investigation pipeline will execute in Simulated Mock Adapter mode with synthetic thread interleaving and fuzz seeds.
           </span>
         </div>
 
         {/* Modal Actions */}
-        <div className="pt-3 border-t border-[rgba(139,92,246,0.12)] flex items-center justify-end space-x-2">
+        <div className="pt-3.5 border-t border-[rgba(226,226,218,0.13)] flex items-center justify-end space-x-2.5">
           <button
             type="button"
             onClick={onClose}
             disabled={isSubmitting}
-            className="px-3 py-1.5 rounded text-xs font-mono text-zinc-400 hover:text-white transition-colors cursor-pointer"
+            className="px-3.5 py-1.5 rounded-xl text-xs font-mono text-[#A8AAA5] hover:text-[#F0EEE8] transition-colors cursor-pointer"
           >
             Cancel
           </button>
@@ -246,17 +246,17 @@ export function NewInvestigationModal({
           <button
             type="submit"
             disabled={isSubmitting}
-            className="flex items-center space-x-1.5 px-3.5 py-1.5 rounded bg-violet-600 hover:bg-violet-500 text-white text-xs font-medium font-mono transition-colors cursor-pointer disabled:opacity-50 shadow-[0_0_20px_rgba(139,92,246,0.35)]"
+            className="flex items-center space-x-1.5 px-4 py-2 rounded-xl bg-[#F0EEE8] hover:bg-[#FFFFFF] text-[#0B0C0D] text-xs font-medium font-mono transition-all cursor-pointer disabled:opacity-50 shadow-sm"
           >
             {isSubmitting ? (
               <>
                 <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                <span>Initializing Pipeline...</span>
+                <span>Initializing pipeline...</span>
               </>
             ) : (
               <>
                 <Play className="w-3 h-3 fill-current" />
-                <span>Start Investigation</span>
+                <span>Start investigation</span>
               </>
             )}
           </button>

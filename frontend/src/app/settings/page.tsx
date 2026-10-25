@@ -5,14 +5,13 @@ import { AppShell } from "@/components/layout/AppShell";
 import {
   Server,
   Flame,
-  Bell,
-  Palette,
   Check,
   Save,
   Radio,
   RefreshCw,
   Cpu,
   Shield,
+  Palette,
 } from "lucide-react";
 import { api } from "@/services/api";
 import { PlatformSettings } from "@/types";
@@ -62,8 +61,8 @@ export default function SettingsPage() {
     return (
       <AppShell>
         <div className="py-24 text-center space-y-3 font-mono">
-          <RefreshCw className="w-5 h-5 animate-spin text-zinc-400 mx-auto" />
-          <p className="text-xs text-zinc-400">Loading platform preferences...</p>
+          <RefreshCw className="w-5 h-5 animate-spin text-[#777A76] mx-auto" />
+          <p className="text-xs text-[#A8AAA5]">Loading platform preferences...</p>
         </div>
       </AppShell>
     );
@@ -73,58 +72,58 @@ export default function SettingsPage() {
     <AppShell>
       <form onSubmit={handleSave} className="space-y-6">
         {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-[rgba(139,92,246,0.12)] gap-3">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-[rgba(226,226,218,0.13)] gap-3">
           <div>
-            <h1 className="text-xl font-semibold text-zinc-100 tracking-tight">
-              Engine &amp; Platform Configuration
+            <h1 className="text-2xl sm:text-3xl font-semibold text-[#F0EEE8] tracking-tight">
+              Engine &amp; platform configuration
             </h1>
-            <p className="text-xs text-zinc-400 mt-1">
+            <p className="text-xs sm:text-sm text-[#A8AAA5] mt-1">
               Test execution parameters, chaos perturbation defaults, and Django REST backend integration
             </p>
           </div>
 
           <div className="flex items-center space-x-3">
             {saveSuccess && (
-              <span className="flex items-center space-x-1 text-xs font-mono text-emerald-400 animate-in fade-in">
+              <span className="flex items-center space-x-1 text-xs font-mono text-[#7EB49A] animate-in fade-in">
                 <Check className="w-3.5 h-3.5" />
-                <span>Preferences Saved</span>
+                <span>Preferences saved</span>
               </span>
             )}
             <button
               type="submit"
               disabled={isSaving}
-              className="flex items-center space-x-1.5 px-3.5 py-1.5 rounded bg-violet-600 hover:bg-violet-500 text-white font-mono text-xs font-medium transition-colors cursor-pointer disabled:opacity-50 shadow-[0_0_20px_rgba(139,92,246,0.35)]"
+              className="flex items-center space-x-1.5 px-4 py-2 rounded-xl bg-[#F0EEE8] hover:bg-[#FFFFFF] text-[#0B0C0D] font-mono text-xs font-medium transition-all cursor-pointer disabled:opacity-50 shadow-sm"
             >
               <Save className="w-3.5 h-3.5" />
-              <span>{isSaving ? "Saving..." : "Save Preferences"}</span>
+              <span>{isSaving ? "Saving..." : "Save preferences"}</span>
             </button>
           </div>
         </div>
 
         {/* 1. API & Backend Adapter Status */}
-        <div className="rounded-lg bg-[#0f0d18] border border-[rgba(139,92,246,0.14)] p-4 sm:p-5 space-y-3.5">
-          <div className="flex items-center justify-between pb-2.5 border-b border-[rgba(139,92,246,0.12)]">
-            <div className="flex items-center space-x-2">
-              <Server className="w-4 h-4 text-violet-400" />
+        <div className="surface-solid rounded-2xl p-5 sm:p-6 space-y-4 shadow-xl">
+          <div className="flex items-center justify-between pb-3 border-b border-[rgba(226,226,218,0.13)]">
+            <div className="flex items-center space-x-2.5">
+              <Server className="w-4 h-4 text-[#A8AAA5]" />
               <div>
-                <h3 className="text-xs font-semibold text-zinc-200 uppercase tracking-wider font-mono">
-                  Backend Architecture &amp; API Contract
+                <h3 className="text-xs font-semibold text-[#F0EEE8] uppercase tracking-wider font-mono">
+                  Backend architecture &amp; API contract
                 </h3>
-                <p className="text-xs text-zinc-400">
+                <p className="text-xs text-[#A8AAA5]">
                   Django REST Framework adapter and live endpoint configuration
                 </p>
               </div>
             </div>
 
-            <span className="px-2.5 py-0.5 rounded bg-violet-950/40 text-violet-300 text-[11px] font-mono border border-violet-500/30">
-              Active: Mock Adapter
+            <span className="px-3 py-0.5 rounded-full bg-[#222424] text-[#A8AAA5] text-[11px] font-mono border border-[rgba(226,226,218,0.13)]">
+              Active: Mock adapter
             </span>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs font-mono">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 text-xs font-mono">
             <div>
-              <label htmlFor="drf-base-url" className="block text-zinc-300 uppercase tracking-wider mb-1 text-[11px]">
-                DRF Endpoint Base URL
+              <label htmlFor="drf-base-url" className="block text-[#A8AAA5] uppercase tracking-wider mb-1 text-[11px] font-medium">
+                DRF endpoint base URL
               </label>
               <input
                 id="drf-base-url"
@@ -140,9 +139,9 @@ export default function SettingsPage() {
                   })
                 }
                 placeholder="http://localhost:8000/api/v1"
-                className="w-full px-3 py-1.5 rounded bg-[#090812] border border-[rgba(139,92,246,0.14)] text-zinc-100 placeholder-zinc-500 text-xs focus:outline-none focus:border-violet-500/50 focus-visible:ring-1 focus-visible:ring-violet-400"
+                className="w-full px-3.5 py-2 rounded-xl bg-[#0B0C0D] border border-[rgba(226,226,218,0.13)] text-[#F0EEE8] placeholder-[#777A76] text-xs focus:outline-none focus:border-[#C5C7C1]"
               />
-              <span className="text-[10px] text-zinc-400 mt-1 block">
+              <span className="text-[10px] text-[#777A76] mt-1 block">
                 Configured via NEXT_PUBLIC_API_URL or overridden locally.
               </span>
             </div>
@@ -152,11 +151,11 @@ export default function SettingsPage() {
                 type="button"
                 onClick={handlePingBackend}
                 disabled={isTestingApi}
-                className="flex items-center justify-center space-x-1.5 px-3.5 py-1.5 rounded bg-[#141122] hover:bg-[#1c172e] text-zinc-200 border border-[rgba(139,92,246,0.16)] transition-colors cursor-pointer text-xs focus:outline-none focus-visible:ring-1 focus-visible:ring-violet-400"
+                className="flex items-center justify-center space-x-1.5 px-4 py-2 rounded-xl bg-[#222424] hover:bg-[#2c2f2f] text-[#F0EEE8] border border-[rgba(226,226,218,0.13)] hover:border-[rgba(235,235,228,0.25)] transition-all cursor-pointer text-xs focus:outline-none focus-visible:ring-1 focus-visible:ring-[#C5C7C1]"
               >
-                <Radio className="w-3.5 h-3.5 text-violet-400" />
+                <Radio className="w-3.5 h-3.5 text-[#A8AAA5]" />
                 <span>
-                  {isTestingApi ? "Testing Connection..." : "Test Backend Connection"}
+                  {isTestingApi ? "Testing connection..." : "Test backend connection"}
                 </span>
               </button>
             </div>
@@ -164,13 +163,13 @@ export default function SettingsPage() {
 
           {apiTestResult && (
             <div
-              className={`p-2.5 rounded border text-xs font-mono flex items-start space-x-2 ${
+              className={`p-3 rounded-xl border text-xs font-mono flex items-start space-x-2 ${
                 apiTestResult.success
-                  ? "bg-emerald-950/40 border-emerald-500/40 text-emerald-300"
-                  : "bg-[#090812] border-[rgba(139,92,246,0.14)] text-zinc-300"
+                  ? "bg-[rgba(126,180,154,0.08)] border-[rgba(126,180,154,0.25)] text-[#7EB49A]"
+                  : "bg-[#0B0C0D] border-[rgba(226,226,218,0.13)] text-[#F0EEE8]"
               }`}
             >
-              <Shield className="w-4 h-4 shrink-0 mt-0.5 text-zinc-400" />
+              <Shield className="w-4 h-4 shrink-0 mt-0.5 text-[#7EB49A]" />
               <div>
                 <span className="font-semibold block">
                   Latency: {apiTestResult.latencyMs}ms
@@ -181,30 +180,30 @@ export default function SettingsPage() {
           )}
 
           {/* DRF Contract Specs Drawer */}
-          <div className="mt-3 p-3 rounded bg-[#090812] border border-[rgba(139,92,246,0.12)] space-y-1.5 text-xs font-mono">
-            <span className="text-zinc-400 uppercase tracking-wider block text-[10px] font-semibold">
-              Django REST Framework Contract Specification
+          <div className="mt-3 p-3.5 rounded-xl bg-[#0B0C0D] border border-[rgba(226,226,218,0.10)] space-y-1.5 text-xs font-mono">
+            <span className="text-[#777A76] uppercase tracking-wider block text-[10px] font-semibold">
+              Django REST Framework contract specification
             </span>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-zinc-400 text-[11px]">
-              <div>&bull; <code className="text-violet-300">GET /api/v1/dashboard/metrics/</code></div>
-              <div>&bull; <code className="text-violet-300">GET /api/v1/investigations/</code></div>
-              <div>&bull; <code className="text-violet-300">POST /api/v1/investigations/</code></div>
-              <div>&bull; <code className="text-violet-300">GET /api/v1/investigations/:id/</code></div>
-              <div>&bull; <code className="text-violet-300">POST /api/v1/investigations/:id/verify/</code></div>
-              <div>&bull; <code className="text-violet-300">GET /api/v1/tests/</code></div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-[#A8AAA5] text-[11px]">
+              <div>&bull; <code className="text-[#F0EEE8]">GET /api/v1/dashboard/metrics/</code></div>
+              <div>&bull; <code className="text-[#F0EEE8]">GET /api/v1/investigations/</code></div>
+              <div>&bull; <code className="text-[#F0EEE8]">POST /api/v1/investigations/</code></div>
+              <div>&bull; <code className="text-[#F0EEE8]">GET /api/v1/investigations/:id/</code></div>
+              <div>&bull; <code className="text-[#F0EEE8]">POST /api/v1/investigations/:id/verify/</code></div>
+              <div>&bull; <code className="text-[#F0EEE8]">GET /api/v1/tests/</code></div>
             </div>
           </div>
         </div>
 
         {/* 2. Test Execution & Reproduction Preferences */}
-        <div className="rounded-lg bg-[#0f0d18] border border-[rgba(139,92,246,0.14)] p-4 sm:p-5 space-y-3.5">
-          <div className="flex items-center space-x-2 pb-2.5 border-b border-[rgba(139,92,246,0.12)]">
-            <Cpu className="w-4 h-4 text-violet-400" />
+        <div className="surface-solid rounded-2xl p-5 sm:p-6 space-y-4 shadow-xl">
+          <div className="flex items-center space-x-2.5 pb-3 border-b border-[rgba(226,226,218,0.13)]">
+            <Cpu className="w-4 h-4 text-[#A8AAA5]" />
             <div>
-              <h3 className="text-xs font-semibold text-zinc-200 uppercase tracking-wider font-mono">
-                Execution &amp; Seed Fuzzing Preferences
+              <h3 className="text-xs font-semibold text-[#F0EEE8] uppercase tracking-wider font-mono">
+                Execution &amp; seed fuzzing preferences
               </h3>
-              <p className="text-xs text-zinc-400">
+              <p className="text-xs text-[#A8AAA5]">
                 Concurrency limits and pseudo-random seed generator algorithms
               </p>
             </div>
@@ -212,8 +211,8 @@ export default function SettingsPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs font-mono">
             <div>
-              <label htmlFor="max-repro-iterations" className="block text-zinc-300 uppercase tracking-wider mb-1 text-[11px]">
-                Max Reproduction Iterations ({settings.testExecution.maxReproductionIterations} runs)
+              <label htmlFor="max-repro-iterations" className="block text-[#A8AAA5] uppercase tracking-wider mb-1 text-[11px] font-medium">
+                Max reproduction iterations ({settings.testExecution.maxReproductionIterations} runs)
               </label>
               <input
                 id="max-repro-iterations"
@@ -231,13 +230,13 @@ export default function SettingsPage() {
                     },
                   })
                 }
-                className="w-full accent-violet-500 cursor-pointer"
+                className="w-full accent-[#F0EEE8] cursor-pointer mt-1"
               />
             </div>
 
             <div>
-              <label htmlFor="parallel-workers" className="block text-zinc-300 uppercase tracking-wider mb-1 text-[11px]">
-                Parallel Workers ({settings.testExecution.parallelWorkers} workers)
+              <label htmlFor="parallel-workers" className="block text-[#A8AAA5] uppercase tracking-wider mb-1 text-[11px] font-medium">
+                Parallel workers ({settings.testExecution.parallelWorkers} workers)
               </label>
               <input
                 id="parallel-workers"
@@ -255,13 +254,13 @@ export default function SettingsPage() {
                     },
                   })
                 }
-                className="w-full accent-violet-500 cursor-pointer"
+                className="w-full accent-[#F0EEE8] cursor-pointer mt-1"
               />
             </div>
 
             <div>
-              <label htmlFor="prng-engine" className="block text-zinc-300 uppercase tracking-wider mb-1 text-[11px]">
-                PRNG Seed Engine
+              <label htmlFor="prng-engine" className="block text-[#A8AAA5] uppercase tracking-wider mb-1 text-[11px] font-medium">
+                PRNG seed engine
               </label>
               <select
                 id="prng-engine"
@@ -275,35 +274,35 @@ export default function SettingsPage() {
                     },
                   })
                 }
-                className="w-full px-2.5 py-1.5 rounded bg-[#090812] border border-[rgba(139,92,246,0.14)] text-zinc-200 focus:outline-none focus:border-violet-500/50 cursor-pointer"
+                className="w-full px-3 py-2 rounded-xl bg-[#0B0C0D] border border-[rgba(226,226,218,0.13)] text-[#F0EEE8] focus:outline-none focus:border-[#C5C7C1] cursor-pointer"
               >
-                <option value="PCG64" className="bg-[#0f0d18]">PCG64 (Permuted Congruential - Recommended)</option>
-                <option value="MERSENNE_TWISTER" className="bg-[#0f0d18]">Mersenne Twister (MT19937)</option>
-                <option value="XOROSHIRO" className="bg-[#0f0d18]">Xoroshiro128++</option>
+                <option value="PCG64" className="bg-[#17191A]">PCG64 (Permuted Congruential - Recommended)</option>
+                <option value="MERSENNE_TWISTER" className="bg-[#17191A]">Mersenne Twister (MT19937)</option>
+                <option value="XOROSHIRO" className="bg-[#17191A]">Xoroshiro128++</option>
               </select>
             </div>
           </div>
         </div>
 
         {/* 3. Chaos & Perturbation Settings */}
-        <div className="rounded-lg bg-[#0f0d18] border border-[rgba(139,92,246,0.14)] p-4 sm:p-5 space-y-3.5">
-          <div className="flex items-center space-x-2 pb-2.5 border-b border-[rgba(139,92,246,0.12)]">
-            <Flame className="w-4 h-4 text-amber-400" />
+        <div className="surface-solid rounded-2xl p-5 sm:p-6 space-y-4 shadow-xl">
+          <div className="flex items-center space-x-2.5 pb-3 border-b border-[rgba(226,226,218,0.13)]">
+            <Flame className="w-4 h-4 text-[#D8AD70]" />
             <div>
-              <h3 className="text-xs font-semibold text-zinc-200 uppercase tracking-wider font-mono">
-                Chaos &amp; Scheduler Perturbation Defaults
+              <h3 className="text-xs font-semibold text-[#F0EEE8] uppercase tracking-wider font-mono">
+                Chaos &amp; scheduler perturbation defaults
               </h3>
-              <p className="text-xs text-zinc-400">
+              <p className="text-xs text-[#A8AAA5]">
                 Thread interleaving delays, clock skew, and artificial resource contention
               </p>
             </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5 text-xs font-mono">
-            <div className="flex items-center justify-between p-2.5 rounded bg-[#090812] border border-[rgba(139,92,246,0.12)]">
+            <div className="flex items-center justify-between p-3 rounded-xl bg-[#0B0C0D] border border-[rgba(226,226,218,0.10)]">
               <label htmlFor="chaos-thread-jitter" className="cursor-pointer">
-                <span className="text-zinc-200 font-medium block">Thread Jitter</span>
-                <span className="text-zinc-400 text-[10px]">Random context switch delays</span>
+                <span className="text-[#F0EEE8] font-medium block">Thread jitter</span>
+                <span className="text-[#777A76] text-[10px]">Random context switch delays</span>
               </label>
               <input
                 id="chaos-thread-jitter"
@@ -318,13 +317,13 @@ export default function SettingsPage() {
                     },
                   })
                 }
-                className="w-4 h-4 accent-violet-500 cursor-pointer"
+                className="w-4 h-4 accent-[#F0EEE8] cursor-pointer"
               />
             </div>
 
             <div>
-              <label htmlFor="chaos-clock-skew" className="block text-zinc-300 uppercase tracking-wider mb-1 text-[11px]">
-                Max Clock Skew (&plusmn;{settings.perturbation.maxClockSkewMs}ms)
+              <label htmlFor="chaos-clock-skew" className="block text-[#A8AAA5] uppercase tracking-wider mb-1 text-[11px] font-medium">
+                Max clock skew (&plusmn;{settings.perturbation.maxClockSkewMs}ms)
               </label>
               <input
                 id="chaos-clock-skew"
@@ -342,14 +341,14 @@ export default function SettingsPage() {
                     },
                   })
                 }
-                className="w-full accent-violet-500 cursor-pointer"
+                className="w-full accent-[#F0EEE8] cursor-pointer mt-1"
               />
             </div>
 
-            <div className="flex items-center justify-between p-2.5 rounded bg-[#090812] border border-[rgba(139,92,246,0.12)]">
+            <div className="flex items-center justify-between p-3 rounded-xl bg-[#0B0C0D] border border-[rgba(226,226,218,0.10)]">
               <label htmlFor="chaos-memory-pressure" className="cursor-pointer">
-                <span className="text-zinc-200 font-medium block">Memory Pressure</span>
-                <span className="text-zinc-400 text-[10px]">Simulate heap spikes</span>
+                <span className="text-[#F0EEE8] font-medium block">Memory pressure</span>
+                <span className="text-[#777A76] text-[10px]">Simulate heap spikes</span>
               </label>
               <input
                 id="chaos-memory-pressure"
@@ -364,31 +363,31 @@ export default function SettingsPage() {
                     },
                   })
                 }
-                className="w-4 h-4 accent-violet-500 cursor-pointer"
+                className="w-4 h-4 accent-[#F0EEE8] cursor-pointer"
               />
             </div>
           </div>
         </div>
 
         {/* 4. Interface & Motion Controls */}
-        <div className="rounded-lg bg-[#0f0d18] border border-[rgba(139,92,246,0.14)] p-4 sm:p-5 space-y-3.5">
-          <div className="flex items-center space-x-2 pb-2.5 border-b border-[rgba(139,92,246,0.12)]">
-            <Palette className="w-4 h-4 text-violet-400" />
+        <div className="surface-solid rounded-2xl p-5 sm:p-6 space-y-4 shadow-xl">
+          <div className="flex items-center space-x-2.5 pb-3 border-b border-[rgba(226,226,218,0.13)]">
+            <Palette className="w-4 h-4 text-[#A8AAA5]" />
             <div>
-              <h3 className="text-xs font-semibold text-zinc-200 uppercase tracking-wider font-mono">
-                Interface &amp; Motion Controls
+              <h3 className="text-xs font-semibold text-[#F0EEE8] uppercase tracking-wider font-mono">
+                Interface &amp; motion controls
               </h3>
-              <p className="text-xs text-zinc-400">
-                Control animations and reduced-motion preferences
+              <p className="text-xs text-[#A8AAA5]">
+                Control subtle animations and reduced-motion preferences
               </p>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs font-mono">
-            <div className="flex items-center justify-between p-2.5 rounded bg-[#090812] border border-[rgba(139,92,246,0.12)]">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 text-xs font-mono">
+            <div className="flex items-center justify-between p-3 rounded-xl bg-[#0B0C0D] border border-[rgba(226,226,218,0.10)]">
               <label htmlFor="theme-reduced-motion" className="cursor-pointer">
-                <span className="text-zinc-200 font-medium block">Reduced Motion Mode</span>
-                <span className="text-zinc-400 text-[10px]">Disable all page transitions &amp; 3D rotation</span>
+                <span className="text-[#F0EEE8] font-medium block">Reduced motion mode</span>
+                <span className="text-[#777A76] text-[10px]">Disable all page transitions &amp; animations</span>
               </label>
               <input
                 id="theme-reduced-motion"
@@ -403,14 +402,14 @@ export default function SettingsPage() {
                     },
                   })
                 }
-                className="w-4 h-4 accent-violet-500 cursor-pointer"
+                className="w-4 h-4 accent-[#F0EEE8] cursor-pointer"
               />
             </div>
 
-            <div className="flex items-center justify-between p-2.5 rounded bg-[#090812] border border-[rgba(139,92,246,0.12)]">
+            <div className="flex items-center justify-between p-3 rounded-xl bg-[#0B0C0D] border border-[rgba(226,226,218,0.10)]">
               <label htmlFor="theme-particles" className="cursor-pointer">
-                <span className="text-zinc-200 font-medium block">3D Phase-Space Inspector</span>
-                <span className="text-zinc-400 text-[10px]">Render WebGL execution variance topology</span>
+                <span className="text-[#F0EEE8] font-medium block">Atmospheric background depth</span>
+                <span className="text-[#777A76] text-[10px]">Subtle vignette depth behind floating navigation</span>
               </label>
               <input
                 id="theme-particles"
@@ -425,7 +424,7 @@ export default function SettingsPage() {
                     },
                   })
                 }
-                className="w-4 h-4 accent-violet-500 cursor-pointer"
+                className="w-4 h-4 accent-[#F0EEE8] cursor-pointer"
               />
             </div>
           </div>

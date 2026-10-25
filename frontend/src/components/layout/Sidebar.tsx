@@ -25,28 +25,28 @@ interface SidebarProps {
 
 const NAV_ITEMS = [
   {
-    name: "Triage & Overview",
+    name: "Triage",
     href: "/dashboard",
     icon: Activity,
-    badge: "38 Flakes",
+    badge: "38 flakes",
     badgeType: "warning",
   },
   {
     name: "Investigations",
     href: "/investigations",
     icon: Search,
-    badge: "4 Active",
-    badgeType: "violet",
-  },
-  {
-    name: "Test Directory",
-    href: "/tests",
-    icon: Layers,
-    badge: "8 Tests",
+    badge: "4 active",
     badgeType: "neutral",
   },
   {
-    name: "Settings & Engine",
+    name: "Catalog",
+    href: "/tests",
+    icon: Layers,
+    badge: "8 tests",
+    badgeType: "neutral",
+  },
+  {
+    name: "Settings",
     href: "/settings",
     icon: Settings,
   },
@@ -61,7 +61,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
       {isOpen && (
         <div
           onClick={onClose}
-          className="fixed inset-0 z-40 bg-black/70 backdrop-blur-sm lg:hidden transition-opacity"
+          className="fixed inset-0 z-40 bg-black/75 backdrop-blur-sm lg:hidden transition-opacity"
           aria-hidden="true"
         />
       )}
@@ -70,99 +70,71 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
       <aside
         aria-label="Application sidebar"
         className={cn(
-          "fixed top-0 bottom-0 left-0 z-50 w-64 bg-[#0a0812] border-r border-[rgba(139,92,246,0.12)] flex flex-col justify-between transition-transform duration-250 ease-out lg:translate-x-0",
+          "fixed top-0 bottom-0 left-0 z-50 w-64 bg-[#17191A] border-r border-[rgba(226,226,218,0.13)] flex flex-col justify-between transition-transform duration-250 ease-out lg:translate-x-0",
           isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
         )}
       >
         {/* Top Header / Branding */}
         <div>
-          <div className="h-14 px-4 flex items-center justify-between border-b border-[rgba(139,92,246,0.10)] bg-[#0d0a18]/60">
+          <div className="h-16 px-5 flex items-center justify-between border-b border-[rgba(226,226,218,0.13)] bg-[#17191A]">
             <Link
               href="/dashboard"
               onClick={onClose}
-              className="flex items-center space-x-2.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-400 rounded"
+              className="flex items-center space-x-2.5 focus:outline-none focus-visible:ring-1 focus-visible:ring-[#C5C7C1] rounded"
             >
-              {/* Electric Violet Brand Icon */}
-              <div className="w-7 h-7 rounded-md bg-gradient-to-br from-violet-600 to-indigo-700 p-0.5 shadow-[0_0_12px_rgba(139,92,246,0.35)] flex items-center justify-center">
-                <div className="w-full h-full bg-[#0a0812] rounded-[4px] flex items-center justify-center">
-                  <svg
-                    className="w-4 h-4 text-violet-400"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="M4 4l6 16 4-10 6 10" />
-                  </svg>
-                </div>
+              <div className="w-7 h-7 rounded-lg bg-[#222424] border border-[rgba(235,235,228,0.16)] flex items-center justify-center">
+                <svg
+                  className="w-4 h-4 text-[#F0EEE8]"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M4 4l6 16 4-10 6 10" />
+                </svg>
               </div>
 
               <div className="flex items-center space-x-1.5">
-                <span className="font-semibold text-sm tracking-wider text-white">
+                <span className="font-semibold text-sm tracking-wider text-[#F0EEE8]">
                   WOBBLE
                 </span>
-                <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-violet-950/60 text-violet-300 border border-violet-800/40">
+                <span className="text-[10px] font-mono px-1.5 py-0.2 rounded-full bg-[#222424] text-[#A8AAA5] border border-[rgba(226,226,218,0.13)]">
                   v3.4
                 </span>
               </div>
             </Link>
 
-            {/* Mobile Close Button - 44x44px minimum touch target for WCAG 2.5.5 */}
             <button
               type="button"
               onClick={onClose}
-              className="lg:hidden min-w-[44px] min-h-[44px] flex items-center justify-center rounded text-zinc-400 hover:text-white hover:bg-zinc-800/60 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-400"
+              className="lg:hidden min-w-[44px] min-h-[44px] flex items-center justify-center rounded-xl text-[#A8AAA5] hover:text-[#F0EEE8] hover:bg-[#222424] focus:outline-none focus-visible:ring-1 focus-visible:ring-[#C5C7C1]"
               aria-label="Close navigation sidebar"
             >
               <X className="w-5 h-5" />
             </button>
           </div>
 
-          {/* Active Repository Card */}
-          <div className="p-3 border-b border-[rgba(139,92,246,0.08)] bg-[#0c0916]/40">
-            <div className="flex items-center justify-between text-[11px] text-zinc-400 mb-1">
-              <span className="uppercase tracking-wider font-mono text-[9px] text-zinc-400">
-                Current Scope
-              </span>
-              <span className="text-[10px] font-mono text-emerald-400 flex items-center gap-1">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                Live CI
-              </span>
-            </div>
-            <div className="flex items-center space-x-2 px-2.5 py-1.5 rounded-md bg-[#120f20] border border-[rgba(139,92,246,0.14)] text-xs font-mono text-zinc-200">
-              <GitBranch className="w-3.5 h-3.5 text-violet-400 shrink-0" />
-              <span className="truncate">mono-repo/api-core</span>
-              <span className="text-[10px] text-zinc-400 font-sans ml-auto">
-                main
-              </span>
-            </div>
-          </div>
-
-          {/* Navigation Section */}
-          <nav aria-label="Workbench navigation" className="px-2.5 py-4 space-y-1">
-            <div className="px-2 pb-1.5 text-[10px] font-mono uppercase tracking-wider text-zinc-400">
-              Workbench
-            </div>
-
+          {/* Navigation Links */}
+          <nav className="p-3 space-y-1" aria-label="Main navigation links">
             {NAV_ITEMS.map((item) => {
               const Icon = item.icon;
               const isActive =
-                pathname === item.href ||
-                (item.href !== "/dashboard" && pathname?.startsWith(item.href));
+                item.href === "/dashboard"
+                  ? pathname === "/dashboard" || pathname === "/"
+                  : pathname?.startsWith(item.href);
 
               return (
                 <Link
-                  key={item.href}
+                  key={item.name}
                   href={item.href}
                   onClick={onClose}
-                  aria-current={isActive ? "page" : undefined}
                   className={cn(
-                    "flex items-center justify-between px-3 py-2 rounded-md text-xs font-medium transition-all group focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-400",
+                    "flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-medium transition-all group focus:outline-none focus-visible:ring-1 focus-visible:ring-[#C5C7C1]",
                     isActive
-                      ? "text-white bg-gradient-to-r from-violet-900/40 to-transparent border border-violet-500/30 shadow-[inset_2px_0_0_#8b5cf6]"
-                      : "text-zinc-400 hover:text-zinc-200 hover:bg-violet-950/20 border border-transparent"
+                      ? "text-[#F0EEE8] bg-[#222424] border border-[rgba(235,235,228,0.16)] shadow-sm"
+                      : "text-[#A8AAA5] hover:text-[#F0EEE8] hover:bg-[#222424]/40 border border-transparent"
                   )}
                 >
                   <div className="flex items-center space-x-2.5">
@@ -170,8 +142,8 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
                       className={cn(
                         "w-4 h-4 transition-colors",
                         isActive
-                          ? "text-violet-400"
-                          : "text-zinc-400 group-hover:text-zinc-300"
+                          ? "text-[#F0EEE8]"
+                          : "text-[#777A76] group-hover:text-[#F0EEE8]"
                       )}
                     />
                     <span>{item.name}</span>
@@ -180,13 +152,11 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
                   {item.badge && (
                     <span
                       className={cn(
-                        "text-[10px] font-mono px-1.5 py-0.2 rounded border",
+                        "text-[10px] font-mono px-2 py-0.5 rounded-full border",
                         item.badgeType === "warning" &&
-                          "bg-amber-950/40 text-amber-400 border-amber-800/40",
-                        item.badgeType === "violet" &&
-                          "bg-violet-950/40 text-violet-300 border-violet-800/40",
+                          "bg-[rgba(216,173,112,0.12)] text-[#D8AD70] border-[rgba(216,173,112,0.25)]",
                         item.badgeType === "neutral" &&
-                          "bg-zinc-900/60 text-zinc-400 border-zinc-800"
+                          "bg-[#222424] text-[#A8AAA5] border-[rgba(226,226,218,0.13)]"
                       )}
                     >
                       {item.badge}
@@ -198,51 +168,18 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
           </nav>
         </div>
 
-        {/* Bottom Section: Health & User Profile */}
-        <div className="p-3 border-t border-[rgba(139,92,246,0.10)] bg-[#0d0a18]/60 space-y-3">
-          {/* Health Mini Widget */}
-          <div className="p-2.5 rounded-md bg-[#110e20] border border-[rgba(139,92,246,0.12)]">
-            <div className="flex items-center justify-between text-[11px] mb-1.5">
-              <span className="text-zinc-400 flex items-center gap-1.5">
-                <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-                Suite Health
-              </span>
-              <span className="text-zinc-200 font-mono font-medium">98.4%</span>
+        {/* Footer / User Profile */}
+        <div className="p-4 border-t border-[rgba(226,226,218,0.13)]">
+          <div className="flex items-center space-x-2.5 px-2 py-1.5 rounded-xl hover:bg-[#222424]/40 transition-colors">
+            <div className="w-7 h-7 rounded-full bg-[#222424] border border-[rgba(235,235,228,0.16)] flex items-center justify-center text-[#F0EEE8] text-xs font-semibold">
+              YC
             </div>
-            {/* Health Bar with Accessible Progressbar Role */}
-            <div
-              role="progressbar"
-              aria-valuenow={98.4}
-              aria-valuemin={0}
-              aria-valuemax={100}
-              aria-label="Test suite pass rate"
-              className="w-full h-1.5 rounded-full bg-zinc-800 overflow-hidden flex"
-            >
-              <div className="bg-emerald-500 h-full w-[98.4%]" />
-              <div className="bg-rose-500 h-full w-[1.6%]" />
-            </div>
-            <div className="mt-2 flex items-center justify-between text-[10px] font-mono text-zinc-400">
-              <span>Adapter: Mock (Local)</span>
-              <Link
-                href="/settings"
-                className="hover:text-violet-300 transition-colors flex items-center gap-0.5"
-              >
-                DRF <ExternalLink className="w-2.5 h-2.5" />
-              </Link>
-            </div>
-          </div>
-
-          {/* User Account Tile */}
-          <div className="flex items-center space-x-2.5 px-2 py-1.5 rounded-md hover:bg-violet-950/20 transition-colors">
-            <div className="w-7 h-7 rounded-full bg-gradient-to-tr from-violet-600 to-indigo-500 flex items-center justify-center text-white text-xs font-semibold shadow-[0_0_8px_rgba(139,92,246,0.3)]">
-              AM
-            </div>
-            <div className="min-w-0 flex-1">
-              <div className="text-xs font-medium text-zinc-200 truncate">
-                Alex Mercer
+            <div className="flex-1 min-w-0">
+              <div className="text-xs font-medium text-[#F0EEE8] truncate">
+                Yash Chaudhari
               </div>
-              <div className="text-[10px] text-zinc-400 truncate">
-                Staff Infrastructure
+              <div className="text-[10px] text-[#777A76] font-mono truncate">
+                Platform Lead
               </div>
             </div>
           </div>
